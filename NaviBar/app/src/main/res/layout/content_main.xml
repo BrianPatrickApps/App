@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.patrickc.navibar.MainActivity"
+    tools:showIn="@layout/app_bar_main"
+    android:id="@+id/relLay">
+
+    <TextView
+        android:id="@+id/textTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="125dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="346dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/Rain" />
+
+    <Button
+        android:id="@+id/Stormy"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_above="@+id/button"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="74dp"
+        android:clickable="false"
+        android:text="Stormy"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/Rain"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignTop="@+id/Stormy"
+        android:layout_toEndOf="@+id/Stormy"
+        android:text="Rain" />
+
+    <Button
+        android:id="@+id/Overcast"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignTop="@+id/Rain"
+        android:layout_toEndOf="@+id/Rain"
+        android:text="Cast" />
+
+    <Button
+        android:id="@+id/Cloudy"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignTop="@+id/Overcast"
+        android:layout_toEndOf="@+id/Overcast"
+        android:text="Cloud" />
+
+    <Button
+        android:id="@+id/Sunny"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignTop="@+id/Cloudy"
+        android:layout_toEndOf="@+id/Cloudy"
+        android:text="Sun" />
+
+</RelativeLayout>
