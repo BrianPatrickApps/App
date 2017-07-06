@@ -11,7 +11,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Database{
 
@@ -59,12 +62,34 @@ public class Database{
         while(c.moveToNext()){
             String result = "User ID: " +c.getString(0)+
                      "\ninput: " + c.getString(1)+
-                     "\nAverage: " + c.getString(2)+
+                     "\nMedian: " + c.getString(2)+
                      "\nDate: " + c.getString(3)
                     ;
             theArray.add(result);
         }
         return theArray;
+    }
+
+    protected  double getAverage(double mood){
+        Cursor c = database.rawQuery("Select * from nurses;",null);
+        ArrayList<Double> theArray = new ArrayList<>();
+        if(c.getCount() ==0){
+            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
+        }
+        while(c.moveToNext()){
+            Double result = c.getDouble(1);
+            theArray.add(result);
+        }
+        theArray.add(mood);
+        Collections.sort(theArray);
+        int middle = 2;
+        double median =0;
+            if (theArray.size() % 2 == 0) {
+                median = (theArray.get(theArray.size()/2) + theArray.get(theArray.size()/2 - 1))/2;
+            } else {
+                median = theArray.get(theArray.size()/2);
+            }
+        return median;
     }
 }
 

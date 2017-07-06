@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity
     Button sunny;
     Button submit;
     ButtonController control;
+    int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    int shiftNumber;
 
     NavigationView navigationView;
     @Override
@@ -57,6 +60,9 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout rel = (RelativeLayout)findViewById(R.id.relLay);
         rel.setOnClickListener(tapScreen);
         j1.setOnClickListener(press);
+        TextView textView = (TextView)findViewById(R.id.textTest);
+        String a = String.valueOf(currentHour);
+        textView.setText(a);
 
         stormy = (Button)findViewById(R.id.Stormy);
         rainy = (Button)findViewById(R.id.Rain);
@@ -65,8 +71,8 @@ public class MainActivity extends AppCompatActivity
         sunny = (Button)findViewById(R.id.Sunny);
         submit = (Button)findViewById(R.id.submit);
 
-         control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,submit,this);
-
+        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,submit,this);
+        control.setInvisible();
     }
     private View.OnClickListener press = new View.OnClickListener() {
         @Override
@@ -77,6 +83,7 @@ public class MainActivity extends AppCompatActivity
             Typeface typeface=Typeface.createFromAsset(getAssets(), "fonts/Futura Medium.ttf");
             t.setTypeface(typeface);
             t.setText("Button used");
+            j1.setText("Changed");
         }
     };
 
@@ -149,6 +156,7 @@ public class MainActivity extends AppCompatActivity
         switch(position) {
             case 1:
                 loginID();
+                control.setViewable();
                 break;
             case 2:
                 loginFinger();
@@ -183,6 +191,9 @@ public class MainActivity extends AppCompatActivity
                         String query = "INSERT into nurses(`id`,`input`,`date`)" +
                                 "VALUES('" + id + "','"+ 0 +"','"+ currentDateTimeString +"');";
                         //db.execSQL(query);
+                        control.setViewable();
+                        String inputID = input.getText().toString();
+                        control.getId(inputID);
                         j1.setText(control.tester());
                     }
                     else
@@ -203,6 +214,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 Toast.makeText(getApplicationContext(), "Back to the menu ", Toast.LENGTH_SHORT).show();
+                control.setInvisible();
             }
         });
 

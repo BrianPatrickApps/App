@@ -7,6 +7,7 @@ package com.example.patrickc.navibar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -27,10 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ButtonController {
-
+    Database db;
     Button stormy;
     Button rainy;
     Button overcast;
@@ -39,66 +41,108 @@ public class ButtonController {
     Button submit;
     Context context;
     String id;
+    Double mood;
 
-     protected ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny, Button submit, Context context) {
+    protected ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny, Button submit, Context context) {
 
-         this.stormy = stormy;
-         this.rainy = rainy;
-         this.overcast = overcast;
-         this.cloudy = cloudy;
-         this.sunny = sunny;
-         this.submit = submit;
-         this.context = context;
-         setViewable();
-         stormy.setOnClickListener(stormyClicked);
-     }
+        this.stormy = stormy;
+        this.rainy = rainy;
+        this.overcast = overcast;
+        this.cloudy = cloudy;
+        this.sunny = sunny;
+        this.submit = submit;
+        this.context = context;
+        db = new Database(context);
 
-     protected void setViewable()
-     {
-         stormy.setVisibility(View.VISIBLE);
-         rainy.setVisibility(View.VISIBLE);
-         overcast.setVisibility(View.VISIBLE);
-         cloudy.setVisibility(View.VISIBLE);
-         sunny.setVisibility(View.VISIBLE);
-     }
-     
-     protected void setInvisible(){
-         stormy.setVisibility(View.INVISIBLE);
-         rainy.setVisibility(View.INVISIBLE);
-         overcast.setVisibility(View.INVISIBLE);
-         cloudy.setVisibility(View.INVISIBLE);
-         sunny.setVisibility(View.INVISIBLE);
-     }
+        stormy.setOnClickListener(stormyClicked);
+        rainy.setOnClickListener(rainyClicked);
+        overcast.setOnClickListener(overcastClicked);
+        cloudy.setOnClickListener(cloudyClicked);
+        sunny.setOnClickListener(sunnyClicked);
+        submit.setOnClickListener(submitSelection);
+    }
 
-     protected View.OnClickListener stormyClicked = new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             int mood = 0;
-             Toast.makeText(context, "ThunderStorm Selected", Toast.LENGTH_SHORT).show();
-             moodSelected(mood);
-         }
-     };
+    protected void setViewable() {
+        stormy.setVisibility(View.VISIBLE);
+        rainy.setVisibility(View.VISIBLE);
+        overcast.setVisibility(View.VISIBLE);
+        cloudy.setVisibility(View.VISIBLE);
+        sunny.setVisibility(View.VISIBLE);
+    }
 
-     protected void getId(String id){
-         this.id = id;
-     }
+    protected void setInvisible() {
+        stormy.setVisibility(View.INVISIBLE);
+        rainy.setVisibility(View.INVISIBLE);
+        overcast.setVisibility(View.INVISIBLE);
+        cloudy.setVisibility(View.INVISIBLE);
+        sunny.setVisibility(View.INVISIBLE);
+        submit.setVisibility(View.INVISIBLE);
+    }
 
-     public String tester(){
-         return "it worked";
-     }
+    protected View.OnClickListener stormyClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mood = 1.0;
+            Toast.makeText(context, "ThunderStorm Selected", Toast.LENGTH_SHORT).show();
+            submit.setVisibility(View.VISIBLE);
+        }
+    };
+    protected View.OnClickListener rainyClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mood = 2.0;
+            submit.setVisibility(View.VISIBLE);
+            Toast.makeText(context, "Rainy Selected", Toast.LENGTH_SHORT).show();
+        }
+    };
+    protected View.OnClickListener overcastClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mood = 3.0;
+            submit.setVisibility(View.VISIBLE);
+            Toast.makeText(context, "Overcast Selected", Toast.LENGTH_SHORT).show();
+        }
+    };
+    protected View.OnClickListener cloudyClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mood = 4.0;
+            submit.setVisibility(View.VISIBLE);
+            Toast.makeText(context, "Cloudy Selected", Toast.LENGTH_SHORT).show();
+        }
+    };
+    protected View.OnClickListener sunnyClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mood = 5.0;
+            submit.setVisibility(View.VISIBLE);
+            Toast.makeText(context, "Sunny Selected", Toast.LENGTH_SHORT).show();
+        }
+    };
+    protected View.OnClickListener submitSelection = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(context, mood.toString(), Toast.LENGTH_LONG).show();
+            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+            Double avg = db.getAverage(mood);
+            String query = "INSERT into nurses(`id`,`input`,`average`,`date`)" +
+                    "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"');";
+            db.execSQL(query);
+            setInvisible();
 
 
+        }
+    };
 
+    protected void getId(String id) {
+        this.id = id;
+    }
 
+    public String tester() {
+        //setInvisible();
+        String a = "it worked\n id: " + id.toString();
+        return a;
 
+    }
 
-     protected void moodSelected(int selection){
-        submit.setVisibility(View.VISIBLE);
-         submit.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-
-             }
-         });
-     }
 }
