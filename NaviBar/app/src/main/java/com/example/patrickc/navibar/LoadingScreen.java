@@ -1,6 +1,7 @@
 package com.example.patrickc.navibar;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ public class LoadingScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_screen);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Typeface typeface=Typeface.createFromAsset(getAssets(), "fonts/Futura Medium.ttf");
         TextView title = (TextView)findViewById(R.id.AppTitle);
         title.setTypeface(typeface);

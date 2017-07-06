@@ -2,6 +2,7 @@ package com.example.patrickc.navibar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         db = new Database(this);
         j1 = (Button)findViewById(R.id.button);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

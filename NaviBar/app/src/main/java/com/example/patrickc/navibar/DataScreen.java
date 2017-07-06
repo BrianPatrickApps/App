@@ -1,6 +1,7 @@
 package com.example.patrickc.navibar;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ public class DataScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_screen);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         db = new Database(this);
         ListView list = (ListView) findViewById(R.id.dataStream);
         TextView t = (TextView) findViewById(R.id.Data_Title);
