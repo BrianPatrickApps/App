@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity
                                 Typeface typeface=Typeface.createFromAsset(getAssets(), "fonts/comicSans.ttf");
                                 t.setTypeface(typeface);
                                 t.setText("Button works");
+                                b2.setVisibility(View.INVISIBLE);
                             }
                         });
 
