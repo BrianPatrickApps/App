@@ -29,7 +29,14 @@ public class MainActivity extends AppCompatActivity
 
     Database db;
     Button j1;
-    Button b2;
+    Button stormy;
+    Button rainy;
+    Button overcast;
+    Button cloudy;
+    Button sunny;
+    Button submit;
+    ButtonController control;
+
     NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,16 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout rel = (RelativeLayout)findViewById(R.id.relLay);
         rel.setOnClickListener(tapScreen);
         j1.setOnClickListener(press);
+
+        stormy = (Button)findViewById(R.id.Stormy);
+        rainy = (Button)findViewById(R.id.Rain);
+        overcast = (Button)findViewById(R.id.Overcast);
+        cloudy = (Button)findViewById(R.id.Cloudy);
+        sunny = (Button)findViewById(R.id.Sunny);
+        submit = (Button)findViewById(R.id.submit);
+
+         control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,submit,this);
+
     }
     private View.OnClickListener press = new View.OnClickListener() {
         @Override
@@ -166,20 +183,7 @@ public class MainActivity extends AppCompatActivity
                         String query = "INSERT into nurses(`id`,`input`,`date`)" +
                                 "VALUES('" + id + "','"+ 0 +"','"+ currentDateTimeString +"');";
                         //db.execSQL(query);
-                        b2 = (Button)findViewById(R.id.Stormy);
-                        b2.setClickable(true);
-                        b2.setVisibility(View.VISIBLE);
-                        b2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                TextView t = (TextView)findViewById(R.id.textTest);
-                                Typeface typeface=Typeface.createFromAsset(getAssets(), "fonts/comicSans.ttf");
-                                t.setTypeface(typeface);
-                                t.setText("Button works");
-                                b2.setVisibility(View.INVISIBLE);
-                            }
-                        });
-
+                        j1.setText(control.tester());
                     }
                     else
                         {
@@ -228,5 +232,6 @@ public class MainActivity extends AppCompatActivity
 
         alert.show();
     }
+
 
 }

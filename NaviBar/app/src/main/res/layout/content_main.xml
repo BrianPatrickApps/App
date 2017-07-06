@@ -77,4 +77,13 @@
         android:layout_toEndOf="@+id/Cloudy"
         android:text="Sun" />
 
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignEnd="@+id/button"
+        android:layout_alignTop="@+id/textTest"
+        android:layout_marginTop="46dp"
+        android:text="Submit" />
+
 </RelativeLayout>
