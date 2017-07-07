@@ -17,7 +17,7 @@ public class LoadingScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_screen);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+       // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Typeface typeface=Typeface.createFromAsset(getAssets(), "fonts/Futura Medium.ttf");
         TextView title = (TextView)findViewById(R.id.AppTitle);
         title.setTypeface(typeface);
@@ -26,7 +26,7 @@ public class LoadingScreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(LoadingScreen.this,MainActivity.class));
+                startActivity(new Intent(LoadingScreen.this,WeatherRoom.class));
                 finish();
             }
         },2500);

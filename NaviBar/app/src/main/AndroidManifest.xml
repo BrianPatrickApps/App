@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DataScreen" />
-        <activity android:name=".Weather_Room"></activity>
+        <activity android:name=".WeatherRoom"></activity>
     </application>
 
 </manifest>

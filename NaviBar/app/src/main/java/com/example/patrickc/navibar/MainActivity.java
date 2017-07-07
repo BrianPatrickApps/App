@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -229,6 +228,8 @@ public class MainActivity extends AppCompatActivity
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Toast.makeText(getApplicationContext(), "Finger Print Scanner unavailable", Toast.LENGTH_LONG).show();
+                Intent x =new Intent(MainActivity.this,WeatherRoom.class);
+                startActivity(x);
             }
         });
 
