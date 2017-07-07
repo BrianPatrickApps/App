@@ -63,9 +63,6 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout rel = (RelativeLayout)findViewById(R.id.relLay);
         rel.setOnClickListener(tapScreen);
         j1.setOnClickListener(press);
-        TextView textView = (TextView)findViewById(R.id.textTest);
-        String a = String.valueOf(currentHour);
-        textView.setText(a);
 
         stormy = (Button)findViewById(R.id.Stormy);
         rainy = (Button)findViewById(R.id.Rain);
@@ -82,10 +79,9 @@ public class MainActivity extends AppCompatActivity
         public void onClick(View v) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.openDrawer(GravityCompat.START);
-            TextView t = (TextView)findViewById(R.id.textTest);
+
             Typeface typeface=Typeface.createFromAsset(getAssets(), "fonts/Futura Medium.ttf");
-            t.setTypeface(typeface);
-            t.setText("Button used");
+            j1.setTypeface(typeface);
             j1.setText("Changed");
         }
     };
@@ -105,10 +101,7 @@ public class MainActivity extends AppCompatActivity
         public void onClick(View v) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.openDrawer(GravityCompat.START);
-            TextView t = (TextView)findViewById(R.id.textTest);
-            Typeface typeface=Typeface.createFromAsset(getAssets(), "fonts/comicSans.ttf");
-            t.setTypeface(typeface);
-            t.setText("Screen used");
+            j1.setText("Screen");
         }
     }  ;
 

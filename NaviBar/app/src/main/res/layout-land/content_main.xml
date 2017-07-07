@@ -8,87 +8,92 @@
     tools:context="com.example.patrickc.navibar.MainActivity"
     tools:showIn="@layout/app_bar_main"
     android:id="@+id/relLay"
-    android:background="@drawable/room_background">
-<LinearLayout
-    android:layout_width="750dp"
-    android:layout_height="150dp"
-    android:orientation="horizontal"
-    android:layout_marginBottom="34dp"
-    android:id="@+id/linearLayout"
-    android:layout_above="@+id/submit"
-    android:layout_centerHorizontal="true">
-
-    <Button
-        android:id="@+id/Stormy"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginBottom="200dp"
-        android:clickable="false"
-        android:text="Stormy"
-        android:visibility="visible" />
-
-    <Button
-        android:id="@+id/Rain"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:text="Rain" />
-
-    <Button
-        android:id="@+id/Overcast"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:text="Cast" />
-
-    <Button
-        android:id="@+id/Cloudy"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:text="Cloud"
-        />
-
-    <Button
-        android:id="@+id/Sunny"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_toEndOf="@+id/submit"
-        android:text="Sun" />
-
-</LinearLayout>
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="90dp"
-        android:text="Submit"
-        android:layout_above="@+id/button"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:text="Button"
-        tools:layout_editor_absoluteY="346dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-
+    android:background="@drawable/background3_clouded"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/room_background">
+        <LinearLayout
+            android:layout_width="750dp"
+            android:layout_height="150dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="34dp"
+            android:id="@+id/linearLayout"
+            android:layout_above="@+id/submit"
+            android:layout_centerHorizontal="true"
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="150dp"
-            android:layout_height="400dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="76dp"
-            app:srcCompat="@drawable/nurse1"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            >
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/Stormy"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="200dp"
+                android:clickable="false"
+                android:text="Stormy"
+                android:visibility="visible" />
 
+            <Button
+                android:id="@+id/Rain"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:text="Rain" />
+
+            <Button
+                android:id="@+id/Overcast"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:text="Cast" />
+
+            <Button
+                android:id="@+id/Cloudy"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:text="Cloud"
+                />
+
+            <Button
+                android:id="@+id/Sunny"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_toEndOf="@+id/submit"
+                android:text="Sun" />
+
+        </LinearLayout>
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="90dp"
+                android:text="Submit"
+                android:layout_above="@+id/button"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="80dp"
+                android:text="Button"
+                tools:layout_editor_absoluteY="346dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@raw/left_arrow"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

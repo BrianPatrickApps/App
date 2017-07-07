@@ -12,7 +12,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoadingScreen"
             android:theme="@style/AppTheme.NoActionBar">
@@ -22,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DataScreen"></activity>
+        <activity android:name=".DataScreen" />
+        <activity android:name=".Weather_Room"></activity>
     </application>
 
 </manifest>
