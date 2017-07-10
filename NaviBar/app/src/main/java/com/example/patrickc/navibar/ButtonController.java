@@ -60,7 +60,7 @@ public class ButtonController {
         sunny.setOnClickListener(sunnyClicked);
 
     }
-
+    //sets all buttons visible
     protected void setViewable() {
         stormy.setVisibility(View.VISIBLE);
         rainy.setVisibility(View.VISIBLE);
@@ -68,7 +68,7 @@ public class ButtonController {
         cloudy.setVisibility(View.VISIBLE);
         sunny.setVisibility(View.VISIBLE);
     }
-
+    //sets all buttons invisible
     protected void setInvisible() {
         stormy.setVisibility(View.INVISIBLE);
         rainy.setVisibility(View.INVISIBLE);
@@ -132,7 +132,7 @@ public class ButtonController {
 
         }
 
-
+    //Not in use
     protected void getId(String id) {
         this.id = id;
     }

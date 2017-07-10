@@ -46,10 +46,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         db = new Database(this);
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -63,22 +64,29 @@ public class MainActivity extends AppCompatActivity
         rel.setOnClickListener(tapScreen);
 ;
         screen = true;
+        //Initialize buttons for ButtonController class
         stormy = (Button)findViewById(R.id.Stormy);
         rainy = (Button)findViewById(R.id.Rain);
         overcast = (Button)findViewById(R.id.Overcast);
         cloudy = (Button)findViewById(R.id.Cloudy);
         sunny = (Button)findViewById(R.id.Sunny);
-
         control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,this);
+        //Makes buttons invisible
         control.setInvisible();
+        RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.buttonStuff);
+        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurses);
+        rel2.setVisibility(View.VISIBLE);
+        rel3.setVisibility(View.GONE);
     }
+
+    //Empty OnClickListener for anything
     private View.OnClickListener press = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
         }
     };
-
+    //When back is pressed, not used
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -88,7 +96,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
+    //When screen is tapped opens drawer
     private View.OnClickListener tapScreen = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -97,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         }
     }  ;
 
-
+    //Drawer Stuff
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -134,7 +142,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    //Which button is to be pressed. Add stuff if need be
     private void selectItem(int position) {
         Intent i;
         switch(position) {
@@ -152,14 +160,13 @@ public class MainActivity extends AppCompatActivity
             default:
         }
     }
-
+    //Login alert
     private void loginID(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("Login with ID");
         alert.setMessage("Please use your 6 digit code");
 
-// Set an EditText view to get user input
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(6)});
@@ -208,7 +215,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-
+        //When they cancel
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
@@ -219,6 +226,7 @@ public class MainActivity extends AppCompatActivity
 
         alert.show();
     }
+    //FingerPrint method no scanner given yet
     private void loginFinger(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 

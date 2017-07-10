@@ -69,7 +69,7 @@ public class Database{
         }
         return theArray;
     }
-
+    //Gets the median
     protected  double getAverage(double mood){
         Cursor c = database.rawQuery("Select * from nurses;",null);
         ArrayList<Double> theArray = new ArrayList<>();
