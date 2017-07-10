@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database creation sql statement
     private static final String DATABASE_CREATE_USERS = ("CREATE TABLE IF NOT EXISTS users(id_Number INT, id_Input INT, median INT, time datetime);");
-    private static final String DATABASE_id = ("CREATE TABLE IF NOT EXISTS a(id INT);");
+   // private static final String DATABASE_id = ("CREATE TABLE IF NOT EXISTS a(id INT);");
     private static final String DATABASE_NURSES = ("CREATE TABLE IF NOT EXISTS nurses(id INT,input INT,average DOUBLE,date STRING);");
     //shift_id is set Shift 1 7.30 - 16.00 Shift 2 16.00-22.30 Shift 3 22.30-7.30
     //Update table at end of each shift from avgRoom
@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_AVG = ("CREATE TABLE IF NOT EXISTS avgShift(shift_id INT,average DOUBLE,date STRING);");
     //Set to 0 after starting a new shift
     //the last median of the shift
-    private static final String DATABASE_ROOM_AVG = ("CREATE TABLE IF NOT EXISTS avgRoom(average DOUBLE);");
+    private static final String DATABASE_ROOM_AVG = ("CREATE TABLE IF NOT EXISTS avgRoom(key_id INT,median DOUBLE);");
 
 
 
@@ -40,9 +40,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE_USERS);
-        database.execSQL(DATABASE_id);
+        //database.execSQL(DATABASE_id);
         database.execSQL(DATABASE_NURSES);
-        database.execSQL("INSERT INTO a(id)VALUES(1);");
+        database.execSQL(DATABASE_AVG);
+        database.execSQL(DATABASE_ROOM_AVG);
+        database.execSQL("INSERT INTO avgRoom(`key_id`,`median`)VALUES('1','0');");
     }
 
     // Method is called during an upgrade of the database,

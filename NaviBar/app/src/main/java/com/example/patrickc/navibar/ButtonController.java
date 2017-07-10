@@ -127,6 +127,7 @@ public class ButtonController {
             Double avg = db.getAverage(mood);
             String query = "INSERT into nurses(`id`,`input`,`average`,`date`)" +
                     "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"');";
+            db.addMedian(avg,currentDateTimeString,1);
             db.execSQL(query);
             setInvisible();
 

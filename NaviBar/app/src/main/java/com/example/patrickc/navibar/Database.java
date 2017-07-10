@@ -70,7 +70,7 @@ public class Database{
         return theArray;
     }
     //Gets the median
-    protected  double getAverage(double mood){
+    protected double getAverage(double mood){
         Cursor c = database.rawQuery("Select * from nurses;",null);
         ArrayList<Double> theArray = new ArrayList<>();
         if(c.getCount() ==0){
@@ -91,5 +91,23 @@ public class Database{
             }
         return median;
     }
+    //Adds Median to avgShift and avgRoom
+    protected void addMedian(double median,String date,int shift){
+        String query = "INSERT into avgShift(`shift_id`,`average`,`date`)" +
+                "VALUES('" + shift + "','"+ median +"','"+ date +"');";
+        database.execSQL(query);
+        String updateMedian = "UPDATE avgRoom set median = '"+ median +"' WHERE key_id = '1';";
+        database.execSQL(updateMedian);
+        Toast.makeText(context, "Median Updated", Toast.LENGTH_SHORT).show();
+    }
+    //Collects the median of the shift
+    protected double getMedian(){
+        Double median = 0.0;
+        Cursor c = database.rawQuery("Select median from avgRoom where key_id = '1';",null);
+        median = c.getDouble(0);
+        return median;
+    }
+
+
 }
 
