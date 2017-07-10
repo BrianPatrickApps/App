@@ -43,14 +43,13 @@ public class ButtonController {
     String id;
     Double mood;
 
-    protected ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny, Button submit, Context context) {
+    protected ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny, Context context) {
 
         this.stormy = stormy;
         this.rainy = rainy;
         this.overcast = overcast;
         this.cloudy = cloudy;
         this.sunny = sunny;
-        this.submit = submit;
         this.context = context;
         db = new Database(context);
 
@@ -59,7 +58,7 @@ public class ButtonController {
         overcast.setOnClickListener(overcastClicked);
         cloudy.setOnClickListener(cloudyClicked);
         sunny.setOnClickListener(sunnyClicked);
-        submit.setOnClickListener(submitSelection);
+
     }
 
     protected void setViewable() {
@@ -76,7 +75,6 @@ public class ButtonController {
         overcast.setVisibility(View.INVISIBLE);
         cloudy.setVisibility(View.INVISIBLE);
         sunny.setVisibility(View.INVISIBLE);
-        submit.setVisibility(View.INVISIBLE);
     }
 
     protected View.OnClickListener stormyClicked = new View.OnClickListener() {
@@ -84,44 +82,46 @@ public class ButtonController {
         public void onClick(View v) {
             mood = 1.0;
             Toast.makeText(context, "ThunderStorm Selected", Toast.LENGTH_SHORT).show();
-            submit.setVisibility(View.VISIBLE);
+
+            select();
         }
     };
     protected View.OnClickListener rainyClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mood = 2.0;
-            submit.setVisibility(View.VISIBLE);
+
             Toast.makeText(context, "Rainy Selected", Toast.LENGTH_SHORT).show();
+            select();
         }
     };
     protected View.OnClickListener overcastClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mood = 3.0;
-            submit.setVisibility(View.VISIBLE);
             Toast.makeText(context, "Overcast Selected", Toast.LENGTH_SHORT).show();
+            select();
         }
     };
     protected View.OnClickListener cloudyClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mood = 4.0;
-            submit.setVisibility(View.VISIBLE);
+
             Toast.makeText(context, "Cloudy Selected", Toast.LENGTH_SHORT).show();
+            select();
         }
     };
     protected View.OnClickListener sunnyClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             mood = 5.0;
-            submit.setVisibility(View.VISIBLE);
+
             Toast.makeText(context, "Sunny Selected", Toast.LENGTH_SHORT).show();
+            select();
         }
     };
-    protected View.OnClickListener submitSelection = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+        public void select() {
             Toast.makeText(context, mood.toString(), Toast.LENGTH_LONG).show();
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Double avg = db.getAverage(mood);
@@ -130,9 +130,8 @@ public class ButtonController {
             db.execSQL(query);
             setInvisible();
 
-
         }
-    };
+
 
     protected void getId(String id) {
         this.id = id;

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Database db;
-    Button j1;
     Button stormy;
     Button rainy;
     Button overcast;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     ButtonController control;
     int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     int shiftNumber;
+    Boolean screen;
 
     NavigationView navigationView;
     @Override
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         db = new Database(this);
-        j1 = (Button)findViewById(R.id.button);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -61,27 +61,21 @@ public class MainActivity extends AppCompatActivity
 
         RelativeLayout rel = (RelativeLayout)findViewById(R.id.relLay);
         rel.setOnClickListener(tapScreen);
-        j1.setOnClickListener(press);
-
+;
+        screen = true;
         stormy = (Button)findViewById(R.id.Stormy);
         rainy = (Button)findViewById(R.id.Rain);
         overcast = (Button)findViewById(R.id.Overcast);
         cloudy = (Button)findViewById(R.id.Cloudy);
         sunny = (Button)findViewById(R.id.Sunny);
-        submit = (Button)findViewById(R.id.submit);
 
-        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,submit,this);
+        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,this);
         control.setInvisible();
     }
     private View.OnClickListener press = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.openDrawer(GravityCompat.START);
 
-            Typeface typeface=Typeface.createFromAsset(getAssets(), "fonts/Futura Medium.ttf");
-            j1.setTypeface(typeface);
-            j1.setText("Changed");
         }
     };
 
@@ -100,7 +94,6 @@ public class MainActivity extends AppCompatActivity
         public void onClick(View v) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.openDrawer(GravityCompat.START);
-            j1.setText("Screen");
         }
     }  ;
 
@@ -114,9 +107,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -130,7 +120,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_login) {
@@ -186,10 +175,25 @@ public class MainActivity extends AppCompatActivity
                         String query = "INSERT into nurses(`id`,`input`,`date`)" +
                                 "VALUES('" + id + "','"+ 0 +"','"+ currentDateTimeString +"');";
                         //db.execSQL(query);
+                        RelativeLayout rel = (RelativeLayout)findViewById(R.id.buttonStuff);
+                        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurses);
+                        rel.setVisibility(View.VISIBLE);
+                        rel2.setVisibility(View.GONE);
                         control.setViewable();
                         String inputID = input.getText().toString();
                         control.getId(inputID);
-                        j1.setText(control.tester());
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                RelativeLayout rel = (RelativeLayout)findViewById(R.id.buttonStuff);
+                                RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurses);
+                                rel2.setVisibility(View.VISIBLE);
+                                rel.setVisibility(View.GONE);
+                            }
+                        },5000);
+
+
                     }
                     else
                         {
@@ -241,6 +245,7 @@ public class MainActivity extends AppCompatActivity
 
         alert.show();
     }
+
 
 
 }
