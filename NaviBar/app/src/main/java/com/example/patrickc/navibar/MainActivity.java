@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     Button cloudy;
     Button sunny;
     ImageView weatherOverlay;
+    ImageView rainOverlay;
     ButtonController control;
     int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     int shiftNumber;
@@ -71,6 +74,8 @@ public class MainActivity extends AppCompatActivity
         cloudy = (Button)findViewById(R.id.Cloudy);
         sunny = (Button)findViewById(R.id.Sunny);
         weatherOverlay = (ImageView)findViewById(R.id.inputWeather);
+        rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
+        rainOverlay.setVisibility(View.GONE);
         control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,weatherOverlay,this);
         //Makes buttons invisible
         control.setInvisible();
@@ -78,6 +83,9 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
         rel2.setVisibility(View.VISIBLE);
         rel3.setVisibility(View.GONE);
+
+        Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
+        checkWeather();
     }
 
     //Empty OnClickListener for anything
@@ -151,9 +159,11 @@ public class MainActivity extends AppCompatActivity
                 loginID();
                 control.setViewable();
                 weatherOverlay.setImageResource(R.drawable.input_1);
+
                 break;
             case 2:
                 loginFinger();
+
                 break;
             case 3:
                 i = new Intent(MainActivity.this,DataScreen.class);
@@ -199,6 +209,7 @@ public class MainActivity extends AppCompatActivity
                                 RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
                                 rel2.setVisibility(View.VISIBLE);
                                 rel.setVisibility(View.GONE);
+                                checkWeather();
                             }
                         },6000);
 
@@ -207,6 +218,7 @@ public class MainActivity extends AppCompatActivity
                         {
                         Toast.makeText(getApplicationContext(), "Must be 6 digits", Toast.LENGTH_SHORT).show();
                             loginID();
+
                     }
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "\t\t\tSorry invalid input\nonly 6 digits are acceptable", Toast.LENGTH_LONG).show();
@@ -221,6 +233,7 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(getApplicationContext(), "Back to the menu ", Toast.LENGTH_SHORT).show();
                 control.setInvisible();
+
             }
         });
 
@@ -254,6 +267,32 @@ public class MainActivity extends AppCompatActivity
         alert.show();
     }
 
+
+    private void checkWeather(){
+        ImageView moodOverlay = (ImageView)findViewById(R.id.moodOverlay);
+        Double x = db.getMedian();
+        if(x <2 && x >=1)
+        {
+            rainOverlay.setVisibility(View.VISIBLE);
+            //Change to thunder
+        }
+        else if(x <3 && x >1.5){
+            rainOverlay.setVisibility(View.VISIBLE);
+            moodOverlay.setVisibility(View.VISIBLE);
+            //moodOverlay.setImageResource(R.drawable.text_background);
+        }
+        else if(x <4 && x>2.5 )
+        {
+
+        }
+        else if(x <5 && x>3.5){
+
+        }
+        else if(x == 4.5 || x==5)
+            rainOverlay.setVisibility(View.GONE);
+
+
+    }
 
 
 }

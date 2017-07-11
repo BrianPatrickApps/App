@@ -98,14 +98,18 @@ public class Database{
         database.execSQL(query);
         String updateMedian = "UPDATE avgRoom set median = '"+ median +"' WHERE key_id = '1';";
         database.execSQL(updateMedian);
-        Toast.makeText(context, "Median Updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Median Updated Thank you", Toast.LENGTH_SHORT).show();
     }
     //Collects the median of the shift
     protected double getMedian(){
-        Double median = 0.0;
-        Cursor c = database.rawQuery("Select median from avgRoom where key_id = '1';",null);
-        median = c.getDouble(0);
-        return median;
+        ArrayList<Double> theArray = new ArrayList<>();
+        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '1';",null);
+        while(c.moveToNext())
+        {
+            Double median = c.getDouble(1);
+            theArray.add(median);
+        }
+        return theArray.get(0);
     }
 
 
