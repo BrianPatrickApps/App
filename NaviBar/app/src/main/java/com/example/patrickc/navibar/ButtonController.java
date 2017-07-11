@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,18 +39,19 @@ public class ButtonController {
     Button overcast;
     Button cloudy;
     Button sunny;
-    Button submit;
+    ImageView weatherOverlay;
     Context context;
     String id;
     Double mood;
 
-    protected ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny, Context context) {
+    protected ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny,ImageView weatherOverlay, Context context) {
 
         this.stormy = stormy;
         this.rainy = rainy;
         this.overcast = overcast;
         this.cloudy = cloudy;
         this.sunny = sunny;
+        this.weatherOverlay = weatherOverlay;
         this.context = context;
         db = new Database(context);
 
@@ -70,11 +72,11 @@ public class ButtonController {
     }
     //sets all buttons invisible
     protected void setInvisible() {
-        stormy.setVisibility(View.INVISIBLE);
-        rainy.setVisibility(View.INVISIBLE);
-        overcast.setVisibility(View.INVISIBLE);
-        cloudy.setVisibility(View.INVISIBLE);
-        sunny.setVisibility(View.INVISIBLE);
+        stormy.setVisibility(View.GONE);
+        rainy.setVisibility(View.GONE);
+        overcast.setVisibility(View.GONE);
+        cloudy.setVisibility(View.GONE);
+        sunny.setVisibility(View.GONE);
     }
 
     protected View.OnClickListener stormyClicked = new View.OnClickListener() {
@@ -82,7 +84,7 @@ public class ButtonController {
         public void onClick(View v) {
             mood = 1.0;
             Toast.makeText(context, "ThunderStorm Selected", Toast.LENGTH_SHORT).show();
-
+            weatherOverlay.setImageResource(R.drawable.input_thunderstorm);
             select();
         }
     };
@@ -90,7 +92,7 @@ public class ButtonController {
         @Override
         public void onClick(View v) {
             mood = 2.0;
-
+            weatherOverlay.setImageResource(R.drawable.input2_rainy);
             Toast.makeText(context, "Rainy Selected", Toast.LENGTH_SHORT).show();
             select();
         }
@@ -99,6 +101,7 @@ public class ButtonController {
         @Override
         public void onClick(View v) {
             mood = 3.0;
+            weatherOverlay.setImageResource(R.drawable.input3_clouded);
             Toast.makeText(context, "Overcast Selected", Toast.LENGTH_SHORT).show();
             select();
         }
@@ -107,7 +110,7 @@ public class ButtonController {
         @Override
         public void onClick(View v) {
             mood = 4.0;
-
+            weatherOverlay.setImageResource(R.drawable.input4_half_clouded);
             Toast.makeText(context, "Cloudy Selected", Toast.LENGTH_SHORT).show();
             select();
         }
@@ -116,7 +119,7 @@ public class ButtonController {
         @Override
         public void onClick(View v) {
             mood = 5.0;
-
+            weatherOverlay.setImageResource(R.drawable.input5_sunny);
             Toast.makeText(context, "Sunny Selected", Toast.LENGTH_SHORT).show();
             select();
         }
@@ -130,7 +133,6 @@ public class ButtonController {
             db.addMedian(avg,currentDateTimeString,1);
             db.execSQL(query);
             setInvisible();
-
         }
 
     //Not in use

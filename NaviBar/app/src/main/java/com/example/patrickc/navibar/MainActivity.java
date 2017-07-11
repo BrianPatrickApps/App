@@ -3,7 +3,6 @@ package com.example.patrickc.navibar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
     Button overcast;
     Button cloudy;
     Button sunny;
-    Button submit;
+    ImageView weatherOverlay;
     ButtonController control;
     int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     int shiftNumber;
@@ -70,11 +70,12 @@ public class MainActivity extends AppCompatActivity
         overcast = (Button)findViewById(R.id.Overcast);
         cloudy = (Button)findViewById(R.id.Cloudy);
         sunny = (Button)findViewById(R.id.Sunny);
-        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,this);
+        weatherOverlay = (ImageView)findViewById(R.id.inputWeather);
+        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,weatherOverlay,this);
         //Makes buttons invisible
         control.setInvisible();
-        RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.buttonStuff);
-        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurses);
+        RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
+        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
         rel2.setVisibility(View.VISIBLE);
         rel3.setVisibility(View.GONE);
     }
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity
             case 1:
                 loginID();
                 control.setViewable();
+                weatherOverlay.setImageResource(R.drawable.input_1);
                 break;
             case 2:
                 loginFinger();
@@ -182,8 +184,8 @@ public class MainActivity extends AppCompatActivity
                         String query = "INSERT into nurses(`id`,`input`,`date`)" +
                                 "VALUES('" + id + "','"+ 0 +"','"+ currentDateTimeString +"');";
                         //db.execSQL(query);
-                        RelativeLayout rel = (RelativeLayout)findViewById(R.id.buttonStuff);
-                        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurses);
+                        RelativeLayout rel = (RelativeLayout)findViewById(R.id.inputScreen);
+                        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
                         rel.setVisibility(View.VISIBLE);
                         rel2.setVisibility(View.GONE);
                         control.setViewable();
@@ -193,13 +195,12 @@ public class MainActivity extends AppCompatActivity
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                RelativeLayout rel = (RelativeLayout)findViewById(R.id.buttonStuff);
-                                RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurses);
+                                RelativeLayout rel = (RelativeLayout)findViewById(R.id.inputScreen);
+                                RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
                                 rel2.setVisibility(View.VISIBLE);
                                 rel.setVisibility(View.GONE);
                             }
-                        },5000);
-
+                        },6000);
 
                     }
                     else
@@ -210,7 +211,6 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "\t\t\tSorry invalid input\nonly 6 digits are acceptable", Toast.LENGTH_LONG).show();
                     loginID();
-
 
                 }
             }
