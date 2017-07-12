@@ -32,7 +32,7 @@ public class ViewController {
         nurse.setVisibility(View.GONE);
     }
 
-    protected void viewRain(){
+    protected void setRain(){
         rainOverlay.setVisibility(View.VISIBLE);
     }
 
@@ -52,13 +52,12 @@ public class ViewController {
         //weatherOverlay.setImageResource();
     }
 
-    protected void showRain(){
+    protected void showRainMood(){
         //weatherOverlay.setImageResource();
     }
 
     protected void showThunder(){
-        nurse.setVisibility(View.VISIBLE);
-        inputScreen.setVisibility(View.GONE);
+        setRain();
     }
     protected void startUp(){
         weatherOverlay.setImageResource(0);

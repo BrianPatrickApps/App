@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void run() {
                                 viewController.viewNurses();
-                                //checkWeather();
+                                checkWeather();
                             }
                         },6000);
 
@@ -273,16 +273,13 @@ public class MainActivity extends AppCompatActivity
         else if(x == 1 || x <1.6)
         {
             Toast.makeText(getApplicationContext(), "Why", Toast.LENGTH_SHORT).show();
-            viewController.viewRain();
             viewController.showThunder();
         }
         else if(x >=2 && x <2.6){
-            viewController.viewRain();
-            viewController.showRain();
+            viewController.showRainMood();
         }
         else if(x >=3 || x <3.6)
         {
-            viewController.stopRain();
             viewController.showOvercast();
         }
         else if(x >=4 || x<4.6){
