@@ -44,5 +44,21 @@ public class ViewController {
         weatherOverlay.setImageResource(R.drawable.mood_sun);
     }
 
+    protected void showClouds(){
+        //weatherOverlay.setImageResource();
+    }
+
+    protected void showOvercast(){
+        //weatherOverlay.setImageResource();
+    }
+
+    protected void showRain(){
+        //weatherOverlay.setImageResource();
+    }
+
+    protected void showThunder(){
+        //weatherOverlay.setImageResource();
+    }
+
 
 }

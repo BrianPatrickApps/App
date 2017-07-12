@@ -270,25 +270,24 @@ public class MainActivity extends AppCompatActivity
         if(x == 1 || x <1.6)
         {
             viewController.viewRain();
-            //Change to thunder
+            viewController.showThunder();
         }
         else if(x >=2 && x <2.6){
             viewController.viewRain();
-         //   moodOverlay.setVisibility(View.VISIBLE);
-            //moodOverlay.setImageResource(R.drawable.text_background);
+            viewController.showRain();
         }
         else if(x >=3 || x <3.6)
         {
             viewController.stopRain();
-            viewController.showSun();
+            viewController.showOvercast();
         }
         else if(x >=4 || x<4.6){
             viewController.stopRain();
-            viewController.showSun();
+            viewController.showClouds();
         }
         else if(x > 4.5 || x==5)
             viewController.stopRain();
-        viewController.showSun();
+            viewController.showSun();
 
 
     }
