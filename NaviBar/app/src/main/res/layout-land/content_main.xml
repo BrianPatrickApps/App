@@ -177,12 +177,12 @@
         android:id="@+id/rainOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/rain_drops"/>
+        app:srcCompat="@drawable/rain_drops" />
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/moodOverlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
-
+-->
 </RelativeLayout>

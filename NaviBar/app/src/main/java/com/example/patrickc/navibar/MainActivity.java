@@ -74,8 +74,10 @@ public class MainActivity extends AppCompatActivity
         cloudy = (Button)findViewById(R.id.Cloudy);
         sunny = (Button)findViewById(R.id.Sunny);
         weatherOverlay = (ImageView)findViewById(R.id.inputWeather);
-        rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
-        rainOverlay.setVisibility(View.GONE);
+         rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
+        Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
+
+        //rainOverlay.setVisibility(View.GONE);
         control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,weatherOverlay,this);
         //Makes buttons invisible
         control.setInvisible();
@@ -84,8 +86,9 @@ public class MainActivity extends AppCompatActivity
         rel2.setVisibility(View.VISIBLE);
         rel3.setVisibility(View.GONE);
 
-        Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
         checkWeather();
+
+
     }
 
     //Empty OnClickListener for anything
@@ -269,26 +272,27 @@ public class MainActivity extends AppCompatActivity
 
 
     private void checkWeather(){
-        ImageView moodOverlay = (ImageView)findViewById(R.id.moodOverlay);
+        //ImageView moodOverlay = (ImageView)findViewById(R.id.moodOverlay);
+        Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
         Double x = db.getMedian();
-        if(x <2 && x >=1)
+        if(x == 1 || x <1.6)
         {
             rainOverlay.setVisibility(View.VISIBLE);
             //Change to thunder
         }
-        else if(x <3 && x >1.5){
+        else if(x >=2 && x <2.6){
             rainOverlay.setVisibility(View.VISIBLE);
-            moodOverlay.setVisibility(View.VISIBLE);
+         //   moodOverlay.setVisibility(View.VISIBLE);
             //moodOverlay.setImageResource(R.drawable.text_background);
         }
-        else if(x <4 && x>2.5 )
+        else if(x >=3 || x <3.6)
         {
 
         }
-        else if(x <5 && x>3.5){
+        else if(x >=4 || x<4.6){
 
         }
-        else if(x == 4.5 || x==5)
+        else if(x > 4.5 || x==5)
             rainOverlay.setVisibility(View.GONE);
 
 

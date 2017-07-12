@@ -104,11 +104,17 @@ public class Database{
     protected double getMedian(){
         ArrayList<Double> theArray = new ArrayList<>();
         Cursor c = database.rawQuery("Select * from avgRoom where key_id = '1';",null);
-        while(c.moveToNext())
-        {
-            Double median = c.getDouble(1);
-            theArray.add(median);
+        if(c.getCount() ==0){
+            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
         }
+        else{
+            while(c.moveToNext())
+            {
+                Double median = c.getDouble(1);
+                theArray.add(median);
+            }
+        }
+
         return theArray.get(0);
     }
 
