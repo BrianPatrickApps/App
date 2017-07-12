@@ -40,9 +40,8 @@ public class MainActivity extends AppCompatActivity
     ImageView weatherOverlay;
     ImageView rainOverlay;
     ButtonController control;
-    int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-    int shiftNumber;
-    Boolean screen;
+    ViewController viewController;
+
 
     NavigationView navigationView;
     @Override
@@ -65,27 +64,28 @@ public class MainActivity extends AppCompatActivity
 
         RelativeLayout rel = (RelativeLayout)findViewById(R.id.relLay);
         rel.setOnClickListener(tapScreen);
-;
-        screen = true;
+
         //Initialize buttons for ButtonController class
         stormy = (Button)findViewById(R.id.Stormy);
         rainy = (Button)findViewById(R.id.Rain);
         overcast = (Button)findViewById(R.id.Overcast);
         cloudy = (Button)findViewById(R.id.Cloudy);
         sunny = (Button)findViewById(R.id.Sunny);
-        weatherOverlay = (ImageView)findViewById(R.id.inputWeather);
-         rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
+        weatherOverlay = (ImageView)findViewById(R.id.moodOverlay);
+        ImageView inputOverlay = (ImageView)findViewById(R.id.inputWeather);
+        rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
         Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
 
         //rainOverlay.setVisibility(View.GONE);
-        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,weatherOverlay,this);
+        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,inputOverlay,this);
         //Makes buttons invisible
         control.setInvisible();
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
         RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
-        rel2.setVisibility(View.VISIBLE);
-        rel3.setVisibility(View.GONE);
 
+        viewController = new ViewController(rel2,rel3,rainOverlay,weatherOverlay);
+        viewController.stopRain();
+        viewController.viewNurses();
         checkWeather();
 
 
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity
             case 1:
                 loginID();
                 control.setViewable();
-                weatherOverlay.setImageResource(R.drawable.input_1);
+                viewController.viewInput();
 
                 break;
             case 2:
@@ -194,13 +194,7 @@ public class MainActivity extends AppCompatActivity
                     int id = Integer.parseInt(input.getText().toString());
                     String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                     if(id > 99999 && id < 1000000){
-                        String query = "INSERT into nurses(`id`,`input`,`date`)" +
-                                "VALUES('" + id + "','"+ 0 +"','"+ currentDateTimeString +"');";
-                        //db.execSQL(query);
-                        RelativeLayout rel = (RelativeLayout)findViewById(R.id.inputScreen);
-                        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
-                        rel.setVisibility(View.VISIBLE);
-                        rel2.setVisibility(View.GONE);
+
                         control.setViewable();
                         String inputID = input.getText().toString();
                         control.getId(inputID);
@@ -208,10 +202,7 @@ public class MainActivity extends AppCompatActivity
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                RelativeLayout rel = (RelativeLayout)findViewById(R.id.inputScreen);
-                                RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
-                                rel2.setVisibility(View.VISIBLE);
-                                rel.setVisibility(View.GONE);
+                                viewController.viewNurses();
                                 checkWeather();
                             }
                         },6000);
@@ -258,6 +249,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Finger Print Scanner unavailable", Toast.LENGTH_LONG).show();
                 Intent x =new Intent(MainActivity.this,WeatherRoom.class);
                 startActivity(x);
+                finish();
             }
         });
 
@@ -277,23 +269,26 @@ public class MainActivity extends AppCompatActivity
         Double x = db.getMedian();
         if(x == 1 || x <1.6)
         {
-            rainOverlay.setVisibility(View.VISIBLE);
+            viewController.viewRain();
             //Change to thunder
         }
         else if(x >=2 && x <2.6){
-            rainOverlay.setVisibility(View.VISIBLE);
+            viewController.viewRain();
          //   moodOverlay.setVisibility(View.VISIBLE);
             //moodOverlay.setImageResource(R.drawable.text_background);
         }
         else if(x >=3 || x <3.6)
         {
-
+            viewController.stopRain();
+            viewController.showSun();
         }
         else if(x >=4 || x<4.6){
-
+            viewController.stopRain();
+            viewController.showSun();
         }
         else if(x > 4.5 || x==5)
-            rainOverlay.setVisibility(View.GONE);
+            viewController.stopRain();
+        viewController.showSun();
 
 
     }

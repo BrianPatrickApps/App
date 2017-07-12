@@ -30,5 +30,10 @@ public class LoadingScreen extends AppCompatActivity {
                 finish();
             }
         },2500);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
