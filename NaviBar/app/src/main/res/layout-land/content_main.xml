@@ -21,50 +21,49 @@
 
         <RelativeLayout
             android:id="@+id/linearLayout"
-            android:layout_width="380dp"
-            android:layout_height="75dp"
-            android:orientation="horizontal"
+            android:layout_width="500dp"
+            android:layout_height="100dp"
 
+            android:layout_marginTop="150dp"
+            android:orientation="horizontal"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="106dp"
-            >
+            android:layout_centerHorizontal="true">
 
             <Button
                 android:id="@+id/Stormy"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:text="Storm" />
 
 
             <Button
                 android:id="@+id/Rain"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:text="Rain"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/Stormy" />
+                android:layout_toEndOf="@+id/Stormy"
+                android:text="Rain" />
 
             <Button
                 android:id="@+id/Overcast"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:text="Cast"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/Cloudy" />
+                android:layout_toStartOf="@+id/Cloudy"
+                android:text="Cast" />
 
             <Button
                 android:id="@+id/Cloudy"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentTop="true"
                 android:layout_toStartOf="@+id/Sunny"
                 android:text="Cloud" />
 
             <Button
                 android:id="@+id/Sunny"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:text="Sun" />
@@ -73,11 +72,11 @@
 
         <ImageView
             android:id="@+id/inputWeather"
-            android:layout_width="380dp"
-            android:layout_height="75dp"
-            app:srcCompat="@drawable/input_1"
+            android:layout_width="500dp"
+            android:layout_height="100dp"
+            android:layout_alignStart="@+id/linearLayout"
             android:layout_alignTop="@+id/linearLayout"
-            android:layout_alignStart="@+id/linearLayout" />
+            app:srcCompat="@drawable/input_1" />
 
     </RelativeLayout>
 
@@ -98,7 +97,7 @@
             android:layout_marginEnd="58dp"
             android:layout_marginTop="11dp"
             android:layout_toStartOf="@+id/nurse4"
-            android:visibility="visible"
+            android:visibility="gone"
             app:srcCompat="@raw/nurse5"
 
             />
@@ -110,7 +109,7 @@
             android:layout_alignTop="@+id/nurse2"
             android:layout_marginEnd="26dp"
             android:layout_toStartOf="@+id/nurse2"
-            android:visibility="visible"
+            android:visibility="gone"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -120,7 +119,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="32dp"
             android:layout_toStartOf="@+id/nurse3"
-            android:visibility="visible"
+            android:visibility="gone"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -130,7 +129,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/nurse8"
             android:layout_marginEnd="93dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -139,7 +138,7 @@
             android:layout_height="200dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:visibility="visible"
+            android:visibility="gone"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -149,7 +148,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="36dp"
             android:layout_toStartOf="@+id/nurse1"
-            android:visibility="visible"
+            android:visibility="gone"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -160,7 +159,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="43dp"
             android:layout_marginStart="11dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -169,7 +168,7 @@
             android:layout_height="200dp"
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/nurse6"
-            android:visibility="visible"
+            android:visibility="gone"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -179,11 +178,12 @@
             android:visibility="gone"
             app:srcCompat="@drawable/rain_drops" />
 
+        <ImageView
+            android:id="@+id/moodOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/moodOverlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible" />
 </RelativeLayout>

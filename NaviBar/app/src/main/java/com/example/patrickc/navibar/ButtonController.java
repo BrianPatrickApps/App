@@ -131,7 +131,9 @@ public class ButtonController {
                     "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"');";
             db.addMedian(avg,currentDateTimeString,1);
             db.execSQL(query);
+
             setInvisible();
+
 
         }
 

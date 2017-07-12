@@ -10,12 +10,14 @@ import android.widget.RelativeLayout;
 
 public class ViewController {
 
+    private RelativeLayout mainScreen;
     private RelativeLayout nurse;
     private RelativeLayout inputScreen;
     private ImageView rainOverlay;
     private ImageView weatherOverlay;
 
-    protected ViewController(RelativeLayout nurse,RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
+    protected ViewController(RelativeLayout mainScreen,RelativeLayout nurse,RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
+        this.mainScreen = mainScreen;
         this.nurse = nurse;
         this.inputScreen = inputScreen;
         this.rainOverlay = rainOverlay;
@@ -41,25 +43,35 @@ public class ViewController {
     }
 
     protected void showSun(){
+
         weatherOverlay.setImageResource(R.drawable.mood_sun);
+        mainScreen.setBackgroundResource(R.drawable.background5_sunny);
     }
 
     protected void showClouds(){
         //weatherOverlay.setImageResource();
+        mainScreen.setBackgroundResource(R.drawable.background4_semi_clouded);
     }
 
     protected void showOvercast(){
         //weatherOverlay.setImageResource();
+        mainScreen.setBackgroundResource(R.drawable.background3_clouded);
     }
 
     protected void showRainMood(){
         //weatherOverlay.setImageResource();
+        setRain();
+        mainScreen.setBackgroundResource(R.drawable.background2_rain);
     }
 
     protected void showThunder(){
+        //weatherOverlay.setImageResource();
         setRain();
+        mainScreen.setBackgroundResource(R.drawable.background1_thunderstorm);
     }
+
     protected void startUp(){
+        viewNurses();
         weatherOverlay.setImageResource(0);
         stopRain();
     }

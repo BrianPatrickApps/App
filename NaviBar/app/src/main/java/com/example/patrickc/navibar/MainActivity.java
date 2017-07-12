@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     Button sunny;
     ImageView weatherOverlay;
     ImageView rainOverlay;
+    ImageView inputOverlay;
     ButtonController control;
     ViewController viewController;
 
@@ -72,8 +73,9 @@ public class MainActivity extends AppCompatActivity
         cloudy = (Button)findViewById(R.id.Cloudy);
         sunny = (Button)findViewById(R.id.Sunny);
         weatherOverlay = (ImageView)findViewById(R.id.moodOverlay);
-        ImageView inputOverlay = (ImageView)findViewById(R.id.inputWeather);
+        inputOverlay = (ImageView)findViewById(R.id.inputWeather);
         rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
+
         Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
 
         //rainOverlay.setVisibility(View.GONE);
@@ -82,11 +84,9 @@ public class MainActivity extends AppCompatActivity
         control.setInvisible();
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
         RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
-
-        viewController = new ViewController(rel2,rel3,rainOverlay,weatherOverlay);
-        viewController.stopRain();
-        viewController.viewNurses();
+        viewController = new ViewController(rel,rel2,rel3,rainOverlay,weatherOverlay);
         checkWeather();
+        viewController.startUp();
 
 
     }
@@ -165,8 +165,8 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             case 2:
-                loginFinger();
-
+                //loginFinger();
+                Toast.makeText(getApplicationContext(), "Finger Print Scanner unavailable", Toast.LENGTH_LONG).show();
                 break;
             case 3:
                 i = new Intent(MainActivity.this,DataScreen.class);
@@ -194,16 +194,17 @@ public class MainActivity extends AppCompatActivity
                     int id = Integer.parseInt(input.getText().toString());
                     String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                     if(id > 99999 && id < 1000000){
-
                         control.setViewable();
                         String inputID = input.getText().toString();
                         control.getId(inputID);
                         Handler handler = new Handler();
+
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 viewController.viewNurses();
                                 checkWeather();
+                                inputOverlay.setImageResource(R.drawable.input_1);
                             }
                         },6000);
 
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "\t\t\tSorry invalid input\nonly 6 digits are acceptable", Toast.LENGTH_LONG).show();
                     loginID();
 
+
                 }
             }
         });
@@ -227,6 +229,9 @@ public class MainActivity extends AppCompatActivity
 
                 Toast.makeText(getApplicationContext(), "Back to the menu ", Toast.LENGTH_SHORT).show();
                 control.setInvisible();
+                viewController.viewNurses();
+                checkWeather();
+                inputOverlay.setImageResource(R.drawable.input_1);
 
             }
         });
@@ -267,28 +272,30 @@ public class MainActivity extends AppCompatActivity
         //ImageView moodOverlay = (ImageView)findViewById(R.id.moodOverlay);
         Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
         Double x = db.getMedian();
-        if(x==0.0){
+        int a = x.intValue();
+        if(x==0){
             viewController.startUp();
         }
-        else if(x == 1 || x <1.6)
+        else if(x == 1)
         {
-            Toast.makeText(getApplicationContext(), "Why", Toast.LENGTH_SHORT).show();
             viewController.showThunder();
         }
-        else if(x >=2 && x <2.6){
+        else if(x ==2){
             viewController.showRainMood();
         }
-        else if(x >=3 || x <3.6)
+        else if(x ==3)
         {
+            viewController.stopRain();
             viewController.showOvercast();
         }
-        else if(x >=4 || x<4.6){
+        else if(x ==4){
             viewController.stopRain();
             viewController.showClouds();
         }
-        else if(x > 4.5 || x==5) {
+        else if(x==5) {
             viewController.stopRain();
             viewController.showSun();
+            Toast.makeText(getApplicationContext(), "Back to the menu", Toast.LENGTH_SHORT).show();
         }
 
     }

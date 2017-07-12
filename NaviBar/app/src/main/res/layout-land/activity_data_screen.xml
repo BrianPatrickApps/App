@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Supreme Font"
+        android:text="Data"
         android:textAllCaps="false"
         android:textSize="30sp"
         app:layout_constraintLeft_toLeftOf="parent"
