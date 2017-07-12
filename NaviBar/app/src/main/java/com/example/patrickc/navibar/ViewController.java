@@ -57,7 +57,8 @@ public class ViewController {
     }
 
     protected void showThunder(){
-        //weatherOverlay.setImageResource();
+        nurse.setVisibility(View.VISIBLE);
+        inputScreen.setVisibility(View.GONE);
     }
     protected void startUp(){
         weatherOverlay.setImageResource(0);

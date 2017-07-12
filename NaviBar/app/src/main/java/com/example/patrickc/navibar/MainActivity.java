@@ -272,6 +272,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if(x == 1 || x <1.6)
         {
+            Toast.makeText(getApplicationContext(), "Why", Toast.LENGTH_SHORT).show();
             viewController.viewRain();
             viewController.showThunder();
         }

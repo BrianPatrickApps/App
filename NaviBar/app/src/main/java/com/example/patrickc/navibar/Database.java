@@ -74,7 +74,6 @@ public class Database{
         Cursor c = database.rawQuery("Select * from nurses;",null);
         ArrayList<Double> theArray = new ArrayList<>();
         if(c.getCount() ==0){
-            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
         }
         while(c.moveToNext()){
             Double result = c.getDouble(1);
@@ -105,7 +104,6 @@ public class Database{
         ArrayList<Double> theArray = new ArrayList<>();
         Cursor c = database.rawQuery("Select * from avgRoom where key_id = '1';",null);
         if(c.getCount() ==0){
-            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
         }
         else{
             while(c.moveToNext())

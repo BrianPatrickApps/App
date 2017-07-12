@@ -125,7 +125,6 @@ public class ButtonController {
         }
     };
         public void select() {
-            Toast.makeText(context, mood.toString(), Toast.LENGTH_LONG).show();
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Double avg = db.getAverage(mood);
             String query = "INSERT into nurses(`id`,`input`,`average`,`date`)" +
