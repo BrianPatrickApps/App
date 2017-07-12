@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void run() {
                                 viewController.viewNurses();
-                                checkWeather();
+                                //checkWeather();
                             }
                         },6000);
 
@@ -267,7 +267,10 @@ public class MainActivity extends AppCompatActivity
         //ImageView moodOverlay = (ImageView)findViewById(R.id.moodOverlay);
         Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
         Double x = db.getMedian();
-        if(x == 1 || x <1.6)
+        if(x==0.0){
+            viewController.startUp();
+        }
+        else if(x == 1 || x <1.6)
         {
             viewController.viewRain();
             viewController.showThunder();
@@ -285,10 +288,10 @@ public class MainActivity extends AppCompatActivity
             viewController.stopRain();
             viewController.showClouds();
         }
-        else if(x > 4.5 || x==5)
+        else if(x > 4.5 || x==5) {
             viewController.stopRain();
             viewController.showSun();
-
+        }
 
     }
 

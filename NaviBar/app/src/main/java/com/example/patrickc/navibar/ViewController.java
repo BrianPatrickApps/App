@@ -59,6 +59,10 @@ public class ViewController {
     protected void showThunder(){
         //weatherOverlay.setImageResource();
     }
+    protected void startUp(){
+        weatherOverlay.setImageResource(0);
+        stopRain();
+    }
 
 
 }
