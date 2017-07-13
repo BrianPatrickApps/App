@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
     }
     //Which button is to be pressed. Add stuff if need be
     private void selectItem(int position) {
-        Intent i;
+
         switch(position) {
             case 1:
                 loginID();
@@ -169,8 +169,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Finger Print Scanner unavailable", Toast.LENGTH_LONG).show();
                 break;
             case 3:
-                i = new Intent(MainActivity.this,DataScreen.class);
-                startActivity(i);
+                dataLogin();
                 break;
             default:
         }
@@ -267,6 +266,39 @@ public class MainActivity extends AppCompatActivity
         alert.show();
     }
 
+    private void dataLogin(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Admin Login");
+        alert.setMessage("Please Enter Password");
+
+// Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(6)});
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                int id = Integer.parseInt(input.getText().toString());
+                if(id == 000000){
+                Intent i = new Intent(MainActivity.this,DataScreen.class);
+                startActivity(i);
+                }
+                else
+                Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Toast.makeText(getApplicationContext(), "Back to the menu", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.show();
+    }
+
 
     private void checkWeather(){
         //ImageView moodOverlay = (ImageView)findViewById(R.id.moodOverlay);
@@ -295,7 +327,6 @@ public class MainActivity extends AppCompatActivity
         else if(x==5) {
             viewController.stopRain();
             viewController.showSun();
-            Toast.makeText(getApplicationContext(), "Back to the menu", Toast.LENGTH_SHORT).show();
         }
 
     }

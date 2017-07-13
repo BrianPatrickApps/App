@@ -73,6 +73,7 @@ public class ViewController {
     protected void startUp(){
         viewNurses();
         weatherOverlay.setImageResource(0);
+        mainScreen.setBackgroundResource(R.drawable.background3_clouded);
         stopRain();
     }
 

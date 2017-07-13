@@ -50,7 +50,6 @@ public class Database{
 
     public void execSQL(String s) {
         database.execSQL(s);
-        Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
     }
 
     protected ArrayList<String> collectUsers(){
