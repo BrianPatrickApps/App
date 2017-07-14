@@ -237,6 +237,7 @@ public class MainActivity extends AppCompatActivity
 
         alert.show();
     }
+
     //FingerPrint method no scanner given yet
     private void loginFinger(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity
         alert.setTitle("Login with Fingerprint");
         alert.setMessage("Finger");
 
-// Set an EditText view to get user input
+        //an EditText view to get user input
         final EditText input = new EditText(this);
         alert.setView(input);
 
@@ -272,7 +273,7 @@ public class MainActivity extends AppCompatActivity
         alert.setTitle("Admin Login");
         alert.setMessage("Please Enter Password");
 
-// Set an EditText view to get user input
+        //an EditText view to get user input
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(6)});
@@ -301,7 +302,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private void checkWeather(){
-        //ImageView moodOverlay = (ImageView)findViewById(R.id.moodOverlay);
+
         Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
         Double x = db.getMedian();
         int a = x.intValue();

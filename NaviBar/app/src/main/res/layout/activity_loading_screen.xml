@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/nurseIcon"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:layout_marginBottom="47dp"
