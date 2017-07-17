@@ -43,31 +43,35 @@ public class ViewController {
     }
 
     protected void showSun(){
-
-        weatherOverlay.setImageResource(R.drawable.mood_sun);
-        mainScreen.setBackgroundResource(R.drawable.background5_sunny);
+        nurse.setBackgroundResource(R.drawable.room_sunny);
+        //weatherOverlay.setImageResource(R.drawable.mood_sun);
+        //mainScreen.setBackgroundResource(R.drawable.background5_sunny);
     }
 
     protected void showClouds(){
         //weatherOverlay.setImageResource();
-        mainScreen.setBackgroundResource(R.drawable.background4_semi_clouded);
+        //mainScreen.setBackgroundResource(R.drawable.background4_semi_clouded);
+        nurse.setBackgroundResource(R.drawable.room_cloud);
     }
 
     protected void showOvercast(){
         //weatherOverlay.setImageResource();
-        mainScreen.setBackgroundResource(R.drawable.background3_clouded);
+        //mainScreen.setBackgroundResource(R.drawable.background3_clouded);
+        nurse.setBackgroundResource(R.drawable.room_semi);
     }
 
     protected void showRainMood(){
         //weatherOverlay.setImageResource();
         setRain();
-        mainScreen.setBackgroundResource(R.drawable.background2_rain);
+        //mainScreen.setBackgroundResource(R.drawable.background2_rain);
+        nurse.setBackgroundResource(R.drawable.room_rain);
     }
 
     protected void showThunder(){
         //weatherOverlay.setImageResource();
         setRain();
-        mainScreen.setBackgroundResource(R.drawable.background1_thunderstorm);
+        nurse.setBackgroundResource(R.drawable.room_rain);
+        //mainScreen.setBackgroundResource(R.drawable.background1_thunderstorm);
     }
 
     protected void startUp(){

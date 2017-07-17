@@ -1,9 +1,12 @@
 package com.example.patrickc.navibar;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
@@ -25,8 +28,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +47,17 @@ public class MainActivity extends AppCompatActivity
     ImageView inputOverlay;
     ButtonController control;
     ViewController viewController;
-
+    private boolean sub = false;
+    private int count = 0;
+    ImageView nurse1;
+    ImageView nurse2;
+    ImageView nurse3;
+    ImageView nurse4;
+    ImageView nurse5;
+    ImageView nurse6;
+    ImageView nurse7;
+    ImageView nurse8;
+    ArrayList<ImageView> nurseArray;
 
     NavigationView navigationView;
     @Override
@@ -88,7 +103,22 @@ public class MainActivity extends AppCompatActivity
         checkWeather();
         viewController.startUp();
 
-
+        nurse1 = (ImageView)findViewById(R.id.nurse1);
+        nurse2 = (ImageView)findViewById(R.id.nurse2);
+        nurse3 = (ImageView)findViewById(R.id.nurse3);
+        nurse4 = (ImageView)findViewById(R.id.nurse4);
+        nurse5 = (ImageView)findViewById(R.id.nurse5);
+        nurse6 = (ImageView)findViewById(R.id.nurse6);
+        nurse7 = (ImageView)findViewById(R.id.nurse7);
+        nurse8 = (ImageView)findViewById(R.id.nurse8);
+        nurseArray.add(nurse1);
+        nurseArray.add(nurse2);
+        nurseArray.add(nurse3);
+        nurseArray.add(nurse4);
+        nurseArray.add(nurse5);
+        nurseArray.add(nurse6);
+        nurseArray.add(nurse7);
+        nurseArray.add(nurse8);
     }
 
     //Empty OnClickListener for anything
@@ -204,6 +234,7 @@ public class MainActivity extends AppCompatActivity
                                 viewController.viewNurses();
                                 checkWeather();
                                 inputOverlay.setImageResource(R.drawable.input_1);
+                                showNurses();
                             }
                         },6000);
 
@@ -332,5 +363,101 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public void showNurses(){
+        //Available nurse image chosen by counter.
+        ImageView iv = nurseArray.get(count);
+        Random r = new Random();
+        int Low = 0;
+        int High = 9;
+        int Result = r.nextInt(High-Low) + Low;
+        if (!sub) { //boolean check to see if mx number of nurses already visible
+            iv.setVisibility(View.VISIBLE);
+            nurseTimeout(nurseArray.get(count));//calls the nurse timeout method with the imageview of the nurse that just went visible.
+            count++;
+            if (count == nurseArray.size()) {
+                count--;
+                sub = true;
+            }
+        }
+        else{ //starts setting nurses invisible manually if the max is visible.
+            iv.setVisibility(View.GONE);
+            count--;
+            if(count == -1){
+                count++;
+                sub = false;
+            }
+        }
+    }
 
+    public void nurseTimeout(View v){
+        final ImageView iv = (ImageView) v;
+        new CountDownTimer(3000, 3000) { //timer set to be 3 seconds long and tick once every 3 seconds. Will be 2 hours each for final app
+
+            public void onTick(long millisUntilFinished) { //nothing needed here as we only disable an image after the full time
+            }
+
+            public void onFinish() {
+                iv.setVisibility(View.GONE);
+            }
+
+        }.start();
+    }
+
+
+    //------------------------------------------------------------------------------------------
+
+    public void databaseReset(Database db){
+        Intent intent = new Intent(this, MyReceiver.class);
+        intent.putExtra("db", db);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+
+        //set time for 7:30 reset
+        Date dat  = new Date();//initializes to now
+        Calendar cal_alarm = Calendar.getInstance();
+        Calendar cal_now = Calendar.getInstance();
+        cal_now.setTime(dat);
+        cal_alarm.setTime(dat);
+        cal_alarm.set(Calendar.HOUR_OF_DAY,7);//set the alarm time
+        cal_alarm.set(Calendar.MINUTE, 30);
+        cal_alarm.set(Calendar.SECOND,0);
+        if(cal_alarm.before(cal_now)){//if its in the past increment
+            cal_alarm.add(Calendar.DATE,1);
+        }
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        //set time for 16:00 reset
+        Date dat2  = new Date();//initializes to now
+        Calendar cal_alarm2 = Calendar.getInstance();
+        Calendar cal_now2 = Calendar.getInstance();
+        cal_now2.setTime(dat2);
+        cal_alarm2.setTime(dat2);
+        cal_alarm2.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
+        cal_alarm2.set(Calendar.MINUTE, 00);
+        cal_alarm2.set(Calendar.SECOND,0);
+        if(cal_alarm2.before(cal_now2)){//if its in the past increment
+            cal_alarm2.add(Calendar.DATE,1);
+        }
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm2.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
+
+        //set time for 22:00 reset
+        Date dat3  = new Date();//initializes to now
+        Calendar cal_alarm3 = Calendar.getInstance();
+        Calendar cal_now3 = Calendar.getInstance();
+        cal_now3.setTime(dat3);
+        cal_alarm3.setTime(dat3);
+        cal_alarm3.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
+        cal_alarm3.set(Calendar.MINUTE, 00);
+        cal_alarm3.set(Calendar.SECOND,0);
+        if(cal_alarm3.before(cal_now3)){//if its in the past increment
+            cal_alarm3.add(Calendar.DATE,1);
+        }
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm3.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
+    }
 }
+
+
+
+

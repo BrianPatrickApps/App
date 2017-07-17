@@ -11,12 +11,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-public class Database{
+public class Database implements Serializable{
 
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
@@ -113,6 +114,12 @@ public class Database{
         }
 
         return theArray.get(0);
+    }
+
+    //gets called when the broadcast reciever fires
+    protected void reset(){
+        database.execSQL("DELETE * FROM avgShift;");
+        database.execSQL("DELETE * FROM avgRoom;");
     }
 
 
