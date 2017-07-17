@@ -67,8 +67,9 @@ public class MainActivity extends AppCompatActivity
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         db = new Database(this);
-
-
+        RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
+        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
+        rel2.setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -97,8 +98,7 @@ public class MainActivity extends AppCompatActivity
         control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,inputOverlay,this);
         //Makes buttons invisible
         control.setInvisible();
-        RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
-        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
+
         viewController = new ViewController(rel,rel2,rel3,rainOverlay,weatherOverlay);
         checkWeather();
         viewController.startUp();
