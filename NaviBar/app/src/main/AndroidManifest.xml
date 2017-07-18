@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:largeHeap="true">
-        <receiver android:process=":remote" android:name=".MyReceiver"></receiver>
+        <receiver android:process=":remote" android:name=".MyReceiver" android:enabled="true"></receiver>
+        <receiver android:process=":remote" android:name=".MyReceiver2" android:enabled="true"></receiver>
+        <receiver android:process=":remote" android:name=".MyReceiver3" android:enabled="true"></receiver>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

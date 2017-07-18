@@ -20,25 +20,14 @@ import java.util.Collections;
 public class Database implements Serializable{
 
     private DatabaseHelper dbHelper;
-    private SQLiteDatabase database;
+    transient private SQLiteDatabase database;
     Context context;
 
-    public final static String USERS_TABLE="users"; //table names
-
-    public final static String USER_NAME="username";
-    public final static String PASSWORD="password";
 
     public Database(Context context){
         this.context = context;
         dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
-    }
-
-    public long insertQuery(String id, String name){
-        ContentValues values = new ContentValues();
-        values.put(USER_NAME, id);
-        values.put(PASSWORD, name);
-        return database.insert(USERS_TABLE, null, values);
     }
 
     public Cursor runQuery(String query, String[] args) {
@@ -95,14 +84,14 @@ public class Database implements Serializable{
         String query = "INSERT into avgShift(`shift_id`,`average`,`date`)" +
                 "VALUES('" + shift + "','"+ median +"','"+ date +"');";
         database.execSQL(query);
-        String updateMedian = "UPDATE avgRoom set median = '"+ median +"' WHERE key_id = '1';";
+        String updateMedian = "UPDATE avgRoom set median = '"+ median +"' WHERE key_id = '"+MainActivity.shiftNumber+"';";
         database.execSQL(updateMedian);
         Toast.makeText(context, "Median Updated Thank you", Toast.LENGTH_SHORT).show();
     }
     //Collects the median of the shift
     protected double getMedian(){
         ArrayList<Double> theArray = new ArrayList<>();
-        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '1';",null);
+        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '"+MainActivity.shiftNumber+"';",null);
         if(c.getCount() ==0){
         }
         else{
@@ -118,8 +107,11 @@ public class Database implements Serializable{
 
     //gets called when the broadcast reciever fires
     protected void reset(){
-        database.execSQL("DELETE * FROM avgShift;");
-        database.execSQL("DELETE * FROM avgRoom;");
+        //database.execSQL("DELETE * FROM avgShift;");
+        //database.execSQL("UPDATE avgRoom set median = '0' WHERE key_id = '1';");
+       // database.execSQL("DELETE * FROM avgRoom;");
+        //database.execSQL("INSERT INTO avgRoom VALUES('1','0');");
+        Toast.makeText(context,"Reseted"+ MainActivity.shiftNumber,Toast.LENGTH_SHORT).show();
     }
 
 

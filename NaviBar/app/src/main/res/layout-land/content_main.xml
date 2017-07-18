@@ -11,23 +11,32 @@
     android:background="@drawable/background3_clouded"
     >
 
+    <ImageView
+        android:id="@+id/left_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/Nurse"
+        app:srcCompat="@drawable/left_arrow" />
+
     <RelativeLayout
         android:id="@+id/inputScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/room_background"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:background="@drawable/room_background"
+        android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/linearLayout"
             android:layout_width="500dp"
             android:layout_height="100dp"
 
-            android:layout_marginTop="150dp"
-            android:orientation="horizontal"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/Stormy"
@@ -96,7 +105,7 @@
             android:layout_marginEnd="58dp"
             android:layout_marginTop="11dp"
             android:layout_toStartOf="@+id/nurse4"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@raw/nurse5"
 
             />
@@ -108,7 +117,7 @@
             android:layout_alignTop="@+id/nurse2"
             android:layout_marginEnd="26dp"
             android:layout_toStartOf="@+id/nurse2"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -118,7 +127,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="32dp"
             android:layout_toStartOf="@+id/nurse3"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -128,7 +137,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/nurse8"
             android:layout_marginEnd="93dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -137,7 +146,7 @@
             android:layout_height="200dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -147,7 +156,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="36dp"
             android:layout_toStartOf="@+id/nurse1"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -158,7 +167,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="43dp"
             android:layout_marginStart="11dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView
@@ -167,7 +176,7 @@
             android:layout_height="200dp"
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/nurse6"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@raw/nurse5" />
 
         <ImageView

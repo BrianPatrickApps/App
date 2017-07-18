@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,9 +36,9 @@ import java.util.Date;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,Serializable{
 
-    Database db;
+    protected static Database db;
     Button stormy;
     Button rainy;
     Button overcast;
@@ -46,9 +48,10 @@ public class MainActivity extends AppCompatActivity
     ImageView rainOverlay;
     ImageView inputOverlay;
     ButtonController control;
-    ViewController viewController;
+    protected static ViewController viewController;
     private boolean sub = false;
-    private int count = 0;
+    public static int count;
+    public static int shiftNumber =0;
     ImageView nurse1;
     ImageView nurse2;
     ImageView nurse3;
@@ -65,8 +68,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
 
         db = new Database(this);
+        databaseReset(db);
+        databaseReset2(db);
+        databaseReset3(db);
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
         RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
         rel2.setVisibility(View.GONE);
@@ -111,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         nurse6 = (ImageView)findViewById(R.id.nurse6);
         nurse7 = (ImageView)findViewById(R.id.nurse7);
         nurse8 = (ImageView)findViewById(R.id.nurse8);
+        nurseArray = new ArrayList<>();
         nurseArray.add(nurse1);
         nurseArray.add(nurse2);
         nurseArray.add(nurse3);
@@ -119,6 +128,8 @@ public class MainActivity extends AppCompatActivity
         nurseArray.add(nurse6);
         nurseArray.add(nurse7);
         nurseArray.add(nurse8);
+        count=0;
+
     }
 
     //Empty OnClickListener for anything
@@ -312,13 +323,22 @@ public class MainActivity extends AppCompatActivity
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                int id = Integer.parseInt(input.getText().toString());
-                if(id == 000000){
-                Intent i = new Intent(MainActivity.this,DataScreen.class);
-                startActivity(i);
-                }
+                 try {
+                     int id = Integer.parseInt(input.getText().toString());
+                    if (id == 000000) {
+                        Intent i = new Intent(MainActivity.this, DataScreen.class);
+                        startActivity(i);
+                    } else if (id == 1997) {
+                        Intent i = new Intent(MainActivity.this, WeatherRoom.class);
+                        startActivity(i);
+                    }
                 else
-                Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "\t\t\tSorry invalid input\nonly 6 digits are acceptable", Toast.LENGTH_LONG).show();
+                    loginID();
+                }
             }
         });
 
@@ -370,6 +390,8 @@ public class MainActivity extends AppCompatActivity
         int Low = 0;
         int High = 9;
         int Result = r.nextInt(High-Low) + Low;
+        if(count > nurseArray.size())
+            count = 0;
         if (!sub) { //boolean check to see if mx number of nurses already visible
             iv.setVisibility(View.VISIBLE);
             nurseTimeout(nurseArray.get(count));//calls the nurse timeout method with the imageview of the nurse that just went visible.
@@ -391,7 +413,7 @@ public class MainActivity extends AppCompatActivity
 
     public void nurseTimeout(View v){
         final ImageView iv = (ImageView) v;
-        new CountDownTimer(3000, 3000) { //timer set to be 3 seconds long and tick once every 3 seconds. Will be 2 hours each for final app
+        new CountDownTimer((1000 * 60 * 120), (1000 * 60 * 120)) { //timer set to be 3 seconds long and tick once every 3 seconds. Will be 2 hours each for final app
 
             public void onTick(long millisUntilFinished) { //nothing needed here as we only disable an image after the full time
             }
@@ -406,41 +428,14 @@ public class MainActivity extends AppCompatActivity
 
     //------------------------------------------------------------------------------------------
 
-    public void databaseReset(Database db){
+    public void databaseReset(Database database) {
+        Toast.makeText(getApplicationContext(), "Alarm 1 set", Toast.LENGTH_SHORT).show();
+        //database.reset();
         Intent intent = new Intent(this, MyReceiver.class);
-        intent.putExtra("db", db);
+       // intent.putExtra("db", database);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-
-        //set time for 7:30 reset
-        Date dat  = new Date();//initializes to now
-        Calendar cal_alarm = Calendar.getInstance();
-        Calendar cal_now = Calendar.getInstance();
-        cal_now.setTime(dat);
-        cal_alarm.setTime(dat);
-        cal_alarm.set(Calendar.HOUR_OF_DAY,7);//set the alarm time
-        cal_alarm.set(Calendar.MINUTE, 30);
-        cal_alarm.set(Calendar.SECOND,0);
-        if(cal_alarm.before(cal_now)){//if its in the past increment
-            cal_alarm.add(Calendar.DATE,1);
-        }
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
-        //set time for 16:00 reset
-        Date dat2  = new Date();//initializes to now
-        Calendar cal_alarm2 = Calendar.getInstance();
-        Calendar cal_now2 = Calendar.getInstance();
-        cal_now2.setTime(dat2);
-        cal_alarm2.setTime(dat2);
-        cal_alarm2.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
-        cal_alarm2.set(Calendar.MINUTE, 00);
-        cal_alarm2.set(Calendar.SECOND,0);
-        if(cal_alarm2.before(cal_now2)){//if its in the past increment
-            cal_alarm2.add(Calendar.DATE,1);
-        }
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm2.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
 
         //set time for 22:00 reset
         Date dat3  = new Date();//initializes to now
@@ -449,12 +444,60 @@ public class MainActivity extends AppCompatActivity
         cal_now3.setTime(dat3);
         cal_alarm3.setTime(dat3);
         cal_alarm3.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
-        cal_alarm3.set(Calendar.MINUTE, 00);
+        cal_alarm3.set(Calendar.MINUTE, 39);
         cal_alarm3.set(Calendar.SECOND,0);
         if(cal_alarm3.before(cal_now3)){//if its in the past increment
             cal_alarm3.add(Calendar.DATE,1);
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm3.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
+    }
+
+    public void databaseReset2(Database database) {
+        Toast.makeText(getApplicationContext(), "Alarm 2 set", Toast.LENGTH_SHORT).show();
+        //database.reset();
+        Intent intent = new Intent(this, MyReceiver2.class);
+        // intent.putExtra("db", database);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        //set time for 16:00 reset
+        Date dat2  = new Date();//initializes to now
+        Calendar cal_alarm2 = Calendar.getInstance();
+        Calendar cal_now2 = Calendar.getInstance();
+        cal_now2.setTime(dat2);
+        cal_alarm2.setTime(dat2);
+        cal_alarm2.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
+        cal_alarm2.set(Calendar.MINUTE, 41);
+        cal_alarm2.set(Calendar.SECOND,0);
+        if(cal_alarm2.before(cal_now2)){//if its in the past increment
+            cal_alarm2.add(Calendar.DATE,1);
+        }
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm2.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
+    }
+
+    public void databaseReset3(Database database) {
+        Toast.makeText(getApplicationContext(), "Alarms 3", Toast.LENGTH_SHORT).show();
+        //database.reset();
+        Intent intent = new Intent(this, MyReceiver3.class);
+        // intent.putExtra("db", database);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        //set time for 16:00 reset
+        Date dat2  = new Date();//initializes to now
+        Calendar cal_alarm2 = Calendar.getInstance();
+        Calendar cal_now2 = Calendar.getInstance();
+        cal_now2.setTime(dat2);
+        cal_alarm2.setTime(dat2);
+        cal_alarm2.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
+        cal_alarm2.set(Calendar.MINUTE, 43);
+        cal_alarm2.set(Calendar.SECOND,0);
+        if(cal_alarm2.before(cal_now2)){//if its in the past increment
+            cal_alarm2.add(Calendar.DATE,1);
+        }
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm2.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
     }
 }
 
