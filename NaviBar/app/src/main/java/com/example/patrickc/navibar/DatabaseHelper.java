@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Database creation sql statement
     private  String DATABASE_CREATE_USERS = ("CREATE TABLE IF NOT EXISTS users(id_Number INT, id_Input INT, median INT, time datetime);");
    // private static final String DATABASE_id = ("CREATE TABLE IF NOT EXISTS a(id INT);");
-    private String DATABASE_NURSES = ("CREATE TABLE IF NOT EXISTS nurses(id INT,input INT,average DOUBLE,date String);");
+    private String DATABASE_NURSES = ("CREATE TABLE IF NOT EXISTS nurses(id INT,input INT,average DOUBLE,date String,shift_id INT);");
     //shift_id is set Shift 1 7.30 - 16.00 Shift 2 16.00-22.30 Shift 3 22.30-7.30
     //Update table at end of each shift from avgRoom
     //This one shows the median of the room throughout the day during the shift and what time of the day

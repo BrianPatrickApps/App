@@ -6,11 +6,12 @@ import android.content.Intent;
 import android.util.Log;
 
 /**
- * Created by patrickc on 18-Jul-17.
+ * Created by Windows 10 on 18/07/2017.
  */
 
-public class MyReceiver3 extends BroadcastReceiver {
+public class MyReceiver4 extends BroadcastReceiver{
     private static final String TAG = "BB";
+    @Override
     public void onReceive(Context context, Intent in) {
         //Database db = (Database) in.getSerializableExtra("db");
         Database db = new Database(context);

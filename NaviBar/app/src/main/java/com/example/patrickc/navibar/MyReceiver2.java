@@ -19,7 +19,7 @@ public class MyReceiver2 extends BroadcastReceiver {
         // Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
         // db.execSQL("INSERT into nurses(`id`,`input`,`average`,`date`)" +
         //       "VALUES('" + "1" + "','"+ "1" +"','"+ "1" +"','"+ "1" +"');");
-        MainActivity.shiftNumber = 1;
+        shiftCounter.getInstance().increaseShift();
         Intent i = context.getPackageManager().
                 getLaunchIntentForPackage(context.getPackageName());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

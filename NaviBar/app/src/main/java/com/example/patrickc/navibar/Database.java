@@ -22,12 +22,14 @@ public class Database implements Serializable{
     private DatabaseHelper dbHelper;
     transient private SQLiteDatabase database;
     Context context;
+    Counter counter;
 
 
     public Database(Context context){
         this.context = context;
         dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
+        counter = new Counter();
     }
 
     public Cursor runQuery(String query, String[] args) {
@@ -43,7 +45,7 @@ public class Database implements Serializable{
     }
 
     protected ArrayList<String> collectUsers(){
-        Cursor c = database.rawQuery("Select * from nurses;",null);
+        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ shiftCounter.getInstance().getShiftNumber()+"';",null);
         ArrayList<String>theArray = new ArrayList<>();
         if(c.getCount() ==0){
             Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
@@ -52,7 +54,8 @@ public class Database implements Serializable{
             String result = "User ID: " +c.getString(0)+
                      "\ninput: " + c.getString(1)+
                      "\nMedian: " + c.getString(2)+
-                     "\nDate: " + c.getString(3)
+                     "\nDate: " + c.getString(3)+
+                     "\nShift: " + c.getString(4)
                     ;
             theArray.add(result);
         }
@@ -60,7 +63,7 @@ public class Database implements Serializable{
     }
     //Gets the median
     protected double getAverage(double mood){
-        Cursor c = database.rawQuery("Select * from nurses;",null);
+        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ shiftCounter.getInstance().getShiftNumber()+"';",null);
         ArrayList<Double> theArray = new ArrayList<>();
         if(c.getCount() ==0){
         }
@@ -84,14 +87,14 @@ public class Database implements Serializable{
         String query = "INSERT into avgShift(`shift_id`,`average`,`date`)" +
                 "VALUES('" + shift + "','"+ median +"','"+ date +"');";
         database.execSQL(query);
-        String updateMedian = "UPDATE avgRoom set median = '"+ median +"' WHERE key_id = '"+MainActivity.shiftNumber+"';";
+        String updateMedian = "UPDATE avgRoom set median = '"+ median +"' WHERE key_id = '"+shiftCounter.getInstance().getShiftNumber()+"';";
         database.execSQL(updateMedian);
         Toast.makeText(context, "Median Updated Thank you", Toast.LENGTH_SHORT).show();
     }
     //Collects the median of the shift
     protected double getMedian(){
         ArrayList<Double> theArray = new ArrayList<>();
-        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '"+MainActivity.shiftNumber+"';",null);
+        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '"+shiftCounter.getInstance().getShiftNumber()+"';",null);
         if(c.getCount() ==0){
         }
         else{
@@ -111,7 +114,7 @@ public class Database implements Serializable{
         //database.execSQL("UPDATE avgRoom set median = '0' WHERE key_id = '1';");
        // database.execSQL("DELETE * FROM avgRoom;");
         //database.execSQL("INSERT INTO avgRoom VALUES('1','0');");
-        Toast.makeText(context,"Reseted"+ MainActivity.shiftNumber,Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"Reseted"+ shiftCounter.getInstance().getShiftNumber(),Toast.LENGTH_SHORT).show();
     }
 
 

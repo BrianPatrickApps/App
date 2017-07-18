@@ -43,7 +43,7 @@ public class ButtonController {
     Context context;
     String id;
     Double mood;
-
+    Counter counter;
     protected ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny,ImageView weatherOverlay, Context context) {
 
         this.stormy = stormy;
@@ -54,7 +54,7 @@ public class ButtonController {
         this.weatherOverlay = weatherOverlay;
         this.context = context;
         db = new Database(context);
-
+        counter = new Counter();
         stormy.setOnClickListener(stormyClicked);
         rainy.setOnClickListener(rainyClicked);
         overcast.setOnClickListener(overcastClicked);
@@ -127,9 +127,9 @@ public class ButtonController {
         public void select() {
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Double avg = db.getAverage(mood);
-            String query = "INSERT into nurses(`id`,`input`,`average`,`date`)" +
-                    "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"');";
-            db.addMedian(avg,currentDateTimeString,MainActivity.shiftNumber);
+            String query = "INSERT into nurses(`id`,`input`,`average`,`date`,`shift_id`)" +
+                    "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"','"+shiftCounter.getInstance().getShiftNumber() +"');";
+            db.addMedian(avg,currentDateTimeString,shiftCounter.getInstance().getShiftNumber());
             db.execSQL(query);
 
             setInvisible();

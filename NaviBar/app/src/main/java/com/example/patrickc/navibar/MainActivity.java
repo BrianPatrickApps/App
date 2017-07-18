@@ -2,6 +2,7 @@ package com.example.patrickc.navibar;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -50,8 +51,7 @@ public class MainActivity extends AppCompatActivity
     ButtonController control;
     protected static ViewController viewController;
     private boolean sub = false;
-    public static int count;
-    public static int shiftNumber =0;
+
     ImageView nurse1;
     ImageView nurse2;
     ImageView nurse3;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     ImageView nurse7;
     ImageView nurse8;
     ArrayList<ImageView> nurseArray;
+    Counter counter;
 
     NavigationView navigationView;
     @Override
@@ -70,11 +71,12 @@ public class MainActivity extends AppCompatActivity
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-
+        counter = new Counter();
         db = new Database(this);
         databaseReset(db);
         databaseReset2(db);
         databaseReset3(db);
+        databaseReset4(db);
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
         RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
         rel2.setVisibility(View.GONE);
@@ -128,7 +130,6 @@ public class MainActivity extends AppCompatActivity
         nurseArray.add(nurse6);
         nurseArray.add(nurse7);
         nurseArray.add(nurse8);
-        count=0;
 
     }
 
@@ -385,27 +386,27 @@ public class MainActivity extends AppCompatActivity
 
     public void showNurses(){
         //Available nurse image chosen by counter.
-        ImageView iv = nurseArray.get(count);
+        ImageView iv = nurseArray.get(counter.getCount());
         Random r = new Random();
         int Low = 0;
         int High = 9;
         int Result = r.nextInt(High-Low) + Low;
-        if(count > nurseArray.size())
-            count = 0;
+        if(counter.getCount() > nurseArray.size())
+            counter.resetCount();
         if (!sub) { //boolean check to see if mx number of nurses already visible
             iv.setVisibility(View.VISIBLE);
-            nurseTimeout(nurseArray.get(count));//calls the nurse timeout method with the imageview of the nurse that just went visible.
-            count++;
-            if (count == nurseArray.size()) {
-                count--;
+            nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
+            counter.setCount();
+            if (counter.getCount() == nurseArray.size()) {
+                counter.removeCount();
                 sub = true;
             }
         }
         else{ //starts setting nurses invisible manually if the max is visible.
             iv.setVisibility(View.GONE);
-            count--;
-            if(count == -1){
-                count++;
+            counter.removeCount();
+            if(counter.getCount() == -1){
+                counter.setCount();
                 sub = false;
             }
         }
@@ -443,8 +444,8 @@ public class MainActivity extends AppCompatActivity
         Calendar cal_now3 = Calendar.getInstance();
         cal_now3.setTime(dat3);
         cal_alarm3.setTime(dat3);
-        cal_alarm3.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
-        cal_alarm3.set(Calendar.MINUTE, 39);
+        cal_alarm3.set(Calendar.HOUR_OF_DAY,22);//set the alarm time
+        cal_alarm3.set(Calendar.MINUTE, 14);
         cal_alarm3.set(Calendar.SECOND,0);
         if(cal_alarm3.before(cal_now3)){//if its in the past increment
             cal_alarm3.add(Calendar.DATE,1);
@@ -467,8 +468,8 @@ public class MainActivity extends AppCompatActivity
         Calendar cal_now2 = Calendar.getInstance();
         cal_now2.setTime(dat2);
         cal_alarm2.setTime(dat2);
-        cal_alarm2.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
-        cal_alarm2.set(Calendar.MINUTE, 41);
+        cal_alarm2.set(Calendar.HOUR_OF_DAY,22);//set the alarm time
+        cal_alarm2.set(Calendar.MINUTE, 6);
         cal_alarm2.set(Calendar.SECOND,0);
         if(cal_alarm2.before(cal_now2)){//if its in the past increment
             cal_alarm2.add(Calendar.DATE,1);
@@ -477,7 +478,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void databaseReset3(Database database) {
-        Toast.makeText(getApplicationContext(), "Alarms 3", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Alarm 3 set", Toast.LENGTH_SHORT).show();
         //database.reset();
         Intent intent = new Intent(this, MyReceiver3.class);
         // intent.putExtra("db", database);
@@ -491,14 +492,31 @@ public class MainActivity extends AppCompatActivity
         Calendar cal_now2 = Calendar.getInstance();
         cal_now2.setTime(dat2);
         cal_alarm2.setTime(dat2);
-        cal_alarm2.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
-        cal_alarm2.set(Calendar.MINUTE, 43);
+        cal_alarm2.set(Calendar.HOUR_OF_DAY,22);//set the alarm time
+        cal_alarm2.set(Calendar.MINUTE, 8);
         cal_alarm2.set(Calendar.SECOND,0);
         if(cal_alarm2.before(cal_now2)){//if its in the past increment
             cal_alarm2.add(Calendar.DATE,1);
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm2.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
     }
+
+    public void databaseReset4(Database database) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 10);
+        calendar.set(Calendar.MINUTE, 15);
+        calendar.set(Calendar.AM_PM, Calendar.PM);
+
+        Intent myIntent = new Intent(this, MyReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent,0);
+
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+
 }
 
 

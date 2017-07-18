@@ -20,6 +20,7 @@
         <receiver android:process=":remote" android:name=".MyReceiver" android:enabled="true"></receiver>
         <receiver android:process=":remote" android:name=".MyReceiver2" android:enabled="true"></receiver>
         <receiver android:process=":remote" android:name=".MyReceiver3" android:enabled="true"></receiver>
+        <receiver android:process=":remote" android:name=".MyReceiver4" android:enabled="true"></receiver>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
