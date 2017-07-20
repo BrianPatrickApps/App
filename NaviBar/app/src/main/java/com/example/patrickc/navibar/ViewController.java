@@ -45,35 +45,34 @@ public class ViewController implements Serializable{
     }
 
     protected void showSun(){
-        nurse.setBackgroundResource(R.drawable.room_sunny);
-        //weatherOverlay.setImageResource(R.drawable.mood_sun);
-        //mainScreen.setBackgroundResource(R.drawable.background5_sunny);
+        //nurse.setBackgroundResource(R.drawable.room_sunny);
+        weatherOverlay.setImageResource(R.drawable.weather_sun);
+        mainScreen.setBackgroundResource(R.drawable.background5_sunny);
     }
 
     protected void showClouds(){
-        //weatherOverlay.setImageResource();
-        //mainScreen.setBackgroundResource(R.drawable.background4_semi_clouded);
-        nurse.setBackgroundResource(R.drawable.room_semi);
+        weatherOverlay.setImageResource(R.drawable.weather_halfclouds);
+        mainScreen.setBackgroundResource(R.drawable.background4_semi_clouded);
+        //nurse.setBackgroundResource(R.drawable.room_semi);
     }
 
     protected void showOvercast(){
-        //weatherOverlay.setImageResource();
-        //mainScreen.setBackgroundResource(R.drawable.background3_clouded);
-        nurse.setBackgroundResource(R.drawable.room_cloud);
+        weatherOverlay.setImageResource(R.drawable.weather_clouds);
+        mainScreen.setBackgroundResource(R.drawable.background3_clouded);
+        //nurse.setBackgroundResource(R.drawable.room_cloud);
     }
 
     protected void showRainMood(){
-        //weatherOverlay.setImageResource();
+        weatherOverlay.setImageResource(R.drawable.weather_rain);
         setRain();
-        //mainScreen.setBackgroundResource(R.drawable.background2_rain);
-        nurse.setBackgroundResource(R.drawable.room_rain);
+        mainScreen.setBackgroundResource(R.drawable.background2_rain);
+        //nurse.setBackgroundResource(R.drawable.room_rain);
     }
 
     protected void showThunder(){
-        //weatherOverlay.setImageResource();
+        weatherOverlay.setImageResource(R.drawable.weather_thunder);
         setRain();
-        nurse.setBackgroundResource(R.drawable.room_storm);
-        //mainScreen.setBackgroundResource(R.drawable.background1_thunderstorm);
+        mainScreen.setBackgroundResource(R.drawable.background1_thunderstorm);
     }
 
     protected void startUp(){

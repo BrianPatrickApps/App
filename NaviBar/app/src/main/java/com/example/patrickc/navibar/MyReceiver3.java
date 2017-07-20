@@ -12,19 +12,13 @@ import android.util.Log;
 public class MyReceiver3 extends BroadcastReceiver {
     private static final String TAG = "BB";
     public void onReceive(Context context, Intent in) {
-        //Database db = (Database) in.getSerializableExtra("db");
         Database db = new Database(context);
-        db.reset();
-        Log.d(TAG,"Loaded");
-        // Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
-        // db.execSQL("INSERT into nurses(`id`,`input`,`average`,`date`)" +
-        //       "VALUES('" + "1" + "','"+ "1" +"','"+ "1" +"','"+ "1" +"');");
-        shiftCounter.getInstance().increaseShift();
-        Intent i = context.getPackageManager().
-                getLaunchIntentForPackage(context.getPackageName());
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
-
+        db.updateShift();
+        Log.d(TAG,"Shift number gone up "+  +db.getShiftNumber()+"Receiver 3 has gone off");
+        Intent i = new Intent();
+        i.setClass(context, LoadingScreen.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.getApplicationContext().startActivity((i));
     }
+
 }

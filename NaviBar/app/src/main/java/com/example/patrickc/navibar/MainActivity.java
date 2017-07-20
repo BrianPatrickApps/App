@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     protected static Database db;
     Button stormy;
     Button rainy;
+
     Button overcast;
     Button cloudy;
     Button sunny;
@@ -73,10 +75,11 @@ public class MainActivity extends AppCompatActivity
 
         counter = new Counter();
         db = new Database(this);
-        databaseReset(db);
-        databaseReset2(db);
-        databaseReset3(db);
-        databaseReset4(db);
+        Log.d("BB","Shift number: "+  +db.getShiftNumber()+ " in Main Activity "+ " Receiver");
+        databaseReset();
+       // databaseReset2(db);
+       // databaseReset3(db);
+       // databaseReset4(db);
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
         RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
         rel2.setVisibility(View.GONE);
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         inputOverlay = (ImageView)findViewById(R.id.inputWeather);
         rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
 
-        Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
+        //Glide.with(getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
 
         //rainOverlay.setVisibility(View.GONE);
         control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,inputOverlay,this);
@@ -332,6 +335,11 @@ public class MainActivity extends AppCompatActivity
                     } else if (id == 1997) {
                         Intent i = new Intent(MainActivity.this, WeatherRoom.class);
                         startActivity(i);
+                    } else if (id == 3197) {
+    //                    ((ShiftCount)getApplication()).increaseShift();
+      //                  int shiftNumber = ((ShiftCount)getApplication()).getShiftNumber();
+        //                Toast.makeText(getApplicationContext(),"Reseted "+shiftNumber ,Toast.LENGTH_SHORT).show();
+                        //db.reset();
                     }
                 else
                     Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
@@ -355,29 +363,30 @@ public class MainActivity extends AppCompatActivity
 
     private void checkWeather(){
 
-        Glide.with(getApplicationContext()).load(R.drawable.rain_drops).into(rainOverlay);
+        Glide.with(getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
         Double x = db.getMedian();
         int a = x.intValue();
+        Log.d("BB","Check Weather Median is "+ x);
         if(x==0){
             viewController.startUp();
         }
-        else if(x == 1)
+        else if(x == 1.0)
         {
             viewController.showThunder();
         }
-        else if(x ==2){
+        else if(x ==2.0 || x == 1.5){
             viewController.showRainMood();
         }
-        else if(x ==3)
+        else if(x ==3.0|| x == 2.5)
         {
             viewController.stopRain();
             viewController.showOvercast();
         }
-        else if(x ==4){
+        else if(x ==4.0|| x == 3.5){
             viewController.stopRain();
             viewController.showClouds();
         }
-        else if(x==5) {
+        else if(x==5.0|| x == 4.5) {
             viewController.stopRain();
             viewController.showSun();
         }
@@ -387,10 +396,6 @@ public class MainActivity extends AppCompatActivity
     public void showNurses(){
         //Available nurse image chosen by counter.
         ImageView iv = nurseArray.get(counter.getCount());
-        Random r = new Random();
-        int Low = 0;
-        int High = 9;
-        int Result = r.nextInt(High-Low) + Low;
         if(counter.getCount() > nurseArray.size())
             counter.resetCount();
         if (!sub) { //boolean check to see if mx number of nurses already visible
@@ -429,11 +434,9 @@ public class MainActivity extends AppCompatActivity
 
     //------------------------------------------------------------------------------------------
 
-    public void databaseReset(Database database) {
+   public void databaseReset() {
         Toast.makeText(getApplicationContext(), "Alarm 1 set", Toast.LENGTH_SHORT).show();
-        //database.reset();
         Intent intent = new Intent(this, MyReceiver.class);
-       // intent.putExtra("db", database);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -444,21 +447,21 @@ public class MainActivity extends AppCompatActivity
         Calendar cal_now3 = Calendar.getInstance();
         cal_now3.setTime(dat3);
         cal_alarm3.setTime(dat3);
-        cal_alarm3.set(Calendar.HOUR_OF_DAY,22);//set the alarm time
-        cal_alarm3.set(Calendar.MINUTE, 14);
-        cal_alarm3.set(Calendar.SECOND,0);
+        cal_alarm3.set(Calendar.HOUR_OF_DAY,19);//set the alarm time
+        cal_alarm3.set(Calendar.MINUTE, 29);
+        cal_alarm3.set(Calendar.SECOND,40);
         if(cal_alarm3.before(cal_now3)){//if its in the past increment
             cal_alarm3.add(Calendar.DATE,1);
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm3.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
     }
 
-    public void databaseReset2(Database database) {
+     public void databaseReset2(Database database) {
         Toast.makeText(getApplicationContext(), "Alarm 2 set", Toast.LENGTH_SHORT).show();
         //database.reset();
         Intent intent = new Intent(this, MyReceiver2.class);
         // intent.putExtra("db", database);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 1, intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -469,7 +472,7 @@ public class MainActivity extends AppCompatActivity
         cal_now2.setTime(dat2);
         cal_alarm2.setTime(dat2);
         cal_alarm2.set(Calendar.HOUR_OF_DAY,22);//set the alarm time
-        cal_alarm2.set(Calendar.MINUTE, 6);
+        cal_alarm2.set(Calendar.MINUTE, 30);
         cal_alarm2.set(Calendar.SECOND,0);
         if(cal_alarm2.before(cal_now2)){//if its in the past increment
             cal_alarm2.add(Calendar.DATE,1);
@@ -482,7 +485,7 @@ public class MainActivity extends AppCompatActivity
         //database.reset();
         Intent intent = new Intent(this, MyReceiver3.class);
         // intent.putExtra("db", database);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(),4, intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -492,8 +495,8 @@ public class MainActivity extends AppCompatActivity
         Calendar cal_now2 = Calendar.getInstance();
         cal_now2.setTime(dat2);
         cal_alarm2.setTime(dat2);
-        cal_alarm2.set(Calendar.HOUR_OF_DAY,22);//set the alarm time
-        cal_alarm2.set(Calendar.MINUTE, 8);
+        cal_alarm2.set(Calendar.HOUR_OF_DAY,7);//set the alarm time
+        cal_alarm2.set(Calendar.MINUTE, 30);
         cal_alarm2.set(Calendar.SECOND,0);
         if(cal_alarm2.before(cal_now2)){//if its in the past increment
             cal_alarm2.add(Calendar.DATE,1);
@@ -505,17 +508,16 @@ public class MainActivity extends AppCompatActivity
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 10);
-        calendar.set(Calendar.MINUTE, 15);
+        calendar.set(Calendar.HOUR, 11);
+        calendar.set(Calendar.MINUTE, 56);
         calendar.set(Calendar.AM_PM, Calendar.PM);
 
-        Intent myIntent = new Intent(this, MyReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, myIntent,0);
+        Intent myIntent = new Intent(this, MyReceiver4.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 3, myIntent,0);
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
     }
-
 
 }
 

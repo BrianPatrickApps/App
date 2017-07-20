@@ -12,7 +12,6 @@ import android.util.Log;
 import java.io.Serializable;
 import java.io.SerializablePermission;
 
-
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Hospital Data";
@@ -21,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database creation sql statement
     private  String DATABASE_CREATE_USERS = ("CREATE TABLE IF NOT EXISTS users(id_Number INT, id_Input INT, median INT, time datetime);");
-   // private static final String DATABASE_id = ("CREATE TABLE IF NOT EXISTS a(id INT);");
+    // private static final String DATABASE_id = ("CREATE TABLE IF NOT EXISTS a(id INT);");
     private String DATABASE_NURSES = ("CREATE TABLE IF NOT EXISTS nurses(id INT,input INT,average DOUBLE,date String,shift_id INT);");
     //shift_id is set Shift 1 7.30 - 16.00 Shift 2 16.00-22.30 Shift 3 22.30-7.30
     //Update table at end of each shift from avgRoom
@@ -30,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Set to 0 after starting a new shift
     //the last median of the shift
     private String DATABASE_ROOM_AVG = ("CREATE TABLE IF NOT EXISTS avgRoom(key_id INT,median DOUBLE);");
+    private String DATABASE_KEY = ("CREATE TABLE IF NOT EXISTS key(key_id INT);");
 
 
 
@@ -46,11 +46,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(DATABASE_NURSES);
         database.execSQL(DATABASE_AVG);
         database.execSQL(DATABASE_ROOM_AVG);
+        database.execSQL(DATABASE_KEY);
 
 
         database.execSQL("INSERT INTO avgRoom VALUES('0','0');");
         database.execSQL("INSERT INTO avgRoom VALUES('1','0');");
         database.execSQL("INSERT INTO avgRoom VALUES('2','0');");
+
+        database.execSQL("INSERT INTO key VALUES('0');");
     }
 
     /* Method is called during an upgrade of the database, */
