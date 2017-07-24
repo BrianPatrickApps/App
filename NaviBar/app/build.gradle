@@ -19,6 +19,13 @@ android {
     }
     repositories {
         mavenCentral()
+        jcenter()
+        maven {
+            url "https://maven.java.net/content/groups/public/"
+        }
+    }
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE.txt' // picks the JavaMail license file
     }
 }
 
@@ -35,6 +42,9 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     compile 'com.android.support:support-v4:25.3.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
+
+    compile 'com.sun.mail:android-mail:1.5.5'
+    compile 'com.sun.mail:android-activation:1.5.5'
 
 }
 

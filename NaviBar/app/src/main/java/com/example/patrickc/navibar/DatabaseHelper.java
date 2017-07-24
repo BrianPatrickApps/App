@@ -14,7 +14,7 @@ import java.io.SerializablePermission;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "Hospital Data";
+    private static final String DATABASE_NAME = "Hospital_Data";
 
     private static final int DATABASE_VERSION = 2;
 
@@ -30,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //the last median of the shift
     private String DATABASE_ROOM_AVG = ("CREATE TABLE IF NOT EXISTS avgRoom(key_id INT,median DOUBLE);");
     private String DATABASE_KEY = ("CREATE TABLE IF NOT EXISTS key(key_id INT);");
+    private String DATABASE_Counter = ("CREATE TABLE IF NOT EXISTS counter(key_id INT);");
 
 
 
@@ -47,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(DATABASE_AVG);
         database.execSQL(DATABASE_ROOM_AVG);
         database.execSQL(DATABASE_KEY);
+        database.execSQL(DATABASE_Counter);
 
 
         database.execSQL("INSERT INTO avgRoom VALUES('0','0');");
@@ -54,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL("INSERT INTO avgRoom VALUES('2','0');");
 
         database.execSQL("INSERT INTO key VALUES('0');");
+        database.execSQL("INSERT INTO counter VALUES('0');");
     }
 
     /* Method is called during an upgrade of the database, */

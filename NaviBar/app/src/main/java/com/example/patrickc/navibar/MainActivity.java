@@ -336,10 +336,7 @@ public class MainActivity extends AppCompatActivity
                         Intent i = new Intent(MainActivity.this, WeatherRoom.class);
                         startActivity(i);
                     } else if (id == 3197) {
-    //                    ((ShiftCount)getApplication()).increaseShift();
-      //                  int shiftNumber = ((ShiftCount)getApplication()).getShiftNumber();
-        //                Toast.makeText(getApplicationContext(),"Reseted "+shiftNumber ,Toast.LENGTH_SHORT).show();
-                        //db.reset();
+                        db.saveDB();
                     }
                 else
                     Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();

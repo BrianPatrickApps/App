@@ -9,9 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaScannerConnection;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -19,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+
+import static android.R.attr.path;
 
 public class Database implements Serializable{
 
@@ -119,8 +125,10 @@ public class Database implements Serializable{
     //gets called when the broadcast reciever fires
     protected void updateShift(){
         String query = "UPDATE key set key_id = '"+(getShiftNumber()+1)+"' WHERE key_id ='"+getShiftNumber()+"';";
+        String query2 = "UPDATE counter set key_id = '"+(getCountNumber()+1)+"' WHERE key_id ='"+getCountNumber()+"';";
         resetKey();
         execSQL(query);
+        execSQL(query2);
     }
 
     protected int getShiftNumber(){
@@ -155,6 +163,52 @@ public class Database implements Serializable{
 
     }
 
+    protected int getCountNumber(){
+        //resetKey();
+        Cursor c = database.rawQuery("Select * from counter;",null);
+        ArrayList<Integer>theArray = new ArrayList<>();
+        if(c.getCount() ==0){
+            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
+        }
+        while(c.moveToNext()){
+            int result = c.getInt(0);
+            theArray.add(result);
+        }
 
+        return theArray.get(0);
+    }
+
+    protected void saveDB() {
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        File dbFile = context.getDatabasePath("Hospital_Data.db");
+        File exportDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"WorkWeather");
+        if (!exportDir.exists()) {
+            exportDir.mkdirs();
+        }
+        Log.d("BB",exportDir.toString());
+        File file = new File(exportDir, "Data" +getCountNumber()+ ".csv");
+        Log.d("BB",file.toString());
+        try {
+            file.createNewFile();
+            CSVWriter csvWrite = new CSVWriter(new FileWriter(file));
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            Cursor curCSV = db.rawQuery("SELECT * FROM nurses", null);
+            csvWrite.writeNext(curCSV.getColumnNames());
+            while (curCSV.moveToNext()) {
+                //Which column you want to exprort
+                String arrStr[] = {curCSV.getString(0), curCSV.getString(1), curCSV.getString(2), curCSV.getString(3), curCSV.getString(4)};
+                csvWrite.writeNext(arrStr);
+                Log.d("BB",arrStr[0]);
+            }
+            csvWrite.close();
+            curCSV.close();
+            MediaScannerConnection.scanFile(context, new String[] {exportDir.toString()}, null, null);
+            String query2 = "UPDATE counter set key_id = '"+(getCountNumber()+1)+"' WHERE key_id ='"+getCountNumber()+"';";
+            execSQL(query2);
+        } catch (Exception sqlEx) {
+            Log.d("BB", sqlEx.getMessage()+ "Exception", sqlEx);
+        }
+
+    }
 }
 
