@@ -35,7 +35,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,Serializable{
@@ -82,7 +81,7 @@ public class MainActivity extends AppCompatActivity
        // databaseReset4(db);
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
         RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
-        rel2.setVisibility(View.GONE);
+        //rel2.setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -189,9 +188,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_login) {
             selectItem(1);
-        } else if (id == R.id.nav_fingerprint) {
-            selectItem(2);
-        } else if (id == R.id.nav_data) {
+        } //else if (id == R.id.nav_fingerprint) {
+        //    selectItem(2);
+      //  }
+
+        else if (id == R.id.nav_data) {
             selectItem(3);
         }
 
@@ -337,6 +338,9 @@ public class MainActivity extends AppCompatActivity
                         startActivity(i);
                     } else if (id == 3197) {
                         db.saveDB();
+                    }else if (id == 1) {
+                        db.updateShift();
+                        Toast.makeText(getApplicationContext(), "Shift has been updated", Toast.LENGTH_LONG).show();
                     }
                 else
                     Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
@@ -397,6 +401,7 @@ public class MainActivity extends AppCompatActivity
             counter.resetCount();
         if (!sub) { //boolean check to see if mx number of nurses already visible
             iv.setVisibility(View.VISIBLE);
+            Log.d("BB","nurse number: "+ iv);
             nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
             counter.setCount();
             if (counter.getCount() == nurseArray.size()) {

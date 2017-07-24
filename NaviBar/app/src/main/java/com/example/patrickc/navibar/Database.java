@@ -70,6 +70,27 @@ public class Database implements Serializable{
         }
         return theArray;
     }
+
+    protected ArrayList<String> collectAllUsers(){
+
+        Cursor c = database.rawQuery("Select * from nurses;",null);
+        ArrayList<String>theArray = new ArrayList<>();
+        if(c.getCount() ==0){
+            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
+        }
+        while(c.moveToNext()){
+            String result = "User ID: " +c.getString(0)+
+                    "\t\t\tinput: " + c.getString(1)+
+                    "\t\t\tMedian: " + c.getString(2)+
+                    "\t\t\tDate: " + c.getString(3)+
+                    "\t\t\tShift: " + c.getString(4)
+                    ;
+            theArray.add(result);
+        }
+        Log.d("BB","All nurses collected");
+        return theArray;
+    }
+
     //Gets the median
     protected double getAverage(double mood){
         Log.d("BB","Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"';");
@@ -100,7 +121,7 @@ public class Database implements Serializable{
         database.execSQL(query);
         String updateMedian = "UPDATE avgRoom set median = '"+ median +"' WHERE key_id = '"+getShiftNumber()+"';";
         database.execSQL(updateMedian);
-        Toast.makeText(context, "Median Updated Thank you", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
     }
 
     //Collects the median of the shift
@@ -125,10 +146,10 @@ public class Database implements Serializable{
     //gets called when the broadcast reciever fires
     protected void updateShift(){
         String query = "UPDATE key set key_id = '"+(getShiftNumber()+1)+"' WHERE key_id ='"+getShiftNumber()+"';";
-        String query2 = "UPDATE counter set key_id = '"+(getCountNumber()+1)+"' WHERE key_id ='"+getCountNumber()+"';";
+       // String query2 = "UPDATE counter set key_id = '"+(getCountNumber()+1)+"' WHERE key_id ='"+getCountNumber()+"';";
         resetKey();
         execSQL(query);
-        execSQL(query2);
+        //execSQL(query2);
     }
 
     protected int getShiftNumber(){

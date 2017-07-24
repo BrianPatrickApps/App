@@ -6,10 +6,10 @@
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_action_name"
             android:title="Login" />
-        <item
+       <!-- <item
             android:id="@+id/nav_fingerprint"
             android:icon="@drawable/fingerprint"
-            android:title="Finger Print" />
+            android:title="Finger Print" />-->
     </group>
 
     <item android:title="Data">

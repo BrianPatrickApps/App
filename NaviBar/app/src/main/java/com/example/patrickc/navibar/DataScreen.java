@@ -31,7 +31,7 @@ public class DataScreen extends AppCompatActivity {
         db = new Database(this);
         ListView list = (ListView) findViewById(R.id.dataStream);
         TextView t = (TextView) findViewById(R.id.Data_Title);
-        ArrayList<String> theArray = db.collectUsers();
+        ArrayList<String> theArray = db.collectAllUsers();
         //ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, theArray);
         //ListAdapter listAdapter = new CustomAdapter(this, android.R.layout.simple_list_item_1, theArray,"font/Futura Medium.ttf");
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Futura Medium.ttf");
