@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -127,9 +128,10 @@ public class ButtonController {
         public void select() {
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Double avg = db.getAverage(mood);
-            String query = "INSERT into nurses(`id`,`input`,`average`,`date`,`shift_id`)" +
+            String query = "INSERT into nurses(`id`,`input`,`median`,`date`,`shift_id`)" +
                     "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"','"+db.getShiftNumber() +"');";
             db.addMedian(avg,currentDateTimeString,db.getShiftNumber());
+            Log.d("BB","Adding: "+query);
             db.execSQL(query);
 
             setInvisible();

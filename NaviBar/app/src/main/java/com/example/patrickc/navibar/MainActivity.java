@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity
         db = new Database(this);
         Log.d("BB","Shift number: "+  +db.getShiftNumber()+ " in Main Activity "+ " Receiver");
         databaseReset();
-       // databaseReset2(db);
-       // databaseReset3(db);
-       // databaseReset4(db);
+        databaseReset2();
+        databaseReset3();
+        databaseReset4();
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
         RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
         //rel2.setVisibility(View.GONE);
@@ -333,14 +333,14 @@ public class MainActivity extends AppCompatActivity
                     if (id == 000000) {
                         Intent i = new Intent(MainActivity.this, DataScreen.class);
                         startActivity(i);
-                    } else if (id == 1997) {
+                    } else if (id == 1) {
                         Intent i = new Intent(MainActivity.this, WeatherRoom.class);
                         startActivity(i);
-                    } else if (id == 3197) {
+                    } else if (id == 2) {
                         db.saveDB();
-                    }else if (id == 1) {
+                    }else if (id == 3) {
                         db.updateShift();
-                        Toast.makeText(getApplicationContext(), "Shift has been updated", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Shift has been updated to " + db.getShiftNumber(), Toast.LENGTH_LONG).show();
                     }
                 else
                     Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm3.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
     }
 
-     public void databaseReset2(Database database) {
+     public void databaseReset2() {
         Toast.makeText(getApplicationContext(), "Alarm 2 set", Toast.LENGTH_SHORT).show();
         //database.reset();
         Intent intent = new Intent(this, MyReceiver2.class);
@@ -473,8 +473,8 @@ public class MainActivity extends AppCompatActivity
         Calendar cal_now2 = Calendar.getInstance();
         cal_now2.setTime(dat2);
         cal_alarm2.setTime(dat2);
-        cal_alarm2.set(Calendar.HOUR_OF_DAY,22);//set the alarm time
-        cal_alarm2.set(Calendar.MINUTE, 30);
+        cal_alarm2.set(Calendar.HOUR_OF_DAY,11);//set the alarm time
+        cal_alarm2.set(Calendar.MINUTE, 00);
         cal_alarm2.set(Calendar.SECOND,0);
         if(cal_alarm2.before(cal_now2)){//if its in the past increment
             cal_alarm2.add(Calendar.DATE,1);
@@ -482,7 +482,7 @@ public class MainActivity extends AppCompatActivity
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm2.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
     }
 
-    public void databaseReset3(Database database) {
+    public void databaseReset3() {
         Toast.makeText(getApplicationContext(), "Alarm 3 set", Toast.LENGTH_SHORT).show();
         //database.reset();
         Intent intent = new Intent(this, MyReceiver3.class);
@@ -506,7 +506,7 @@ public class MainActivity extends AppCompatActivity
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm2.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
     }
 
-    public void databaseReset4(Database database) {
+    public void databaseReset4() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();

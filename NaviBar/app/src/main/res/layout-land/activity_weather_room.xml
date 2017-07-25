@@ -20,41 +20,17 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="105dp">
 
-            <Button
-                android:id="@+id/plane"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/enter"
-                android:text="plane" />
-
-            <Button
-                android:id="@+id/fingerprint"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:text="Finger" />
-
-            <Button
-                android:id="@+id/enter"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="Enter" />
-
             <TextView
                 android:id="@+id/idScreen"
-                android:layout_width="135dp"
+                android:layout_width="350dp"
                 android:layout_height="65dp"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/enter"
                 android:background="@drawable/text_background"
                 android:gravity="center"
                 android:text="123456"
                 android:textAlignment="center"
-                android:textSize="36sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -65,45 +41,16 @@
             android:layout_alignStart="@+id/viewScreen"
             android:layout_below="@+id/viewScreen">
 
-            <Button
-                android:id="@+id/number3"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="3" />
-
-            <Button
-                android:id="@+id/number4"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/number3"
-                android:text="4" />
-
-            <Button
-                android:id="@+id/number5"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+            <TextView
+                android:id="@+id/shiftView"
+                android:layout_width="350dp"
+                android:layout_height="65dp"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:text="5" />
-
-            <Button
-                android:id="@+id/number2"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/number1"
-                android:text="2" />
-
-            <Button
-                android:id="@+id/number1"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:text="1" />
+                android:background="@drawable/text_background"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="24sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -113,43 +60,6 @@
             android:layout_alignStart="@+id/buttons1_5"
             android:layout_below="@+id/buttons1_5">
 
-            <Button
-                android:id="@+id/number6"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:text="6" />
-
-            <Button
-                android:id="@+id/number7"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/number6"
-                android:text="7" />
-
-            <Button
-                android:id="@+id/number8"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/number7"
-                android:text="8" />
-
-            <Button
-                android:id="@+id/number9"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/number8"
-                android:text="9" />
-
-            <Button
-                android:id="@+id/number0"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:text="0" />
         </RelativeLayout>
 
     </RelativeLayout>

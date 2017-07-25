@@ -41,15 +41,8 @@ public class Database implements Serializable{
         counter = new Counter();
     }
 
-    public Cursor runQuery(String query, String[] args) {
-        Cursor mCursor = database.rawQuery(query, args);
-        if (mCursor.moveToFirst()) {
-            mCursor.moveToFirst();
-        }
-        return mCursor; // returns array of data
-    }
 
-    public void execSQL(String s) {
+    protected void execSQL(String s) {
         database.execSQL(s);
     }
 
@@ -146,10 +139,18 @@ public class Database implements Serializable{
     //gets called when the broadcast reciever fires
     protected void updateShift(){
         String query = "UPDATE key set key_id = '"+(getShiftNumber()+1)+"' WHERE key_id ='"+getShiftNumber()+"';";
-       // String query2 = "UPDATE counter set key_id = '"+(getCountNumber()+1)+"' WHERE key_id ='"+getCountNumber()+"';";
+        Log.d("BB","Update Query: "+ query);
         resetKey();
         execSQL(query);
-        //execSQL(query2);
+
+    }
+
+    protected void setShift(int number){
+        String query = "UPDATE key set key_id = '"+(number)+"' WHERE key_id ='"+getShiftNumber()+"';";
+        resetKey();
+        Log.d("BB","Update Query: "+ query);
+        execSQL(query);
+        Log.d("BB","Shift Number has been updated: "+ getShiftNumber());
     }
 
     protected int getShiftNumber(){
@@ -178,10 +179,10 @@ public class Database implements Serializable{
         }
         int key = theArray.get(0);
         String query = "UPDATE key set key_id = '"+0+"' WHERE key_id ='"+getShiftNumber()+"';";
-        if(key >3)
+        if(key >3) {
             execSQL(query);
-        else;
-
+            Log.d("BB","Shift Number Resetted to: " + getShiftNumber());
+        }
     }
 
     protected int getCountNumber(){
@@ -207,7 +208,7 @@ public class Database implements Serializable{
             exportDir.mkdirs();
         }
         Log.d("BB",exportDir.toString());
-        File file = new File(exportDir, "Data" +getCountNumber()+ ".csv");
+        File file = new File(exportDir, currentDateTimeString+ " " +getCountNumber()+ ".csv");
         Log.d("BB",file.toString());
         try {
             file.createNewFile();
@@ -226,6 +227,7 @@ public class Database implements Serializable{
             MediaScannerConnection.scanFile(context, new String[] {exportDir.toString()}, null, null);
             String query2 = "UPDATE counter set key_id = '"+(getCountNumber()+1)+"' WHERE key_id ='"+getCountNumber()+"';";
             execSQL(query2);
+            Log.d("BB","Update Query: "+ query2);
         } catch (Exception sqlEx) {
             Log.d("BB", sqlEx.getMessage()+ "Exception", sqlEx);
         }

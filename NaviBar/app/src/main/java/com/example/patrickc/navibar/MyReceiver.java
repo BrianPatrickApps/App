@@ -25,7 +25,7 @@ public class MyReceiver extends BroadcastReceiver implements Serializable {
         @Override
         public void onReceive(Context context, Intent in) {
             Database db = new Database(context);
-            db.updateShift();
+            db.setShift(0);
             db.saveDB();
             Log.d(TAG,"Shift number gone up "+  +db.getShiftNumber()+"Receiver 1 has gone off");
             Intent i = new Intent();

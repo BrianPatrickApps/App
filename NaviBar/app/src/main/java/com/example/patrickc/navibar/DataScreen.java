@@ -38,7 +38,7 @@ public class DataScreen extends AppCompatActivity {
         ListAdapter listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,theArray){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/comicSans.ttf");
+                Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Futura Medium.ttf");
                 View view = super.getView(position, convertView, parent);
                 TextView text = (TextView) view.findViewById(android.R.id.text1);
                 text.setTypeface(typeface);
