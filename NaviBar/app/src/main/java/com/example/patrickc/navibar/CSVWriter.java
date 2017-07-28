@@ -1,19 +1,11 @@
 package com.example.patrickc.navibar;
 
-/**
- * Created by Windows 10 on 23/07/2017.
- */
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-/**
- * A very simple CSV writer released under a commercial-friendly license.
- *
- * @author Glen Smith
- *
- */
 public class CSVWriter {
 
     private PrintWriter pw;

@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-/**
- * Created by Windows 10 on 18/07/2017.
- */
-
 public class MyReceiver4 extends BroadcastReceiver{
     private static final String TAG = "BB";
     @Override

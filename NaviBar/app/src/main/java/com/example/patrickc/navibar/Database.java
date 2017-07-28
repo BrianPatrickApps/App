@@ -21,7 +21,8 @@ public class Database implements Serializable{
 
     private DatabaseHelper dbHelper;
     transient private SQLiteDatabase database;
-    Context context;
+    private Context context;
+    @SuppressWarnings("WeakerAccess")
     Counter counter;
 
 
@@ -29,15 +30,15 @@ public class Database implements Serializable{
         this.context = context;
         dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
-        counter = new Counter();
+        this.counter = new Counter();
     }
 
 
-    protected void execSQL(String s) {
+    void execSQL(String s) {
         database.execSQL(s);
     }
 
-    protected ArrayList<String> collectAllUsers(){
+    ArrayList<String> collectAllUsers(){
 
         Cursor c = database.rawQuery("Select * from nurses;",null);
         ArrayList<String>theArray = new ArrayList<>();
@@ -60,11 +61,12 @@ public class Database implements Serializable{
     }
 
     //Gets the median
-    protected double getAverage(double mood){
+    double getAverage(double mood){
         Log.d("BB","Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';");
         Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
         ArrayList<Double> theArray = new ArrayList<>();
         if(c.getCount() ==0){
+            Log.d("BB","Empty");
         }
         while(c.moveToNext()){
             Double result = c.getDouble(1);
@@ -83,7 +85,7 @@ public class Database implements Serializable{
     }
     //Adds Median to avgShift and avgRoom
 
-    protected void addMedian(double median,String date,int shift){
+    void addMedian(double median, String date, int shift){
         String query = "INSERT into avgShift(`shift_id`,`average`,`inputDate`)" +
                 "VALUES('" + shift + "','"+ median +"','"+ date +"');";
         database.execSQL(query);
@@ -93,7 +95,7 @@ public class Database implements Serializable{
     }
 
     //Collects the median of the shift
-    protected double getMedian(){
+    double getMedian(){
         ArrayList<Double> theArray = new ArrayList<>();
         Cursor c = database.rawQuery("Select * from avgRoom where key_id = '"+getShiftNumber()+"'AND inputDate ='"+ getDay()+"';",null);
         if(c.getCount() ==0){
@@ -113,14 +115,14 @@ public class Database implements Serializable{
     }
 
     //gets called when the broadcast reciever fires
-    protected void updateShift(){
+    void updateShift(){
         String query = "UPDATE key set key_id = '"+(getShiftNumber()+1)+"' WHERE key_id ='"+getShiftNumber()+"';";
         execSQL(query);
         resetKey();
         Log.d("BB","Update Query: "+ query);
     }
 
-    protected void setShift(int number){
+    void setShift(int number){
         String query = "UPDATE key set key_id = '"+(number)+"' WHERE key_id ='"+getShiftNumber()+"';";
         resetKey();
         Log.d("BB","Update Query: "+ query);
@@ -128,7 +130,7 @@ public class Database implements Serializable{
         Log.d("BB","Shift Number has been updated: "+ getShiftNumber());
     }
 
-    protected int getShiftNumber(){
+    int getShiftNumber(){
         //resetKey();
         Cursor c = database.rawQuery("Select * from key;",null);
         ArrayList<Integer>theArray = new ArrayList<>();
@@ -163,7 +165,7 @@ public class Database implements Serializable{
         c.close();
     }
 
-    protected int getCountNumber(){
+    private int getCountNumber(){
         //resetKey();
         Cursor c = database.rawQuery("Select * from counter;",null);
         ArrayList<Integer>theArray = new ArrayList<>();
@@ -178,7 +180,7 @@ public class Database implements Serializable{
         return theArray.get(0);
     }
 
-    protected String getDay(){
+    String getDay(){
         Cursor c = database.rawQuery("Select * from day;",null);
         ArrayList<String>theArray = new ArrayList<>();
         if(c.getCount() ==0){
@@ -192,7 +194,7 @@ public class Database implements Serializable{
         return theArray.get(0);
     }
 
-    protected void updateDate(String newDate){
+    void updateDate(String newDate){
         String query = "UPDATE day set inputDate = '"+newDate+"' WHERE key_id ='"+0+"';";
         Log.d("BB","Update Query: "+ query);
         resetKey();
@@ -202,16 +204,18 @@ public class Database implements Serializable{
 
 
 
-    protected void saveDB() {
+    void saveDB() {
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         File exportDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"WorkWeather");
         if (!exportDir.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             exportDir.mkdirs();
         }
         Log.d("BB",exportDir.toString());
         File file = new File(exportDir, currentDateTimeString+ " " +getCountNumber()+ ".csv");
         Log.d("BB",file.toString());
         try {
+            //noinspection ResultOfMethodCallIgnored
             file.createNewFile();
             CSVWriter csvWrite = new CSVWriter(new FileWriter(file));
             SQLiteDatabase db = dbHelper.getReadableDatabase();

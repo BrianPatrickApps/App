@@ -1,21 +1,11 @@
 package com.example.patrickc.navibar;
 
-/**
- * Created by Windows 10 on 23/07/2017.
- */
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A very simple CSV reader released under a commercial-friendly license.
- *
- * @author Glen Smith
- *
- */
 public class CSVReader {
 
     private BufferedReader br;
@@ -171,12 +161,6 @@ public class CSVReader {
         return (String[]) tokensOnThisLine.toArray(new String[0]);
 
     }
-
-    /**
-     * Closes the underlying reader.
-     *
-     * @throws IOException if the close fails
-     */
     public void close() throws IOException{
         br.close();
     }

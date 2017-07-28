@@ -1,31 +1,25 @@
 package com.example.patrickc.navibar;
 
-/**
- * Created by Windows 10 on 18/07/2017.
- */
 
-public class Counter {
-    int count =0;
+class Counter {
+    private int count =0;
 
-
-    public Counter(){
-
+    Counter(){
     }
 
-    protected void setCount(){
+    void setCount(){
         count++;
     }
 
-    protected void resetCount(){
+    void resetCount(){
         count = 0;
     }
 
-
-    protected int getCount(){
+    int getCount(){
         return count;
     }
 
-    protected void removeCount(){
+    void removeCount(){
         count--;
     }
 

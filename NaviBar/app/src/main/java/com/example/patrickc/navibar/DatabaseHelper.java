@@ -1,18 +1,11 @@
 package com.example.patrickc.navibar;
-/**
- * Created by Windows 10 on 03/07/2017.
- */
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.Settings;
 import android.util.Log;
 
-import java.io.Serializable;
-import java.io.SerializablePermission;
-
-public class DatabaseHelper extends SQLiteOpenHelper {
+class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "Hospital_Data";
 
@@ -35,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public DatabaseHelper(Context context) {
+    DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

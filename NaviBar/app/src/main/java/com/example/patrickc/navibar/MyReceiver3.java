@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-/**
- * Created by patrickc on 18-Jul-17.
- */
-
 public class MyReceiver3 extends BroadcastReceiver {
     private static final String TAG = "BB";
     public void onReceive(Context context, Intent in) {

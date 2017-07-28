@@ -4,16 +4,16 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
+
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class LoadingScreen extends AppCompatActivity {
+    @SuppressWarnings("unused")
     private static final String TAG = "BB";
     ProgressBar spinnerBar;
 

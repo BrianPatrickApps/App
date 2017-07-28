@@ -4,11 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
-
-/**
- * Created by patrickc on 18-Jul-17.
- */
 
 public class MyReceiver2 extends BroadcastReceiver {
     private static final String TAG = "BB";

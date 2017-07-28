@@ -6,11 +6,8 @@ import android.widget.RelativeLayout;
 
 import java.io.Serializable;
 
-/**
- * Created by patrickc on 12-Jul-17.
- */
 
-public class ViewController implements Serializable{
+class ViewController implements Serializable{
 
     private RelativeLayout mainScreen;
     private RelativeLayout nurse;
@@ -18,7 +15,7 @@ public class ViewController implements Serializable{
     private ImageView rainOverlay;
     private ImageView weatherOverlay;
 
-    protected ViewController(RelativeLayout mainScreen,RelativeLayout nurse,RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
+    ViewController(RelativeLayout mainScreen, RelativeLayout nurse, RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
         this.mainScreen = mainScreen;
         this.nurse = nurse;
         this.inputScreen = inputScreen;
@@ -26,56 +23,56 @@ public class ViewController implements Serializable{
         this.weatherOverlay = weatherOverlay;
     }
 
-    protected void viewNurses() {
+    void viewNurses() {
         nurse.setVisibility(View.VISIBLE);
         inputScreen.setVisibility(View.GONE);
     }
 
-    protected void viewInput(){
+    void viewInput(){
         inputScreen.setVisibility(View.VISIBLE);
         nurse.setVisibility(View.GONE);
     }
 
-    protected void setRain(){
+    private void setRain(){
         rainOverlay.setVisibility(View.VISIBLE);
     }
 
-    protected void stopRain(){
+    void stopRain(){
         rainOverlay.setVisibility(View.GONE);
     }
 
-    protected void showSun(){
+    void showSun(){
         //nurse.setBackgroundResource(R.drawable.room_sunny);
         weatherOverlay.setImageResource(R.drawable.weather_sun);
         mainScreen.setBackgroundResource(R.drawable.background5_sunny);
     }
 
-    protected void showClouds(){
+    void showClouds(){
         weatherOverlay.setImageResource(R.drawable.weather_halfclouds);
         mainScreen.setBackgroundResource(R.drawable.background4_semi_clouded);
         //nurse.setBackgroundResource(R.drawable.room_semi);
     }
 
-    protected void showOvercast(){
+    void showOvercast(){
         weatherOverlay.setImageResource(R.drawable.weather_clouds);
         mainScreen.setBackgroundResource(R.drawable.background3_clouded);
         //nurse.setBackgroundResource(R.drawable.room_cloud);
     }
 
-    protected void showRainMood(){
+    void showRainMood(){
         weatherOverlay.setImageResource(R.drawable.weather_rain);
         setRain();
         mainScreen.setBackgroundResource(R.drawable.background2_rain);
         //nurse.setBackgroundResource(R.drawable.room_rain);
     }
 
-    protected void showThunder(){
+    void showThunder(){
         weatherOverlay.setImageResource(R.drawable.weather_thunder);
         setRain();
         mainScreen.setBackgroundResource(R.drawable.background1_thunderstorm);
     }
 
-    protected void startUp(){
+    void startUp(){
         viewNurses();
         weatherOverlay.setImageResource(0);
         mainScreen.setBackgroundResource(R.drawable.background3_clouded);
