@@ -18,12 +18,16 @@ public class WeatherRoom extends AppCompatActivity {
         Database db = new Database(this);
         Double a = db.getMedian();
         int y = db.getShiftNumber();
+        String c = db.getDay();
         TextView i = (TextView)findViewById(R.id.idScreen);
         TextView x = (TextView)findViewById(R.id.shiftView);
+        TextView b = (TextView)findViewById(R.id.textView3);
         x.setTypeface(typeface);
         i.setTypeface(typeface);
+        b.setTypeface(typeface);
         i.setText("Current Median: "+String.valueOf(a));
         x.setText("Current Shift: "+String.valueOf(y));
+        b.setText("Current Day: "+String.valueOf(c));
 
 
     }

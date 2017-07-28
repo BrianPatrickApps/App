@@ -96,7 +96,7 @@
             android:layout_alignTop="@+id/nurse4"
             android:layout_marginEnd="23dp"
             android:layout_toStartOf="@+id/nurse6"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/nurse1" />
 
         <ImageView
@@ -113,7 +113,7 @@
             android:layout_alignStart="@+id/nurse8"
             android:layout_alignTop="@+id/nurse1"
             android:layout_marginStart="16dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/nurse4" />
 
         <ImageView
@@ -131,7 +131,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="43dp"
             android:layout_marginEnd="112dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/nurse2" />
 
         <ImageView
@@ -141,7 +141,7 @@
             android:layout_alignTop="@+id/nurse2"
             android:layout_marginEnd="84dp"
             android:layout_toStartOf="@+id/nurse2"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/nurse5" />
 
         <ImageView
@@ -151,7 +151,7 @@
             android:layout_alignTop="@+id/nurse7"
             android:layout_marginEnd="31dp"
             android:layout_toStartOf="@+id/nurse3"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/nurse7" />
 
         <ImageView
@@ -161,7 +161,7 @@
             android:layout_alignBottom="@+id/nurse4"
             android:layout_marginEnd="25dp"
             android:layout_toStartOf="@+id/nurse4"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/nurse2" />
 
         <ImageView
@@ -171,7 +171,7 @@
             android:layout_alignBottom="@+id/nurse1"
             android:layout_marginBottom="24dp"
             android:layout_toStartOf="@+id/nurse2"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/nurse6" />
 
         <ImageView
@@ -181,7 +181,7 @@
             android:layout_alignBottom="@+id/nurse7"
             android:layout_alignEnd="@+id/nurse1"
             android:layout_marginEnd="114dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/nurse1" />
 
         <ImageView

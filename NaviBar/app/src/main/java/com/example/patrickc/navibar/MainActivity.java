@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +40,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,Serializable{
 
-    protected static Database db;
+    protected Database db;
     Button stormy;
     Button rainy;
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     ImageView rainOverlay;
     ImageView inputOverlay;
     ButtonController control;
-    protected static ViewController viewController;
+    protected ViewController viewController;
     private boolean sub = false;
 
     ImageView nurse1;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         inputOverlay = (ImageView)findViewById(R.id.inputWeather);
         rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
 
-        //Glide.with(getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
+        Glide.with(getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
 
         //rainOverlay.setVisibility(View.GONE);
         control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,inputOverlay,this);
@@ -133,15 +134,24 @@ public class MainActivity extends AppCompatActivity
         nurseArray.add(nurse7);
         nurseArray.add(nurse8);
 
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => " + c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c.getTime());
+        db.updateDate(formattedDate);
+
+       /* View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+*/
+
     }
 
-    //Empty OnClickListener for anything
-    private View.OnClickListener press = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
     //When back is pressed, not used
     @Override
     public void onBackPressed() {
@@ -226,6 +236,7 @@ public class MainActivity extends AppCompatActivity
 
         alert.setTitle("Login with ID");
         alert.setMessage("Please use your 6 digit code");
+        alert.setCancelable(false);
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -237,7 +248,6 @@ public class MainActivity extends AppCompatActivity
 
                 try {
                     int id = Integer.parseInt(input.getText().toString());
-                    String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
                     if(id > 99999 && id < 1000000){
                         control.setViewable();
                         String inputID = input.getText().toString();
@@ -330,7 +340,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int whichButton) {
                  try {
                      int id = Integer.parseInt(input.getText().toString());
-                    if (id == 000000) {
+                    if (id == 0) {
                         Intent i = new Intent(MainActivity.this, DataScreen.class);
                         startActivity(i);
                     } else if (id == 1) {
@@ -341,6 +351,11 @@ public class MainActivity extends AppCompatActivity
                     }else if (id == 3) {
                         db.updateShift();
                         Toast.makeText(getApplicationContext(), "Shift has been updated to " + db.getShiftNumber(), Toast.LENGTH_LONG).show();
+                        Intent i = new Intent();
+                        i.setClass(getApplicationContext(), MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getApplicationContext().getApplicationContext().startActivity((i));
+                        finish();
                     }
                 else
                     Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
@@ -366,9 +381,8 @@ public class MainActivity extends AppCompatActivity
 
         Glide.with(getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
         Double x = db.getMedian();
-        int a = x.intValue();
         Log.d("BB","Check Weather Median is "+ x);
-        if(x==0){
+        if(x==0.0){
             viewController.startUp();
         }
         else if(x == 1.0)
@@ -474,7 +488,7 @@ public class MainActivity extends AppCompatActivity
         cal_now2.setTime(dat2);
         cal_alarm2.setTime(dat2);
         cal_alarm2.set(Calendar.HOUR_OF_DAY,11);//set the alarm time
-        cal_alarm2.set(Calendar.MINUTE, 00);
+        cal_alarm2.set(Calendar.MINUTE, 0);
         cal_alarm2.set(Calendar.SECOND,0);
         if(cal_alarm2.before(cal_now2)){//if its in the past increment
             cal_alarm2.add(Calendar.DATE,1);

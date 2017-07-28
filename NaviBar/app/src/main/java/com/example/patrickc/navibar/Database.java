@@ -1,12 +1,7 @@
 package com.example.patrickc.navibar;
 
-/**
- * Created by Windows 10 on 03/07/2017.
- */
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaScannerConnection;
@@ -18,13 +13,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.Serializable;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-
-import static android.R.attr.path;
 
 public class Database implements Serializable{
 
@@ -46,24 +37,6 @@ public class Database implements Serializable{
         database.execSQL(s);
     }
 
-    protected ArrayList<String> collectUsers(){
-        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"';",null);
-        ArrayList<String>theArray = new ArrayList<>();
-        if(c.getCount() ==0){
-            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
-        }
-        while(c.moveToNext()){
-            String result = "User ID: " +c.getString(0)+
-                    "\ninput: " + c.getString(1)+
-                    "\nMedian: " + c.getString(2)+
-                    "\nDate: " + c.getString(3)+
-                    "\nShift: " + c.getString(4)
-                    ;
-            theArray.add(result);
-        }
-        return theArray;
-    }
-
     protected ArrayList<String> collectAllUsers(){
 
         Cursor c = database.rawQuery("Select * from nurses;",null);
@@ -81,13 +54,15 @@ public class Database implements Serializable{
             theArray.add(result);
         }
         Log.d("BB","All nurses collected");
+        c.close();
         return theArray;
+
     }
 
     //Gets the median
     protected double getAverage(double mood){
-        Log.d("BB","Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"';");
-        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"';",null);
+        Log.d("BB","Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';");
+        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
         ArrayList<Double> theArray = new ArrayList<>();
         if(c.getCount() ==0){
         }
@@ -97,22 +72,22 @@ public class Database implements Serializable{
         }
         theArray.add(mood);
         Collections.sort(theArray);
-        int middle = 2;
-        double median =0;
+        double median;
         if (theArray.size() % 2 == 0) {
             median = (theArray.get(theArray.size()/2) + theArray.get(theArray.size()/2 - 1))/2;
         } else {
             median = theArray.get(theArray.size()/2);
         }
+        c.close();
         return median;
     }
     //Adds Median to avgShift and avgRoom
 
     protected void addMedian(double median,String date,int shift){
-        String query = "INSERT into avgShift(`shift_id`,`average`,`date`)" +
+        String query = "INSERT into avgShift(`shift_id`,`average`,`inputDate`)" +
                 "VALUES('" + shift + "','"+ median +"','"+ date +"');";
         database.execSQL(query);
-        String updateMedian = "UPDATE avgRoom set median = '"+ median +"' WHERE key_id = '"+getShiftNumber()+"';";
+        String updateMedian = "UPDATE avgRoom set median = '"+ median +"',inputDate='"+ getDay()+"' WHERE key_id = '"+getShiftNumber()+"';";
         database.execSQL(updateMedian);
         Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show();
     }
@@ -120,7 +95,7 @@ public class Database implements Serializable{
     //Collects the median of the shift
     protected double getMedian(){
         ArrayList<Double> theArray = new ArrayList<>();
-        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '"+getShiftNumber()+"';",null);
+        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '"+getShiftNumber()+"'AND inputDate ='"+ getDay()+"';",null);
         if(c.getCount() ==0){
             return 0.0;
         }
@@ -132,6 +107,7 @@ public class Database implements Serializable{
             }
         }
         Log.d("Median: ",String.valueOf(theArray.get(0)));
+        c.close();
         return theArray.get(0);
 
     }
@@ -139,10 +115,9 @@ public class Database implements Serializable{
     //gets called when the broadcast reciever fires
     protected void updateShift(){
         String query = "UPDATE key set key_id = '"+(getShiftNumber()+1)+"' WHERE key_id ='"+getShiftNumber()+"';";
-        Log.d("BB","Update Query: "+ query);
-        resetKey();
         execSQL(query);
-
+        resetKey();
+        Log.d("BB","Update Query: "+ query);
     }
 
     protected void setShift(int number){
@@ -164,6 +139,7 @@ public class Database implements Serializable{
             int result = c.getInt(0);
             theArray.add(result);
         }
+        c.close();
         return theArray.get(0);
     }
 
@@ -179,10 +155,12 @@ public class Database implements Serializable{
         }
         int key = theArray.get(0);
         String query = "UPDATE key set key_id = '"+0+"' WHERE key_id ='"+getShiftNumber()+"';";
-        if(key >3) {
+        if(key ==4
+                ) {
             execSQL(query);
             Log.d("BB","Shift Number Resetted to: " + getShiftNumber());
         }
+        c.close();
     }
 
     protected int getCountNumber(){
@@ -196,13 +174,36 @@ public class Database implements Serializable{
             int result = c.getInt(0);
             theArray.add(result);
         }
-
+        c.close();
         return theArray.get(0);
     }
 
+    protected String getDay(){
+        Cursor c = database.rawQuery("Select * from day;",null);
+        ArrayList<String>theArray = new ArrayList<>();
+        if(c.getCount() ==0){
+            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
+        }
+        while(c.moveToNext()){
+            String result = c.getString(1);
+            theArray.add(result);
+        }
+        c.close();
+        return theArray.get(0);
+    }
+
+    protected void updateDate(String newDate){
+        String query = "UPDATE day set inputDate = '"+newDate+"' WHERE key_id ='"+0+"';";
+        Log.d("BB","Update Query: "+ query);
+        resetKey();
+        execSQL(query);
+
+    }
+
+
+
     protected void saveDB() {
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        File dbFile = context.getDatabasePath("Hospital_Data.db");
         File exportDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"WorkWeather");
         if (!exportDir.exists()) {
             exportDir.mkdirs();

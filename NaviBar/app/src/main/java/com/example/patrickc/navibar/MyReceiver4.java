@@ -14,7 +14,7 @@ public class MyReceiver4 extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent in) {
         Database db = new Database(context);
-        db.setShift(4);
+        db.setShift(0);
         db.saveDB();
         Log.d(TAG,"Shift number gone up "+  +db.getShiftNumber()+"Receiver 4 has gone off");
         Intent i = new Intent();

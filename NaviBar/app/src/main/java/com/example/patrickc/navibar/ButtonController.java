@@ -128,8 +128,8 @@ public class ButtonController {
         public void select() {
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Double avg = db.getAverage(mood);
-            String query = "INSERT into nurses(`id`,`input`,`median`,`date`,`shift_id`)" +
-                    "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"','"+db.getShiftNumber() +"');";
+            String query = "INSERT into nurses(`id`,`input`,`median`,`date`,`shift_id`,`inputDate`)" +
+                    "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"','"+db.getShiftNumber()+"','"+ db.getDay() +"');";
             db.addMedian(avg,currentDateTimeString,db.getShiftNumber());
             Log.d("BB","Adding: "+query);
             db.execSQL(query);
