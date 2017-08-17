@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     ImageView nurse5;
     ImageView nurse6;
     ImageView nurse7;
-    ImageView nurse8;
+//    ImageView nurse8;
     ArrayList<ImageView> nurseArray;
     Counter counter;
 
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity
         databaseReset3();
         databaseReset4();
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
+        @SuppressWarnings("deprecation")
         AbsoluteLayout rel2 = (AbsoluteLayout) findViewById(R.id.Nurse);
         //rel2.setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -204,11 +205,9 @@ public class MainActivity extends AppCompatActivity
         } //else if (id == R.id.nav_fingerprint) {
         //    selectItem(2);
       //  }
-
         else if (id == R.id.nav_data) {
             selectItem(3);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -266,32 +265,26 @@ public class MainActivity extends AppCompatActivity
                                 showNurses();
                             }
                         },3000);//Change to two
-
                     }
                     else
                         {
                         Toast.makeText(getApplicationContext(), "Must be 6 digits", Toast.LENGTH_SHORT).show();
                             loginID();
-
                     }
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "\t\t\tSorry invalid input\nonly 6 digits are acceptable", Toast.LENGTH_LONG).show();
                     loginID();
-
-
                 }
             }
         });
         //When they cancel
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
                 Toast.makeText(getApplicationContext(), "Back to the menu ", Toast.LENGTH_SHORT).show();
                 control.setInvisible();
                 viewController.viewNurses();
                 checkWeather();
                 inputOverlay.setImageResource(R.drawable.input_1);
-
             }
         });
 
@@ -318,13 +311,11 @@ public class MainActivity extends AppCompatActivity
                 finish();
             }
         });
-
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Toast.makeText(getApplicationContext(), "Back to the menu", Toast.LENGTH_SHORT).show();
             }
         });
-
         alert.show();
     }
 
@@ -344,26 +335,26 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int whichButton) {
                  try {
                      int id = Integer.parseInt(input.getText().toString());
-                    if (id == 0) {
-                        Intent i = new Intent(MainActivity.this, DataScreen.class);
-                        startActivity(i);
-                    } else if (id == 1) {
-                        Intent i = new Intent(MainActivity.this, WeatherRoom.class);
-                        startActivity(i);
-                    } else if (id == 2) {
-                        db.saveDB();
-                    }else if (id == 3) {
-                        db.updateShift();
-                        Toast.makeText(getApplicationContext(), "Shift has been updated to " + db.getShiftNumber(), Toast.LENGTH_LONG).show();
-                        Intent i = new Intent();
-                        i.setClass(getApplicationContext(), MainActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getApplicationContext().getApplicationContext().startActivity((i));
-                        finish();
+                        if (id == 0) {
+                            Intent i = new Intent(MainActivity.this, DataScreen.class);
+                            startActivity(i);
+                        } else if (id == 1) {
+                            Intent i = new Intent(MainActivity.this, WeatherRoom.class);
+                            startActivity(i);
+                        } else if (id == 2) {
+                            db.saveDB();
+                        }else if (id == 3) {
+                            db.updateShift();
+                            Toast.makeText(getApplicationContext(), "Shift has been updated to " + db.getShiftNumber(), Toast.LENGTH_LONG).show();
+                            Intent i = new Intent();
+                            i.setClass(getApplicationContext(), MainActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            getApplicationContext().getApplicationContext().startActivity((i));
+                            finish();
+                        }
+                    else
+                        Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
                     }
-                else
-                    Toast.makeText(getApplicationContext(), "Sorry wrong password", Toast.LENGTH_LONG).show();
-                }
                 catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "\t\t\tSorry invalid input\nonly 6 digits are acceptable", Toast.LENGTH_LONG).show();
                     loginID();
@@ -376,13 +367,10 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Back to the menu", Toast.LENGTH_SHORT).show();
             }
         });
-
         alert.show();
     }
 
-
     private void checkWeather(){
-
         Glide.with(getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
         Double x = db.getMedian();
         Log.d("BB","Check Weather Median is "+ x);
@@ -409,7 +397,6 @@ public class MainActivity extends AppCompatActivity
             viewController.stopRain();
             viewController.showSun();
         }
-
     }
 
     public void showNurses(){
@@ -440,14 +427,11 @@ public class MainActivity extends AppCompatActivity
     public void nurseTimeout(View v){
         final ImageView iv = (ImageView) v;
         new CountDownTimer((1000 * 60 * 120), (1000 * 60 * 120)) { //timer set to be 3 seconds long and tick once every 3 seconds. Will be 2 hours each for final app
-
             public void onTick(long millisUntilFinished) { //nothing needed here as we only disable an image after the full time
             }
-
             public void onFinish() {
                 iv.setVisibility(View.GONE);
             }
-
         }.start();
     }
 
@@ -462,7 +446,7 @@ public class MainActivity extends AppCompatActivity
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         //set time for 22:00 reset
-        Date dat3  = new Date();//initializes to now
+        Date dat3  = new Date();
         Calendar cal_alarm3 = Calendar.getInstance();
         Calendar cal_now3 = Calendar.getInstance();
         cal_now3.setTime(dat3);
@@ -478,9 +462,7 @@ public class MainActivity extends AppCompatActivity
 
      public void databaseReset2() {
         Toast.makeText(getApplicationContext(), "Alarm 2 set", Toast.LENGTH_SHORT).show();
-        //database.reset();
         Intent intent = new Intent(this, MyReceiver2.class);
-        // intent.putExtra("db", database);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 1, intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -502,9 +484,7 @@ public class MainActivity extends AppCompatActivity
 
     public void databaseReset3() {
         Toast.makeText(getApplicationContext(), "Alarm 3 set", Toast.LENGTH_SHORT).show();
-        //database.reset();
         Intent intent = new Intent(this, MyReceiver3.class);
-        // intent.putExtra("db", database);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(),4, intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -526,7 +506,6 @@ public class MainActivity extends AppCompatActivity
 
     public void databaseReset4() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR, 11);
         calendar.set(Calendar.MINUTE, 56);
@@ -540,7 +519,3 @@ public class MainActivity extends AppCompatActivity
     }
 
 }
-
-
-
-

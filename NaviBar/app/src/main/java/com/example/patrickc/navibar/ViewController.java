@@ -11,12 +11,13 @@ import java.io.Serializable;
 class ViewController implements Serializable{
 
     private RelativeLayout mainScreen;
+    @SuppressWarnings("deprecation")
     private AbsoluteLayout nurse;
     private RelativeLayout inputScreen;
     private ImageView rainOverlay;
     private ImageView weatherOverlay;
 
-    ViewController(RelativeLayout mainScreen, AbsoluteLayout nurse, RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
+    ViewController(RelativeLayout mainScreen, @SuppressWarnings("deprecation") AbsoluteLayout nurse, RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
         this.mainScreen = mainScreen;
         this.nurse = nurse;
         this.inputScreen = inputScreen;
