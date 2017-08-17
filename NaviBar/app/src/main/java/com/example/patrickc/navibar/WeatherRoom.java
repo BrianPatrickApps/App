@@ -3,8 +3,13 @@ package com.example.patrickc.navibar;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class WeatherRoom extends AppCompatActivity {
@@ -31,6 +36,6 @@ public class WeatherRoom extends AppCompatActivity {
         x.setText("Current Shift: "+String.valueOf(y));
         b.setText("Current Day: "+String.valueOf(c));
 
-
     }
+
 }

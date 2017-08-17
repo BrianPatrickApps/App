@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         databaseReset3();
         databaseReset4();
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
-        RelativeLayout rel2 = (RelativeLayout)findViewById(R.id.Nurse);
+        AbsoluteLayout rel2 = (AbsoluteLayout) findViewById(R.id.Nurse);
         //rel2.setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         nurse5 = (ImageView)findViewById(R.id.nurse5);
         nurse6 = (ImageView)findViewById(R.id.nurse6);
         nurse7 = (ImageView)findViewById(R.id.nurse7);
-        nurse8 = (ImageView)findViewById(R.id.nurse8);
+//        nurse8 = (ImageView)findViewById(R.id.nurse8);
         nurseArray = new ArrayList<>();
         nurseArray.add(nurse1);
         nurseArray.add(nurse2);
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         nurseArray.add(nurse5);
         nurseArray.add(nurse6);
         nurseArray.add(nurse7);
-        nurseArray.add(nurse8);
+//        nurseArray.add(nurse8);
 
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => " + c.getTime());
@@ -264,7 +265,7 @@ public class MainActivity extends AppCompatActivity
                                 inputOverlay.setImageResource(R.drawable.input_1);
                                 showNurses();
                             }
-                        },6000);
+                        },3000);//Change to two
 
                     }
                     else

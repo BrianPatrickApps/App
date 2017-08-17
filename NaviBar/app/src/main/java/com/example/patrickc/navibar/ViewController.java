@@ -1,6 +1,7 @@
 package com.example.patrickc.navibar;
 
 import android.view.View;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -10,12 +11,12 @@ import java.io.Serializable;
 class ViewController implements Serializable{
 
     private RelativeLayout mainScreen;
-    private RelativeLayout nurse;
+    private AbsoluteLayout nurse;
     private RelativeLayout inputScreen;
     private ImageView rainOverlay;
     private ImageView weatherOverlay;
 
-    ViewController(RelativeLayout mainScreen, RelativeLayout nurse, RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
+    ViewController(RelativeLayout mainScreen, AbsoluteLayout nurse, RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
         this.mainScreen = mainScreen;
         this.nurse = nurse;
         this.inputScreen = inputScreen;
@@ -74,7 +75,7 @@ class ViewController implements Serializable{
 
     void startUp(){
         viewNurses();
-        weatherOverlay.setImageResource(0);
+        weatherOverlay.setImageResource(R.drawable.weather_start);
         mainScreen.setBackgroundResource(R.drawable.background3_clouded);
         stopRain();
     }
