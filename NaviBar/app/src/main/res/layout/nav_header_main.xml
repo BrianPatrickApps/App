@@ -28,6 +28,7 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Work Weather"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/background_dark"
         android:textSize="30sp" />
 
     <TextView
@@ -36,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView2"
         android:layout_toEndOf="@+id/imageView"
-        android:text="TU Delft" />
+        android:text="TU Delft"
+        android:textColor="@android:color/black" />
 
 </RelativeLayout>

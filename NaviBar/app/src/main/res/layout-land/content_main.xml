@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress AndroidUnknownAttribute -->
+<!--suppress AndroidUnknownAttribute, DeprecatedClassUsageInspection -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,76 +11,6 @@
     android:id="@+id/relLay"
     android:background="@drawable/background3_clouded"
     >
-
-    <RelativeLayout
-        android:id="@+id/inputScreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/room_background"
-        android:visibility="visible">
-
-        <RelativeLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="500dp"
-            android:layout_height="100dp"
-
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="150dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/Stormy"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="Storm" />
-
-
-            <Button
-                android:id="@+id/Rain"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/Stormy"
-                android:text="Rain" />
-
-            <Button
-                android:id="@+id/Overcast"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/Cloudy"
-                android:text="Cast" />
-
-            <Button
-                android:id="@+id/Cloudy"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/Sunny"
-                android:text="Cloud" />
-
-            <Button
-                android:id="@+id/Sunny"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:text="Sun" />
-
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/inputWeather"
-            android:layout_width="500dp"
-            android:layout_height="100dp"
-            android:layout_alignStart="@+id/linearLayout"
-            android:layout_alignTop="@+id/linearLayout"
-            app:srcCompat="@drawable/input_1" />
-
-    </RelativeLayout>
 
     <!--<RelativeLayout-->
         <!--android:id="@+id/Nurse"-->
@@ -201,14 +131,16 @@
 
     <!--</RelativeLayout>-->
 
+    <!--suppress AndroidElementNotAllowed -->
     <AbsoluteLayout
         android:id="@+id/Nurse"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:background="@drawable/room_background"
         android:visibility="visible"
-        android:background="@drawable/room_background">
+        tools:ignore="Deprecated">
 
         <ImageView
             android:id="@+id/nurse5"
@@ -228,7 +160,8 @@
             app:layout_constraintTop_toTopOf="@+id/nurse7"
             app:srcCompat="@drawable/newnurse5"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintTop_creator="1" />
+            tools:layout_constraintTop_creator="1"
+            tools:ignore="ContentDescription,ObsoleteLayoutParam,RtlHardcoded" />
 
         <ImageView
             android:id="@+id/nurse7"
@@ -248,7 +181,9 @@
             app:layout_constraintRight_toRightOf="@+id/nurse5"
             app:srcCompat="@drawable/newnurse7"
             tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintRight_creator="1" />
+            tools:layout_constraintRight_creator="1"
+            tools:ignore="ObsoleteLayoutParam,RtlHardcoded"
+            android:contentDescription="@+id/nurse7" />
 
         <ImageView
             android:id="@+id/nurse1"
@@ -259,7 +194,8 @@
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:visibility="gone"
-            app:srcCompat="@drawable/newnurse1" />
+            app:srcCompat="@drawable/newnurse1"
+            android:contentDescription="@+id/nurse1" />
 
         <ImageView
             android:id="@+id/nurse4"
@@ -270,7 +206,8 @@
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:visibility="gone"
-            app:srcCompat="@drawable/newnurse4" />
+            app:srcCompat="@drawable/newnurse4"
+            android:contentDescription="@+id/nurse4"/>
 
         <ImageView
             android:id="@+id/nurse2"
@@ -281,7 +218,8 @@
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:visibility="gone"
-            app:srcCompat="@drawable/newnurse2" />
+            app:srcCompat="@drawable/newnurse2"
+            android:contentDescription="@+id/nurse2"/>
 
         <ImageView
             android:id="@+id/nurse6"
@@ -293,7 +231,8 @@
             android:cropToPadding="false"
             android:scaleType="fitXY"
             android:visibility="gone"
-            app:srcCompat="@drawable/newnurse6" />
+            app:srcCompat="@drawable/newnurse6"
+            android:contentDescription="@+id/nurse6"/>
 
         <ImageView
             android:id="@+id/nurse3"
@@ -302,7 +241,8 @@
             android:layout_x="727dp"
             android:layout_y="232dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/newnurse3" />
+            app:srcCompat="@drawable/newnurse3"
+            android:contentDescription="@+id/nurse3"/>
 
         <ImageView
             android:id="@+id/rainOverlay"
@@ -310,8 +250,10 @@
             android:layout_height="match_parent"
             android:layout_x="4dp"
             android:layout_y="-6dp"
+            android:scaleType="fitXY"
             android:visibility="visible"
-            app:srcCompat="@drawable/animation_rain" />
+            app:srcCompat="@drawable/animation_rain"
+            android:contentDescription="@+id/rainOverlay"/>
 
         <ImageView
             android:id="@+id/moodOverlay"
@@ -324,8 +266,97 @@
             android:baselineAlignBottom="false"
             android:scaleType="fitXY"
             android:visibility="visible"
-            app:srcCompat="@drawable/weather_start" />
+            app:srcCompat="@drawable/weather_start"
+            android:contentDescription="@+id/moodOverlay"
+            tools:ignore="ObsoleteLayoutParam" />
 
     </AbsoluteLayout>
+
+    <RelativeLayout
+        android:id="@+id/inputScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/room_background"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="500dp"
+            android:layout_height="100dp"
+
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/Stormy"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="Storm"
+                tools:ignore="HardcodedText" />
+
+
+            <Button
+                android:id="@+id/Rain"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/Stormy"
+                android:text="Rain"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/Overcast"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/Cloudy"
+                android:text="Cast"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/Cloudy"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/Sunny"
+                android:text="Cloud"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/Sunny"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:text="Sun"
+                tools:ignore="HardcodedText" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/inputWeather"
+            android:layout_width="500dp"
+            android:layout_height="100dp"
+            android:layout_alignStart="@+id/linearLayout"
+            android:layout_alignTop="@+id/linearLayout"
+            app:srcCompat="@drawable/input_1"
+            android:contentDescription="@+id/inputWeather" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:srcCompat="@drawable/arrow_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="198dp"
+        android:rotation="90"
+        android:contentDescription="@+id/imageView3" />
 
 </RelativeLayout>

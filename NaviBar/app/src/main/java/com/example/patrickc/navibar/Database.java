@@ -40,7 +40,7 @@ public class Database implements Serializable{
 
     ArrayList<String> collectAllUsers(){
 
-        Cursor c = database.rawQuery("Select * from nurses;",null);
+        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
         ArrayList<String>theArray = new ArrayList<>();
         if(c.getCount() ==0){
             Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
@@ -53,6 +53,29 @@ public class Database implements Serializable{
                     "\t\t\tShift: " + c.getString(4)
                     ;
             theArray.add(result);
+        }
+        Log.d("BB","All nurses collected");
+        c.close();
+        return theArray;
+
+    }
+
+    ArrayList<String[]> collectFormattedUsers(){
+
+        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
+        ArrayList<String[]>theArray = new ArrayList<>();
+        if(c.getCount() ==0){
+            Toast.makeText(context, "Empty", Toast.LENGTH_SHORT).show();
+        }
+        while(c.moveToNext()){
+            String result = c.getString(0)+
+                    "/" + c.getString(1)+
+                    "/" + c.getString(2)+
+                    "/" + c.getString(3)+
+                    "/" + c.getString(4)
+                    ;
+            String newResult[] = result.split("/");
+            theArray.add(newResult);
         }
         Log.d("BB","All nurses collected");
         c.close();

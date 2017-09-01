@@ -4,27 +4,124 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background3_clouded"
     tools:context="com.example.patrickc.navibar.DataScreen">
 
-    <TextView
-        android:id="@+id/Data_Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Data"
-        android:textAllCaps="false"
-        android:textSize="30sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="94dp" />
+    <!--<TextView-->
+    <!--android:id="@+id/Data_Title"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:text="Data"-->
+    <!--android:textAllCaps="false"-->
+    <!--android:textSize="30sp"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--tools:layout_editor_absoluteY="94dp" />-->
 
-    <ListView
-        android:id="@+id/dataStream"
+    <!--<ListView-->
+    <!--android:id="@+id/dataStream"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@+id/Data_Title"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_marginTop="23dp" />-->
+
+    <RelativeLayout
+        android:id="@+id/buttonScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/Data_Title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp" />
+        android:background="@drawable/room_background"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1">
+
+        <ImageView
+            android:id="@+id/WeatherMoodOverlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/weather_start"
+            android:contentDescription="Holds the weather of the input"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/RaindropDropTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:srcCompat="@drawable/animation_rain"
+            android:contentDescription="holds the rain animation"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="232dp"
+            android:background="@drawable/text_background"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            tools:ignore="HardcodedText" />
+
+        <RelativeLayout
+            android:id="@+id/viewScreen"
+            android:layout_width="350dp"
+            android:layout_height="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="105dp">
+
+            <TextView
+                android:id="@+id/idScreen"
+                android:layout_width="350dp"
+                android:layout_height="65dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/text_background"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/buttons1_5"
+            android:layout_width="350dp"
+            android:layout_height="70dp"
+            android:layout_alignStart="@+id/viewScreen"
+            android:layout_below="@+id/viewScreen">
+
+            <TextView
+                android:id="@+id/shiftView"
+                android:layout_width="350dp"
+                android:layout_height="65dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/text_background"
+                android:gravity="center"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                tools:ignore="HardcodedText" />
+
+            <RelativeLayout
+                android:id="@+id/buttons6_00"
+                android:layout_width="350dp"
+
+                android:layout_height="70dp">
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
 </RelativeLayout>

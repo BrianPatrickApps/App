@@ -2,15 +2,16 @@ package com.example.patrickc.navibar;
 
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
-import android.graphics.Typeface;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.model.TableColumnPxWidthModel;
+import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
 public class WeatherRoom extends AppCompatActivity {
 
@@ -21,20 +22,27 @@ public class WeatherRoom extends AppCompatActivity {
         setContentView(R.layout.activity_weather_room);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Futura Medium.ttf");
         Database db = new Database(this);
-        Double a = db.getMedian();
-        int y = db.getShiftNumber();
-        String c = db.getDay();
-        TextView i = (TextView)findViewById(R.id.idScreen);
-        TextView x = (TextView)findViewById(R.id.shiftView);
-        TextView b = (TextView)findViewById(R.id.textView3);
-        x.setTypeface(typeface);
-        i.setTypeface(typeface);
-        b.setTypeface(typeface);
-        i.setText("Current Median: "+String.valueOf(a));
-        x.setText("Current Shift: "+String.valueOf(y));
-        b.setText("Current Day: "+String.valueOf(c));
+
+        ArrayList<String[]> theArray = db.collectFormattedUsers();
+        String[][] array = new String[theArray.size()][];
+        for (int i = 0; i < theArray.size(); i++) {
+            array[i] = theArray.get(i);
+        }
+        String[] headerData = { "Id","Input","Median","Date","Shift"};
+        //noinspection unchecked
+        TableView<String[]> tableView = (TableView<String[]>) findViewById(R.id.tableView);
+        tableView.setDataAdapter(new SimpleTableDataAdapter(this, array));
+        tableView.setHeaderBackground(R.drawable.side_nav_bar);
+        tableView.setBackgroundResource(R.drawable.side_nav_bar_reverse);
+        TableColumnPxWidthModel columnModel = new TableColumnPxWidthModel(5, 200);
+        columnModel.setColumnWidth(3,450);
+        tableView.setColumnModel(columnModel);
+        tableView.setSwipeToRefreshEnabled( true );
+        SimpleTableHeaderAdapter simpleTableHeaderAdapter = new SimpleTableHeaderAdapter(this,headerData);
+        tableView.setHeaderAdapter(simpleTableHeaderAdapter);
+//        ImageView weather = (ImageView)findViewById(R)
+
 
     }
 

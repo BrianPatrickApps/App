@@ -1,6 +1,7 @@
 package com.example.patrickc.navibar;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,9 +22,11 @@ class ButtonController {
     private Context context;
     private String id;
     private Double mood;
+    private ViewController viewController;
+    private MainActivity ma;
 
 
-    ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny, ImageView weatherOverlay, Context context) {
+    ButtonController(Button stormy, Button rainy, Button overcast, Button cloudy, Button sunny, ImageView weatherOverlay, Context context,ViewController viewController) {
 
         this.stormy = stormy;
         this.rainy = rainy;
@@ -32,6 +35,8 @@ class ButtonController {
         this.sunny = sunny;
         this.weatherOverlay = weatherOverlay;
         this.context = context;
+        this.viewController = viewController;
+        ma = new MainActivity();
         db = new Database(context);
         stormy.setOnClickListener(stormyClicked);
         rainy.setOnClickListener(rainyClicked);
@@ -98,7 +103,6 @@ class ButtonController {
         public void onClick(View v) {
             mood = 5.0;
             weatherOverlay.setImageResource(R.drawable.input5_sunny);
-
             select();
         }
     };
@@ -110,12 +114,19 @@ class ButtonController {
             db.addMedian(avg,currentDateTimeString,db.getShiftNumber());
             Log.d("BB","Adding: "+query);
             db.execSQL(query);
-
             setInvisible();
+
+//            ma.showNurses();
+            ma.checkWeather(db,viewController);
+            viewController.setBack();
+            viewController.viewNurses();
         }
 
     void getId(String id) {
         this.id = id;
     }
 
+    boolean reset(){
+        return false;
+    }
 }

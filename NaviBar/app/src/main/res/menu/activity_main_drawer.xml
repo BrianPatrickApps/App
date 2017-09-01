@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_login"
-            android:icon="@drawable/ic_action_name"
+            android:icon="@drawable/add_icon"
             android:title="Login" />
        <!-- <item
             android:id="@+id/nav_fingerprint"
@@ -12,13 +12,13 @@
             android:title="Finger Print" />-->
     </group>
 
-    <item android:title="Data">
-        <menu>
-            <item
-                android:id="@+id/nav_data"
-                android:icon="@drawable/ic_menu_share"
-                android:title="View Data" />
-        </menu>
-    </item>
+    <!--<item android:title="Data">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_data"-->
+                <!--android:icon="@drawable/ic_menu_share"-->
+                <!--android:title="View Data" />-->
+        <!--</menu>-->
+    <!--</item>-->
 
 </menu>

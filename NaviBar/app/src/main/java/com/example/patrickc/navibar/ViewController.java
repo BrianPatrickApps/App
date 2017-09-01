@@ -16,13 +16,15 @@ class ViewController implements Serializable{
     private RelativeLayout inputScreen;
     private ImageView rainOverlay;
     private ImageView weatherOverlay;
+    private ImageView inputOverlay;
 
-    ViewController(RelativeLayout mainScreen, @SuppressWarnings("deprecation") AbsoluteLayout nurse, RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay){
+    ViewController(RelativeLayout mainScreen, @SuppressWarnings("deprecation") AbsoluteLayout nurse, RelativeLayout inputScreen, ImageView rainOverlay, ImageView weatherOverlay,ImageView inputOverlay){
         this.mainScreen = mainScreen;
         this.nurse = nurse;
         this.inputScreen = inputScreen;
         this.rainOverlay = rainOverlay;
         this.weatherOverlay = weatherOverlay;
+        this.inputOverlay = inputOverlay;
     }
 
     void viewNurses() {
@@ -81,5 +83,8 @@ class ViewController implements Serializable{
         stopRain();
     }
 
+    void setBack(){
+        inputOverlay.setImageResource(R.drawable.input_1);
+    }
 
 }

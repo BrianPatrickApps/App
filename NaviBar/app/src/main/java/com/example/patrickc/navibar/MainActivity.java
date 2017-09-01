@@ -11,20 +11,22 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsoluteLayout;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -81,11 +83,10 @@ public class MainActivity extends AppCompatActivity
         databaseReset();
         databaseReset2();
         databaseReset3();
-        databaseReset4();
+        //databaseReset4();
         RelativeLayout rel3 = (RelativeLayout)findViewById(R.id.inputScreen);
         @SuppressWarnings("deprecation")
         AbsoluteLayout rel2 = (AbsoluteLayout) findViewById(R.id.Nurse);
-        //rel2.setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -109,15 +110,18 @@ public class MainActivity extends AppCompatActivity
         inputOverlay = (ImageView)findViewById(R.id.inputWeather);
         rainOverlay = (ImageView)findViewById(R.id.rainOverlay);
 
+
         Glide.with(getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
 
-        //rainOverlay.setVisibility(View.GONE);
-        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,inputOverlay,this);
+        viewController = new ViewController(rel,rel2,rel3,rainOverlay,weatherOverlay,inputOverlay);
+
+        control = new ButtonController(stormy,rainy,overcast,cloudy,sunny,inputOverlay,getApplicationContext(),viewController);
         //Makes buttons invisible
         control.setInvisible();
 
-        viewController = new ViewController(rel,rel2,rel3,rainOverlay,weatherOverlay);
-        checkWeather();
+        Glide.with(getApplication().getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
+
+        checkWeather(db,viewController);
         viewController.startUp();
 
         nurse1 = (ImageView)findViewById(R.id.nurse1);
@@ -127,7 +131,6 @@ public class MainActivity extends AppCompatActivity
         nurse5 = (ImageView)findViewById(R.id.nurse5);
         nurse6 = (ImageView)findViewById(R.id.nurse6);
         nurse7 = (ImageView)findViewById(R.id.nurse7);
-//        nurse8 = (ImageView)findViewById(R.id.nurse8);
         nurseArray = new ArrayList<>();
         nurseArray.add(nurse1);
         nurseArray.add(nurse2);
@@ -136,7 +139,6 @@ public class MainActivity extends AppCompatActivity
         nurseArray.add(nurse5);
         nurseArray.add(nurse6);
         nurseArray.add(nurse7);
-//        nurseArray.add(nurse8);
 
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => " + c.getTime());
@@ -145,16 +147,51 @@ public class MainActivity extends AppCompatActivity
         String formattedDate = df.format(c.getTime());
         db.updateDate(formattedDate);
 
-       /* View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-*/
+        View header = navigationView.getHeaderView(0);
+        ImageView nursebutton = (ImageView)header.findViewById(R.id.TUNURSE);
+        nursebutton.setOnClickListener(nurseMenu);
+    }
+
+    public MainActivity(){
 
     }
+
+    private View.OnClickListener nurseMenu = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final String[] option = {"Data","Test","Save","Change"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,android.R.layout.select_dialog_item,option);
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.AlertDialogCustom));
+            builder.setTitle("Please Select");
+            builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(which == 0){
+                        Intent i = new Intent(MainActivity.this, WeatherRoom.class);
+                        startActivity(i);
+                    }
+                    else if (which ==1){
+                        Intent i = new Intent(MainActivity.this, DataScreen.class);
+                        startActivity(i);
+                    }
+                    else if (which ==2){
+                        db.saveDB();
+                        Toast.makeText(getApplicationContext(), "DB Saved", Toast.LENGTH_LONG).show();
+                    }
+                    else if (which ==3){
+                        db.updateShift();
+                        Toast.makeText(getApplicationContext(), "Shift has been updated to " + db.getShiftNumber(), Toast.LENGTH_LONG).show();
+                        Intent i = new Intent();
+                        i.setClass(getApplicationContext(), MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getApplicationContext().getApplicationContext().startActivity((i));
+                        finish();
+                    }
+                }
+            });
+            builder.show();
+        }
+    };
 
     //When back is pressed, not used
     @Override
@@ -191,7 +228,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -202,16 +238,18 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_login) {
             selectItem(1);
-        } //else if (id == R.id.nav_fingerprint) {
-        //    selectItem(2);
-      //  }
-        else if (id == R.id.nav_data) {
-            selectItem(3);
         }
+//        else if (id == R.id.nav_fingerprint) {
+//            selectItem(2);
+//        }
+//        else if (id == R.id.nav_data) {
+//            selectItem(3);
+//        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     //Which button is to be pressed. Add stuff if need be
     private void selectItem(int position) {
 
@@ -220,7 +258,6 @@ public class MainActivity extends AppCompatActivity
                 loginID();
                 control.setViewable();
                 viewController.viewInput();
-
                 break;
             case 2:
                 //loginFinger();
@@ -254,17 +291,20 @@ public class MainActivity extends AppCompatActivity
                         control.setViewable();
                         String inputID = input.getText().toString();
                         control.getId(inputID);
-                        Handler handler = new Handler();
 
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewController.viewNurses();
-                                checkWeather();
-                                inputOverlay.setImageResource(R.drawable.input_1);
-                                showNurses();
-                            }
-                        },3000);//Change to two
+//                        Handler handler = new Handler();
+
+
+//                        handler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                viewController.viewNurses();
+//                                checkWeather();
+//                                inputOverlay.setImageResource(R.drawable.input_1);
+//                                showNurses();
+//                            }
+//                        },5000);//Change to two
+                        showNurses();
                     }
                     else
                         {
@@ -283,11 +323,10 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Back to the menu ", Toast.LENGTH_SHORT).show();
                 control.setInvisible();
                 viewController.viewNurses();
-                checkWeather();
+                checkWeather(db,viewController);
                 inputOverlay.setImageResource(R.drawable.input_1);
             }
         });
-
         alert.show();
     }
 
@@ -370,8 +409,7 @@ public class MainActivity extends AppCompatActivity
         alert.show();
     }
 
-    private void checkWeather(){
-        Glide.with(getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
+    protected void checkWeather(Database db,ViewController viewController){
         Double x = db.getMedian();
         Log.d("BB","Check Weather Median is "+ x);
         if(x==0.0){
@@ -451,9 +489,9 @@ public class MainActivity extends AppCompatActivity
         Calendar cal_now3 = Calendar.getInstance();
         cal_now3.setTime(dat3);
         cal_alarm3.setTime(dat3);
-        cal_alarm3.set(Calendar.HOUR_OF_DAY,19);//set the alarm time
-        cal_alarm3.set(Calendar.MINUTE, 29);
-        cal_alarm3.set(Calendar.SECOND,40);
+        cal_alarm3.set(Calendar.HOUR_OF_DAY,16);//set the alarm time
+        cal_alarm3.set(Calendar.MINUTE, 30);
+        cal_alarm3.set(Calendar.SECOND,0);
         if(cal_alarm3.before(cal_now3)){//if its in the past increment
             cal_alarm3.add(Calendar.DATE,1);
         }
@@ -473,8 +511,8 @@ public class MainActivity extends AppCompatActivity
         Calendar cal_now2 = Calendar.getInstance();
         cal_now2.setTime(dat2);
         cal_alarm2.setTime(dat2);
-        cal_alarm2.set(Calendar.HOUR_OF_DAY,11);//set the alarm time
-        cal_alarm2.set(Calendar.MINUTE, 0);
+        cal_alarm2.set(Calendar.HOUR_OF_DAY,22);//set the alarm time
+        cal_alarm2.set(Calendar.MINUTE, 30);
         cal_alarm2.set(Calendar.SECOND,0);
         if(cal_alarm2.before(cal_now2)){//if its in the past increment
             cal_alarm2.add(Calendar.DATE,1);
@@ -504,6 +542,7 @@ public class MainActivity extends AppCompatActivity
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm2.getTimeInMillis(), AlarmManager.INTERVAL_DAY,pendingIntent);
     }
 
+    @SuppressWarnings("unused")
     public void databaseReset4() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
