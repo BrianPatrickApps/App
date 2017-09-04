@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,6 +24,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AbsoluteLayout;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -150,6 +152,14 @@ public class MainActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         ImageView nursebutton = (ImageView)header.findViewById(R.id.TUNURSE);
         nursebutton.setOnClickListener(nurseMenu);
+
+//        ImageView iv = (ImageView)findViewById(R.id.imageView3);
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                viewController.fadeOutAndHideImage();
+//            }
+//        });
     }
 
     public MainActivity(){
@@ -443,7 +453,8 @@ public class MainActivity extends AppCompatActivity
         if(counter.getCount() > nurseArray.size())
             counter.resetCount();
         if (!sub) { //boolean check to see if mx number of nurses already visible
-            iv.setVisibility(View.VISIBLE);
+//            iv.setVisibility(View.VISIBLE);
+            fadeOutAndHideImage(iv);
             Log.d("BB","nurse number: "+ iv);
             nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
             counter.setCount();
@@ -555,6 +566,25 @@ public class MainActivity extends AppCompatActivity
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    void fadeOutAndHideImage(final ImageView img)
+    {
+        Animation fadeOut = new AlphaAnimation(0, 1);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(1000);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener()
+        {
+            public void onAnimationEnd(Animation animation)
+            {
+                img.setVisibility(View.VISIBLE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        img.startAnimation(fadeOut);
     }
 
 }

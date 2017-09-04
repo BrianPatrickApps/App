@@ -38,6 +38,7 @@ public class Database implements Serializable{
         database.execSQL(s);
     }
 
+    @SuppressWarnings("unused")
     ArrayList<String> collectAllUsers(){
 
         Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
@@ -133,6 +134,7 @@ public class Database implements Serializable{
         }
         Log.d("Median: ",String.valueOf(theArray.get(0)));
         c.close();
+        Log.d("BB",theArray.get(0)+ "is the Median");
         return theArray.get(0);
 
     }
@@ -245,7 +247,7 @@ public class Database implements Serializable{
             Cursor curCSV = db.rawQuery("SELECT * FROM nurses", null);
             csvWrite.writeNext(curCSV.getColumnNames());
             while (curCSV.moveToNext()) {
-                //Which column you want to exprort
+                //Which column you want to export
                 String arrStr[] = {curCSV.getString(0), curCSV.getString(1), curCSV.getString(2), curCSV.getString(3), curCSV.getString(4)};
                 csvWrite.writeNext(arrStr);
                 Log.d("BB",arrStr[0]);

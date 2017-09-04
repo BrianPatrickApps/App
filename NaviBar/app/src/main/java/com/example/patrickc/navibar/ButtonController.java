@@ -1,7 +1,6 @@
 package com.example.patrickc.navibar;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -126,7 +125,4 @@ class ButtonController {
         this.id = id;
     }
 
-    boolean reset(){
-        return false;
-    }
 }

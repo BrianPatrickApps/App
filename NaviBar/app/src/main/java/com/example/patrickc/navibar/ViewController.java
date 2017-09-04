@@ -1,6 +1,9 @@
 package com.example.patrickc.navibar;
 
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,11 +37,27 @@ class ViewController implements Serializable{
 
     void viewInput(){
         inputScreen.setVisibility(View.VISIBLE);
-        nurse.setVisibility(View.GONE);
+        //nurse.setVisibility(View.GONE);
     }
 
     private void setRain(){
-        rainOverlay.setVisibility(View.VISIBLE);
+
+//        rainOverlay.setVisibility(View.VISIBLE;
+        Animation fadeOut = new AlphaAnimation(0, 1);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(1000);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener()
+        {
+            public void onAnimationEnd(Animation animation)
+            {
+                rainOverlay.setVisibility(View.VISIBLE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        rainOverlay.startAnimation(fadeOut);
     }
 
     void stopRain(){
@@ -47,23 +66,27 @@ class ViewController implements Serializable{
 
     void showSun(){
         //nurse.setBackgroundResource(R.drawable.room_sunny);
+        fadeOutAndHideImage();
         weatherOverlay.setImageResource(R.drawable.weather_sun);
         mainScreen.setBackgroundResource(R.drawable.background5_sunny);
     }
 
     void showClouds(){
+        fadeOutAndHideImage();
         weatherOverlay.setImageResource(R.drawable.weather_halfclouds);
         mainScreen.setBackgroundResource(R.drawable.background4_semi_clouded);
         //nurse.setBackgroundResource(R.drawable.room_semi);
     }
 
     void showOvercast(){
+        fadeOutAndHideImage();
         weatherOverlay.setImageResource(R.drawable.weather_clouds);
         mainScreen.setBackgroundResource(R.drawable.background3_clouded);
         //nurse.setBackgroundResource(R.drawable.room_cloud);
     }
 
     void showRainMood(){
+        fadeOutAndHideImage();
         weatherOverlay.setImageResource(R.drawable.weather_rain);
         setRain();
         mainScreen.setBackgroundResource(R.drawable.background2_rain);
@@ -71,6 +94,7 @@ class ViewController implements Serializable{
     }
 
     void showThunder(){
+        fadeOutAndHideImage();
         weatherOverlay.setImageResource(R.drawable.weather_thunder);
         setRain();
         mainScreen.setBackgroundResource(R.drawable.background1_thunderstorm);
@@ -85,6 +109,25 @@ class ViewController implements Serializable{
 
     void setBack(){
         inputOverlay.setImageResource(R.drawable.input_1);
+    }
+
+    private void fadeOutAndHideImage()
+    {
+        Animation fadeOut = new AlphaAnimation(0, 1);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(1000);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener()
+        {
+            public void onAnimationEnd(Animation animation)
+            {
+                weatherOverlay.setVisibility(View.VISIBLE);
+            }
+            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationStart(Animation animation) {}
+        });
+
+        weatherOverlay.startAnimation(fadeOut);
     }
 
 }
