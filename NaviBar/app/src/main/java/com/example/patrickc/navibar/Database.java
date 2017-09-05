@@ -263,5 +263,18 @@ public class Database implements Serializable{
         }
 
     }
+
+    int doOver(String id){
+        int redo;
+        Cursor c = database.rawQuery("Select id from nurses where id = '"+id+"'AND inputDate ='"+ getDay()+"';",null);
+        int a = c.getCount();
+        if(a > 2)
+            redo =1;
+        else
+            redo =0;
+        c.close();
+        Log.d("BB","it is "+ redo+ " a is "+ a);
+        return redo;
+    }
 }
 

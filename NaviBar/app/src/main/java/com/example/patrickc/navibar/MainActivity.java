@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     ButtonController control;
     protected ViewController viewController;
     private boolean sub = false;
+    private String idNow;
 
     ImageView nurse1;
     ImageView nurse2;
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity
 
         Glide.with(getApplication().getApplicationContext()).load(R.drawable.animation_rain).into(rainOverlay);
 
-        checkWeather(db,viewController);
+        //checkWeather(db,viewController);
         viewController.startUp();
 
         nurse1 = (ImageView)findViewById(R.id.nurse1);
@@ -301,7 +302,7 @@ public class MainActivity extends AppCompatActivity
                         control.setViewable();
                         String inputID = input.getText().toString();
                         control.getId(inputID);
-
+                        idNow = inputID;
 //                        Handler handler = new Handler();
 
 
@@ -314,7 +315,7 @@ public class MainActivity extends AppCompatActivity
 //                                showNurses();
 //                            }
 //                        },5000);//Change to two
-                        showNurses();
+                    showNurses();
                     }
                     else
                         {
@@ -325,6 +326,8 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(getApplicationContext(), "\t\t\tSorry invalid input\nonly 6 digits are acceptable", Toast.LENGTH_LONG).show();
                     loginID();
                 }
+//                showNurses();
+//                Log.d("BB","called");
             }
         });
         //When they cancel
@@ -449,26 +452,34 @@ public class MainActivity extends AppCompatActivity
 
     public void showNurses(){
         //Available nurse image chosen by counter.
-        ImageView iv = nurseArray.get(counter.getCount());
-        if(counter.getCount() > nurseArray.size())
-            counter.resetCount();
-        if (!sub) { //boolean check to see if mx number of nurses already visible
-//            iv.setVisibility(View.VISIBLE);
-            fadeOutAndHideImage(iv);
-            Log.d("BB","nurse number: "+ iv);
-            nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
-            counter.setCount();
-            if (counter.getCount() == nurseArray.size()) {
-                counter.removeCount();
-                sub = true;
-            }
+        int reDo =db.doOver(idNow);
+        if(reDo == 1)
+        {
+            changeMind();
+
         }
-        else{ //starts setting nurses invisible manually if the max is visible.
-            iv.setVisibility(View.GONE);
-            counter.removeCount();
-            if(counter.getCount() == -1){
+        else if(reDo == 0) {
+            Log.d("BB","new nurse");
+            ImageView iv = nurseArray.get(counter.getCount());
+            if (counter.getCount() > nurseArray.size())
+                counter.resetCount();
+            if (!sub) { //boolean check to see if mx number of nurses already visible
+            iv.setVisibility(View.VISIBLE);
+//                fadeOutAndHideImage(iv);
+                Log.d("BB", "nurse number: " + iv);
+                nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
                 counter.setCount();
-                sub = false;
+                if (counter.getCount() == nurseArray.size()) {
+                    counter.removeCount();
+                    sub = true;
+                }
+            } else { //starts setting nurses invisible manually if the max is visible.
+                iv.setVisibility(View.GONE);
+                counter.removeCount();
+                if (counter.getCount() == -1) {
+                    counter.setCount();
+                    sub = false;
+                }
             }
         }
     }
@@ -482,6 +493,43 @@ public class MainActivity extends AppCompatActivity
                 iv.setVisibility(View.GONE);
             }
         }.start();
+    }
+
+    public void changeMind(){
+        if(counter.getCount() == 0) {
+            Log.d("BB","Changed mind no nurses "+idNow);
+//            counter.removeCount();
+            ImageView iv = nurseArray.get(counter.getCount());
+            iv.setVisibility(View.VISIBLE);
+        }
+        else if(counter.getCount() > 0){
+            Log.d("BB","Changed mine "+ idNow);
+            counter.removeCount();
+            ImageView iv = nurseArray.get(counter.getCount());
+            iv.setVisibility(View.GONE);
+            counter.setCount();
+            iv = nurseArray.get(counter.getCount());
+            if (counter.getCount() > nurseArray.size())
+                counter.resetCount();
+            if (!sub) { //boolean check to see if mx number of nurses already visible
+//            iv.setVisibility(View.VISIBLE);
+                fadeOutAndHideImage(iv);
+                Log.d("BB", "nurse number: " + iv);
+                nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
+                counter.setCount();
+                if (counter.getCount() == nurseArray.size()) {
+                    counter.removeCount();
+                    sub = true;
+                }
+            } else { //starts setting nurses invisible manually if the max is visible.
+                iv.setVisibility(View.GONE);
+                counter.removeCount();
+                if (counter.getCount() == -1) {
+                    counter.setCount();
+                    sub = false;
+                }
+            }
+        }
     }
 
 

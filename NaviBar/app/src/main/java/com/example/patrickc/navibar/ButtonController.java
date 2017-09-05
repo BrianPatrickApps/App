@@ -1,12 +1,14 @@
 package com.example.patrickc.navibar;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import java.text.DateFormat;
 import java.util.Date;
+
 
 
 class ButtonController {
@@ -116,13 +118,24 @@ class ButtonController {
             setInvisible();
 
 //            ma.showNurses();
-            ma.checkWeather(db,viewController);
+
             viewController.setBack();
             viewController.viewNurses();
+            viewController.fadeOut();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ma.checkWeather(db,viewController);
+                }
+            },1000);
+
+
         }
 
     void getId(String id) {
         this.id = id;
     }
+
 
 }
