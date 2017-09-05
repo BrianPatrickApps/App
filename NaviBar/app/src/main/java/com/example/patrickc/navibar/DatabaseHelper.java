@@ -42,7 +42,6 @@ class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(DATABASE_Counter);
         database.execSQL(DATABASE_DayTracker);
 
-
         database.execSQL("INSERT INTO avgRoom VALUES('0','0','');");
         database.execSQL("INSERT INTO avgRoom VALUES('1','0','');");
         database.execSQL("INSERT INTO avgRoom VALUES('2','0','');");

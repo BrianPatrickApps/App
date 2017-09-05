@@ -136,15 +136,15 @@ class ViewController implements Serializable{
         fadeOut.setInterpolator(new AccelerateInterpolator());
         fadeOut.setDuration(1000);
 
-        fadeOut.setAnimationListener(new Animation.AnimationListener()
-        {
-            public void onAnimationEnd(Animation animation)
+            fadeOut.setAnimationListener(new Animation.AnimationListener()
             {
-                weatherOverlay.setVisibility(View.GONE);
-            }
-            public void onAnimationRepeat(Animation animation) {}
-            public void onAnimationStart(Animation animation) {}
-        });
+                public void onAnimationEnd(Animation animation)
+                {
+                    weatherOverlay.setVisibility(View.GONE);
+                }
+                public void onAnimationRepeat(Animation animation) {}
+                public void onAnimationStart(Animation animation) {}
+            });
 
         weatherOverlay.startAnimation(fadeOut);
     }

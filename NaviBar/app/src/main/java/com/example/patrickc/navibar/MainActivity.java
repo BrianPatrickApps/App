@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -164,7 +165,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public MainActivity(){
-
     }
 
     private View.OnClickListener nurseMenu = new View.OnClickListener() {
@@ -505,15 +505,23 @@ public class MainActivity extends AppCompatActivity
         else if(counter.getCount() > 0){
             Log.d("BB","Changed mine "+ idNow);
             counter.removeCount();
-            ImageView iv = nurseArray.get(counter.getCount());
-            iv.setVisibility(View.GONE);
-            counter.setCount();
-            iv = nurseArray.get(counter.getCount());
+            ImageView imageView = nurseArray.get(counter.getCount());
+            Log.d("BB", "nurse number: " + imageView);
+            imageView.setVisibility(View.GONE);
+//            counter.setCount();
+            final ImageView iv = nurseArray.get(counter.getCount());
             if (counter.getCount() > nurseArray.size())
                 counter.resetCount();
             if (!sub) { //boolean check to see if mx number of nurses already visible
 //            iv.setVisibility(View.VISIBLE);
-                fadeOutAndHideImage(iv);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                    fadeOutAndHideImage(iv);
+                    }
+                },1000);
+
                 Log.d("BB", "nurse number: " + iv);
                 nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
                 counter.setCount();

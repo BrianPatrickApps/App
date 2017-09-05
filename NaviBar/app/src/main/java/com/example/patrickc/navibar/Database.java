@@ -25,7 +25,6 @@ public class Database implements Serializable{
     @SuppressWarnings("WeakerAccess")
     Counter counter;
 
-
     public Database(Context context){
         this.context = context;
         dbHelper = new DatabaseHelper(context);
@@ -40,7 +39,6 @@ public class Database implements Serializable{
 
     @SuppressWarnings("unused")
     ArrayList<String> collectAllUsers(){
-
         Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
         ArrayList<String>theArray = new ArrayList<>();
         if(c.getCount() ==0){
@@ -58,11 +56,9 @@ public class Database implements Serializable{
         Log.d("BB","All nurses collected");
         c.close();
         return theArray;
-
     }
 
     ArrayList<String[]> collectFormattedUsers(){
-
         Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
         ArrayList<String[]>theArray = new ArrayList<>();
         if(c.getCount() ==0){
@@ -81,7 +77,6 @@ public class Database implements Serializable{
         Log.d("BB","All nurses collected");
         c.close();
         return theArray;
-
     }
 
     //Gets the median
@@ -108,7 +103,6 @@ public class Database implements Serializable{
         return median;
     }
     //Adds Median to avgShift and avgRoom
-
     void addMedian(double median, String date, int shift){
         String query = "INSERT into avgShift(`shift_id`,`average`,`inputDate`)" +
                 "VALUES('" + shift + "','"+ median +"','"+ date +"');";
@@ -136,7 +130,6 @@ public class Database implements Serializable{
         c.close();
         Log.d("BB",theArray.get(0)+ "is the Median");
         return theArray.get(0);
-
     }
 
     //gets called when the broadcast reciever fires
@@ -182,8 +175,7 @@ public class Database implements Serializable{
         }
         int key = theArray.get(0);
         String query = "UPDATE key set key_id = '"+0+"' WHERE key_id ='"+getShiftNumber()+"';";
-        if(key ==4
-                ) {
+        if(key ==4) {
             execSQL(query);
             Log.d("BB","Shift Number Resetted to: " + getShiftNumber());
         }
@@ -258,7 +250,8 @@ public class Database implements Serializable{
             String query2 = "UPDATE counter set key_id = '"+(getCountNumber()+1)+"' WHERE key_id ='"+getCountNumber()+"';";
             execSQL(query2);
             Log.d("BB","Update Query: "+ query2);
-        } catch (Exception sqlEx) {
+        }
+        catch (Exception sqlEx) {
             Log.d("BB", sqlEx.getMessage()+ "Exception", sqlEx);
         }
 
@@ -266,14 +259,20 @@ public class Database implements Serializable{
 
     int doOver(String id){
         int redo;
-        Cursor c = database.rawQuery("Select id from nurses where id = '"+id+"'AND inputDate ='"+ getDay()+"';",null);
-        int a = c.getCount();
-        if(a > 2)
+        Cursor c = database.rawQuery("Select COUNT(id) from nurses where id = '"+id+"'AND inputDate ='"+ getDay()+ "' AND shift_id ='"+ getShiftNumber() +"';",null);
+        ArrayList<Integer>theArray = new ArrayList<>();
+
+        while(c.moveToNext()){
+            int a = c.getInt(0);
+            theArray.add(a);
+        }
+
+        if(theArray.get(0) > 0)
             redo =1;
         else
             redo =0;
         c.close();
-        Log.d("BB","it is "+ redo+ " a is "+ a);
+        Log.d("BB","it is "+ redo+ ", a is "+ theArray.get(0) + " id is " + id);
         return redo;
     }
 }
