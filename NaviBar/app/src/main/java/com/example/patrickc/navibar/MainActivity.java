@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity
             default:
         }
     }
-    //Login alert
+    //Login alertDialog box
     private void loginID(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -297,11 +297,14 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 try {
-                    int id = Integer.parseInt(input.getText().toString());
-                    if(id > 99999 && id < 1000000){
+                    //int id = Integer.parseInt(input.getText().toString());
+                    //if(id > 99999 && id < 1000000)
+                    if(input.getText().toString().length() ==6)
+                    {
                         control.setViewable();
                         String inputID = input.getText().toString();
                         control.getId(inputID);
+                        Log.d("BB",inputID + " InputID");
                         idNow = inputID;
 //                        Handler handler = new Handler();
 
