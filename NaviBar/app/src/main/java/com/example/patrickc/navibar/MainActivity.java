@@ -308,8 +308,6 @@ public class MainActivity extends AppCompatActivity
                         Log.d("BB",inputID + " InputID");
                         idNow = inputID;
 //                        Handler handler = new Handler();
-
-
 //                        handler.postDelayed(new Runnable() {
 //                            @Override
 //                            public void run() {

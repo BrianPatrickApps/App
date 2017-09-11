@@ -67,7 +67,6 @@ class ButtonController {
         @Override
         public void onClick(View v) {
             mood = 1.0;
-
             weatherOverlay.setImageResource(R.drawable.input_thunderstorm);
             select();
         }
@@ -77,7 +76,6 @@ class ButtonController {
         public void onClick(View v) {
             mood = 2.0;
             weatherOverlay.setImageResource(R.drawable.input2_rainy);
-
             select();
         }
     };
@@ -86,7 +84,6 @@ class ButtonController {
         public void onClick(View v) {
             mood = 3.0;
             weatherOverlay.setImageResource(R.drawable.input3_clouded);
-
             select();
         }
     };
@@ -95,7 +92,6 @@ class ButtonController {
         public void onClick(View v) {
             mood = 4.0;
             weatherOverlay.setImageResource(R.drawable.input4_half_clouded);
-
             select();
         }
     };
@@ -115,8 +111,7 @@ class ButtonController {
                     db.getDay()+"','"+ 0 +"');";
             db.addMedian(avg,currentDateTimeString,db.getShiftNumber());
             int reDo =db.factCheck(id);
-            if(reDo == 1)
-            {
+            if(reDo == 1) {
                 Log.d("BB","reDo is 1");
                 db.changedMind(id);
                 db.execSQL(query);
@@ -140,8 +135,6 @@ class ButtonController {
                     ma.checkWeather(db,viewController);
                 }
             },1000);
-
-
         }
 
     void getId(String id) {
@@ -151,6 +144,5 @@ class ButtonController {
     String id(){
         return id;
     }
-
 
 }

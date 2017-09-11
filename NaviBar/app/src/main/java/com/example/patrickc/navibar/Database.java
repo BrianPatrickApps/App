@@ -20,7 +20,7 @@ import java.util.Date;
 public class Database implements Serializable{
 
     private DatabaseHelper dbHelper;
-    transient private SQLiteDatabase database;
+    private SQLiteDatabase database;
     private Context context;
     @SuppressWarnings("WeakerAccess")
     Counter counter;
