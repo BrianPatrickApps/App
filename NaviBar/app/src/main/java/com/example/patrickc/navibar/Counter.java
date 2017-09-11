@@ -6,7 +6,6 @@ class Counter {
 
     Counter(){
     }
-
     void setCount(){
         count++;
     }
@@ -22,5 +21,4 @@ class Counter {
     void removeCount(){
         count--;
     }
-
 }

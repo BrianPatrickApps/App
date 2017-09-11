@@ -110,11 +110,22 @@ class ButtonController {
         private void select() {
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Double avg = db.getAverage(mood);
-            String query = "INSERT into nurses(`id`,`input`,`median`,`date`,`shift_id`,`inputDate`)" +
-                    "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"','"+db.getShiftNumber()+"','"+ db.getDay() +"');";
+            String query = "INSERT into nurses(`id`,`input`,`median`,`date`,`shift_id`,`inputDate`,`changed`)" +
+                    "VALUES('" + id + "','"+ mood +"','"+ avg +"','"+ currentDateTimeString +"','"+db.getShiftNumber()+"','"+
+                    db.getDay()+"','"+ 0 +"');";
             db.addMedian(avg,currentDateTimeString,db.getShiftNumber());
-            Log.d("BB","Adding: "+query);
-            db.execSQL(query);
+            int reDo =db.factCheck(id);
+            if(reDo == 1)
+            {
+                Log.d("BB","reDo is 1");
+                db.changedMind(id);
+                db.execSQL(query);
+            }
+            else if(reDo == 0) {
+                Log.d("BB","reDo is 0");
+                db.execSQL(query);
+            }
+            Log.d("BB", "Adding: " + query);
             setInvisible();
 
 //            ma.showNurses();
@@ -135,6 +146,10 @@ class ButtonController {
 
     void getId(String id) {
         this.id = id;
+    }
+
+    String id(){
+        return id;
     }
 
 

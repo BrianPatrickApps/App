@@ -59,6 +59,8 @@ public class Database implements Serializable{
     }
 
     ArrayList<String[]> collectFormattedUsers(){
+//        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+
+//                "' AND changed ='"+ 0 +"';",null);
         Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
         ArrayList<String[]>theArray = new ArrayList<>();
         if(c.getCount() ==0){
@@ -82,7 +84,8 @@ public class Database implements Serializable{
     //Gets the median
     double getAverage(double mood){
         Log.d("BB","Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';");
-        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';",null);
+        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+
+                "' AND changed ='"+ 0 +"';",null);
         ArrayList<Double> theArray = new ArrayList<>();
         if(c.getCount() ==0){
             Log.d("BB","Empty");
@@ -99,9 +102,35 @@ public class Database implements Serializable{
         } else {
             median = theArray.get(theArray.size()/2);
         }
+        Log.d("BB",theArray.size()+ " size of the sample size, "+"Cursor size: "+ c.getCount());
         c.close();
         return median;
     }
+
+    double getRoomMedian(){
+        Log.d("BB","Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+"';");
+        Cursor c = database.rawQuery("Select * from nurses WHERE shift_id = '"+ getShiftNumber()+"' AND inputDate ='"+ getDay()+
+                "' AND changed ='"+ 0 +"';",null);
+        ArrayList<Double> theArray = new ArrayList<>();
+        if(c.getCount() ==0){
+            Log.d("BB","Empty");
+        }
+        while(c.moveToNext()){
+            Double result = c.getDouble(1);
+            theArray.add(result);
+        }
+        Collections.sort(theArray);
+        double median;
+        if (theArray.size() % 2 == 0) {
+            median = (theArray.get(theArray.size()/2) + theArray.get(theArray.size()/2 - 1))/2;
+        } else {
+            median = theArray.get(theArray.size()/2);
+        }
+        Log.d("BB",theArray.size()+ " size of the sample size, "+"Cursor size: "+ c.getCount());
+        c.close();
+        return median;
+    }
+
     //Adds Median to avgShift and avgRoom
     void addMedian(double median, String date, int shift){
         String query = "INSERT into avgShift(`shift_id`,`average`,`inputDate`)" +
@@ -115,7 +144,7 @@ public class Database implements Serializable{
     //Collects the median of the shift
     double getMedian(){
         ArrayList<Double> theArray = new ArrayList<>();
-        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '"+getShiftNumber()+"'AND inputDate ='"+ getDay()+"';",null);
+        Cursor c = database.rawQuery("Select * from avgRoom where key_id = '"+getShiftNumber()+"'AND inputDate ='"+ getDay()+ "';",null);
         if(c.getCount() ==0){
             return 0.0;
         }
@@ -219,8 +248,6 @@ public class Database implements Serializable{
 
     }
 
-
-
     void saveDB() {
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
         File exportDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"WorkWeather");
@@ -254,7 +281,6 @@ public class Database implements Serializable{
         catch (Exception sqlEx) {
             Log.d("BB", sqlEx.getMessage()+ "Exception", sqlEx);
         }
-
     }
 
     int doOver(String id){
@@ -271,9 +297,38 @@ public class Database implements Serializable{
             redo =1;
         else
             redo =0;
+
         c.close();
-        Log.d("BB","it is "+ redo+ ", a is "+ theArray.get(0) + " id is " + id);
+        Log.d("BB","reDo output is "+ redo+ ", There is already: "+ theArray.get(0) + " ID is " + id);
         return redo;
+    }
+
+    int factCheck(String id){
+        int redo;
+        Cursor c = database.rawQuery("Select COUNT(id) from nurses where id = '"+id+"'AND inputDate ='"+ getDay()+ "' AND shift_id ='"+ getShiftNumber() +"';",null);
+        ArrayList<Integer>theArray = new ArrayList<>();
+
+        while(c.moveToNext()){
+            int a = c.getInt(0);
+            theArray.add(a);
+        }
+
+        if(theArray.get(0) > 0)
+            redo =1;
+        else
+            redo =0;
+
+        c.close();
+        Log.d("BB","factCheck output is "+ redo+ ", There is already: "+ theArray.get(0) + " ID is " + id);
+        return redo;
+    }
+
+    void changedMind(String id){
+//        int hasChanged=0;
+        database.execSQL("UPDATE nurses set changed = '"+ 1 + "' where id= '"+id+"'AND inputDate ='"+ getDay()+ "' AND shift_id ='"+ getShiftNumber() +"';");
+        Log.d("BB","changedMind is called");
+      Log.d("BB","UPDATE nurses set changed = '"+ 1 + "' where id= '"+id+"'AND inputDate ='"+ getDay()+ "' AND shift_id ='"+ getShiftNumber() +"';");
+//        return hasChanged;
     }
 }
 

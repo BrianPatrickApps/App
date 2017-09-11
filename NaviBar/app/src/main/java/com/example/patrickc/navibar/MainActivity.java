@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
     ArrayList<ImageView> nurseArray;
     Counter counter;
 
+
     NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -426,7 +427,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected void checkWeather(Database db,ViewController viewController){
-        Double x = db.getMedian();
+        Double x = db.getRoomMedian();
         Log.d("BB","Check Weather Median is "+ x);
         if(x==0.0){
             viewController.startUp();
@@ -459,7 +460,6 @@ public class MainActivity extends AppCompatActivity
         if(reDo == 1)
         {
             changeMind();
-
         }
         else if(reDo == 0) {
             Log.d("BB","new nurse");
@@ -489,11 +489,13 @@ public class MainActivity extends AppCompatActivity
 
     public void nurseTimeout(View v){
         final ImageView iv = (ImageView) v;
+        final String nurseId = control.id();
         new CountDownTimer((1000 * 60 * 120), (1000 * 60 * 120)) { //timer set to be 3 seconds long and tick once every 3 seconds. Will be 2 hours each for final app
             public void onTick(long millisUntilFinished) { //nothing needed here as we only disable an image after the full time
             }
             public void onFinish() {
                 iv.setVisibility(View.GONE);
+                db.changedMind(nurseId);
             }
         }.start();
     }
@@ -504,6 +506,7 @@ public class MainActivity extends AppCompatActivity
 //            counter.removeCount();
             ImageView iv = nurseArray.get(counter.getCount());
             iv.setVisibility(View.VISIBLE);
+            counter.setCount();
         }
         else if(counter.getCount() > 0){
             Log.d("BB","Changed mine "+ idNow);
@@ -524,9 +527,8 @@ public class MainActivity extends AppCompatActivity
                     fadeOutAndHideImage(iv);
                     }
                 },1000);
-
                 Log.d("BB", "nurse number: " + iv);
-                nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
+//                nurseTimeout(nurseArray.get(counter.getCount()));//calls the nurse timeout method with the imageview of the nurse that just went visible.
                 counter.setCount();
                 if (counter.getCount() == nurseArray.size()) {
                     counter.removeCount();
